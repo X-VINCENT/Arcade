@@ -24,7 +24,6 @@ set(SRC_MAIN
 set(SRC_CORE
         DLLoader/src/DLLoader.cpp
         src/Arcade.cpp
-        src/main.cpp
 )
 
 set(SRC_DISPLAY
@@ -46,4 +45,7 @@ list(TRANSFORM SRC_DISPLAY PREPEND ${DISPLAY_DIRECTORY})
 list(TRANSFORM SRC_GAME PREPEND ${GAME_DIRECTORY})
 list(TRANSFORM SRC_TESTS PREPEND ${TESTS_DIRECTORY})
 
-add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_CORE} ${SRC_DISPLAY} ${SRC_GAME})
+add_library(games SHARED ${SRC_GAME})
+add_library(displays SHARED ${SRC_DISPLAY})
+
+add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_CORE})

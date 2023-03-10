@@ -7,13 +7,14 @@
 
 #pragma once
 #include "IGameModule.hpp"
+#include <iostream>
 
 class Snake : public IGameModule {
 	public:
 		Snake();
 		~Snake();
-        void init();
-        void stop();
+        void init() override;
+        void stop() override;
         const std::string &getName() const;
 
 	protected:

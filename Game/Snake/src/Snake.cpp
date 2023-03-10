@@ -5,7 +5,7 @@
 ** Snake.cpp
 */
 
-#include "../include/Snake.hpp"
+#include "Snake.hpp"
 
 Snake::Snake()
 {
@@ -16,15 +16,17 @@ Snake::~Snake()
 {
 }
 
-void Snake::init()
+extern "C" void Snake::init()
 {
+    std::cout << "Snake init" << std::endl;
 }
 
-void Snake::stop()
+extern "C" void Snake::stop()
 {
+    std::cout << "Snake stop" << std::endl;
 }
 
-const std::string &Snake::getName() const
+extern "C" const std::string &Snake::getName() const
 {
     return _name;
 }
