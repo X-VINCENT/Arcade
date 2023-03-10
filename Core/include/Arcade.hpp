@@ -10,8 +10,8 @@
 // C++ includes
 
 // Project includes
-#include "IGameModule.hpp"
-#include "IDisplayModule.hpp"
+#include "../../Game/include/IGameModule.hpp"
+#include "../../Display/include/IDisplayModule.hpp"
 
 // Macros
 #define SUCCESS 0

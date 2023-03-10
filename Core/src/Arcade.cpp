@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** B-OOP-400-BDX-4-1-arcade-max.peixoto
+** arcade
 ** File description:
 ** Arcade.cpp
 */
