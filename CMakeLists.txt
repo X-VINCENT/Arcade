@@ -3,6 +3,7 @@ project(arcade)
 set(CMAKE_CXX_STANDARD 20)
 
 include_directories(include)
+
 set(EXECUTABLE_NAME "arcade")
 set(SRC_DIRECTORY src/)
 set(TESTS_DIRECTORY tests/)
@@ -14,8 +15,10 @@ set(SRC_FILES
 )
 set(SRC_TESTS
 )
+set(CMAKE_CPP_FLAGS "-Wall -Wextra -Werror")
+
 list(TRANSFORM SRC_MAIN PREPEND ${SRC_DIRECTORY})
 list(TRANSFORM SRC_FILES PREPEND ${SRC_DIRECTORY})
 list(TRANSFORM SRC_TESTS PREPEND ${TESTS_DIRECTORY})
-set(CMAKE_CPP_FLAGS "-Wall -Wextra -Werror")
+
 add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_FILES})

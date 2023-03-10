@@ -18,4 +18,4 @@
 #define ERROR 84
 
 // Prototypes
-int arcade(void);
+int arcade();

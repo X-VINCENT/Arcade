@@ -7,7 +7,7 @@
 
 #include "Arcade.hpp"
 
-int main(void)
+int main()
 {
     return arcade();
 }

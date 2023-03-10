@@ -7,7 +7,7 @@
 
 #include "Arcade.hpp"
 
-int arcade(void)
+int arcade()
 {
     return SUCCESS;
 }
