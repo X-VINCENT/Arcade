@@ -8,6 +8,11 @@
 #pragma once
 #include <string>
 
+class IObject {
+public:
+
+};
+
 class IDisplayModule {
 	public:
         virtual ~IDisplayModule() = default;

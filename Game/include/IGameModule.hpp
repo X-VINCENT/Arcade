@@ -6,7 +6,12 @@
 */
 
 #pragma once
+#include <iostream>
 #include <string>
+#include <map>
+#include <vector>
+#include "IGameObject.hpp"
+#include "Printable.hpp"
 
 class IGameModule {
 	public:
@@ -14,4 +19,5 @@ class IGameModule {
         virtual void init() = 0;
         virtual void stop() = 0;
         virtual const std::string &getName() const = 0;
+        virtual const std::vector<IGameObject> &getObjects() const = 0;
 };
