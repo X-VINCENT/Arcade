@@ -7,21 +7,22 @@
 
 #include "DLLoader.hpp"
 
-template<typename T>
-DLLoader<T>::DLLoader(std::string const &path)
+DLLoader::DLLoader(std::string const &path)
 {
-    _handle = dlopen(path.c_str(), RTLD_LAZY);
+    this->_handle = dlopen(path.c_str(), RTLD_LAZY);
+    if (this->_handle == nullptr) {
+        printf(dlerror());
+    }
 }
 
-template<typename T>
-DLLoader<T>::~DLLoader()
+DLLoader::~DLLoader()
 {
-    dlclose(_handle);
+    dlclose(this->_handle);
 }
 
-template<typename T>
-std::function<T> DLLoader<T>::getInstance(std::string const &path)
+template<class T>
+T *DLLoader::getInstance(const std::string &path)
 {
-    _instance = reinterpret_cast<std::function<T>>(dlsym(_handle, path.c_str()));
-    return _instance;
+    return reinterpret_cast<T *>(dlsym(this->_handle,
+            path.c_str()));
 }

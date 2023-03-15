@@ -7,29 +7,27 @@
 
 #include "Snake.hpp"
 
-Snake::Snake()
+Game::Snake::Snake() : name("Snake")
 {
-    _name = "Snake";
 }
 
-Snake::~Snake() = default;
+Game::Snake::~Snake() = default;
 
-extern "C" void Snake::init()
+extern "C" void Game::Snake::init()
 {
     std::cout << "Snake init" << std::endl;
 }
 
-extern "C" void Snake::stop()
+extern "C" void Game::Snake::stop()
 {
     std::cout << "Snake stop" << std::endl;
 }
 
-extern "C" const std::string &Snake::getName() const
+extern "C" const std::string &Game::Snake::getName() const
 {
-    return _name;
+    return this->name;
 }
 
-extern "C" const std::vector<IGameObject> &Snake::getObjects() const
+extern "C" const std::vector<Game::IGameObject> &Game::Snake::getObjects() const
 {
-    return _objects;
 }

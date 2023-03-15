@@ -10,15 +10,16 @@
 #include <dlfcn.h>
 #include <functional>
 
-template <typename T>
 class DLLoader {
 	public:
+        DLLoader() = delete;
         explicit DLLoader(std::string const &path);
         ~DLLoader();
-        std::function<T> getInstance(std::string const &path);
+        static int test(){return 1;};
+        template <class T>
+        T *getInstance(std::string const &path);
 
 	protected:
 	private:
         void *_handle;
-        std::function<T> _instance;
 };

@@ -8,17 +8,23 @@
 #pragma once
 #include "IGameModule.hpp"
 
-class Snake : public IGameModule {
-	public:
-		Snake();
-		~Snake() override;
-        void init() override;
-        void stop() override;
-        [[nodiscard]] const std::string &getName() const override;
-        [[nodiscard]] const std::vector<IGameObject> &getObjects() const override;
+namespace Game {
 
-	protected:
-	private:
-        std::string _name;
-        std::vector<IGameObject> _objects;
-};
+    class Snake : public IGameModule {
+    public:
+        Snake();
+
+        ~Snake() override;
+
+        void init() override;
+
+        void stop() override;
+
+        [[nodiscard]] const std::string &getName() const override;
+
+        [[nodiscard]] const std::vector<IGameObject> &
+        getObjects() const override;
+    private:
+        std::string name;
+    };
+}

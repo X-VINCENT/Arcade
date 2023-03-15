@@ -33,8 +33,7 @@ set(SRC_DISPLAY
 set(SRC_GAME
         Snake/src/Snake.cpp
         src/AGameObject.cpp
-        src/Printable.cpp
-)
+        )
 
 set(SRC_TESTS
 )

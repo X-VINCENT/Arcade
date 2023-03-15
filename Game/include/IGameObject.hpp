@@ -7,20 +7,31 @@
 
 #pragma once
 #include "IGameModule.hpp"
-#include "Printable.hpp"
 
 #define UP 0
 #define DOWN 180
 #define LEFT 270
 #define RIGHT 90
 
-class IGameObject {
+namespace Game {
+
+    class Printable;
+
+    class IGameObject {
     public:
         virtual ~IGameObject() = default;
+
         virtual const std::pair<int, int> &getPos() const = 0;
+
         virtual void setPos(const std::pair<int, int> &pos) = 0;
+
         virtual int getOrientation() const = 0;
+
         virtual void setOrientation(int orientation) = 0;
+
         virtual const Printable &getPrintable() const = 0;
-        virtual void setPrintable(const char &c, Printable::Colors color, const std::string &path) = 0;
-};
+
+        virtual void setPrintable(const char &c, IColor color,
+                const std::string &path) = 0;
+    };
+}
