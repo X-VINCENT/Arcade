@@ -21,4 +21,4 @@ class NCursesWindow : public IWindow {
     protected:
     private:
         WINDOW _window;
-}
+};
