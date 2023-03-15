@@ -2,15 +2,15 @@
 ** EPITECH PROJECT, 2023
 ** B-OOP-400-BDX-4-1-arcade-max.peixoto
 ** File description:
-** IDisplayModule
+** ISprite
 */
 
 #pragma once
-#include <string>
+#include "IDisplayModule.hpp"
 
-class IDisplayModule {
-	public:
-        virtual ~IDisplayModule() = default;
+class ISprite : public IDisplayModule {
+    public:
+        virtual ~ISprite() = default;
         virtual void create() = 0;
         virtual void update() = 0;
         virtual void destroy() = 0;

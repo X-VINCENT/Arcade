@@ -23,12 +23,15 @@ set(SRC_MAIN
 
 set(SRC_CORE
         DLLoader/src/DLLoader.cpp
-        src/Arcade.cpp
-)
+        src/Arcade.cpp)
 
 set(SRC_DISPLAY
         NCurses/src/NCurses.cpp
-)
+        Window/include/IWindow.hpp
+        Texture/include/ITexture.hpp
+        Sprite/include/ISprite.hpp
+        Window/NCurses/include/NCursesWindow.hpp
+        Window/NCurses/src/NCursesWindow.cpp)
 
 set(SRC_GAME
         Snake/src/Snake.cpp
