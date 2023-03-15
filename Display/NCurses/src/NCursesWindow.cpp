@@ -5,7 +5,7 @@
 ** NCursesWindow
 */
 
-#include "../include/NCursesWindow.hpp"
+#include "NCursesWindow.hpp"
 
 NCursesWindow::NCursesWindow() : _window(nullptr)
 {
