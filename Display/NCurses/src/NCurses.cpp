@@ -12,9 +12,7 @@ NCurses::NCurses()
     _name = "NCurses";
 }
 
-NCurses::~NCurses()
-{
-}
+NCurses::~NCurses() = default;
 
 void NCurses::init()
 {

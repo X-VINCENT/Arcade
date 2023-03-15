@@ -11,14 +11,16 @@
 
 class NCursesWindow : public IWindow {
     public:
-        NCursesWindow();
+        NCursesWindow(std::string const &title, int framerateLimit,
+                      int width, int height);
         ~NCursesWindow() override;
-        void create(int width, int height, int posX, int posY);
-        void setSize(int width, int height);
+        void create(std::string const &title, int framerateLimit,
+                    int width, int height) override;
+        void setSize(int width, int height) override;
         void update() override;
         void destroy() override;
 
     protected:
     private:
-        WINDOW _window;
+        WINDOW *_window;
 };

@@ -11,7 +11,7 @@
 class NCurses : public IDisplayModule {
 	public:
 		NCurses();
-		~NCurses();
+		~NCurses() override;
         void init();
         void stop();
         const std::string &getName() const;

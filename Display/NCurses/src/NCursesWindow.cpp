@@ -7,8 +7,10 @@
 
 #include "NCursesWindow.hpp"
 
-NCursesWindow::NCursesWindow() : _window(nullptr)
+NCursesWindow::NCursesWindow(std::string const &title, int framerateLimit,
+                             int width, int height)
 {
+    this->create(title, framerateLimit, width, height);
 }
 
 NCursesWindow::~NCursesWindow()
@@ -16,18 +18,23 @@ NCursesWindow::~NCursesWindow()
     this->destroy();
 }
 
-void NCursesWindow::create(int width, int height, int posX, int posY) {
-    this->_window = newwin(height, width, posX, posY);
+void NCursesWindow::create(std::string const &title, int framerateLimit,
+                           int width, int height)
+{
+    this->_window = newwin(height, width, 0, 0);
 }
 
-void NCursesWindow::setSize(int width, int height) {
+void NCursesWindow::setSize(int width, int height)
+{
     wresize(this->_window, height, width);
 }
 
-void NCursesWindow::update() {
+void NCursesWindow::update()
+{
     wrefresh(this->_window);
 }
 
-void NCursesWindow::destroy() {
+void NCursesWindow::destroy()
+{
     delwin(this->_window);
 }
