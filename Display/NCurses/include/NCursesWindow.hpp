@@ -6,7 +6,7 @@
 */
 
 #pragma once
-#include "../../include/IWindow.hpp"
+#include "IWindow.hpp"
 #include <ncurses.h>
 
 class NCursesWindow : public IWindow {
