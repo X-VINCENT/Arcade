@@ -19,10 +19,3 @@ DLLoader::~DLLoader()
 {
     dlclose(this->_handle);
 }
-
-template<class T>
-T *DLLoader::getInstance(const std::string &path)
-{
-    return reinterpret_cast<T *>(dlsym(this->_handle,
-            path.c_str()));
-}

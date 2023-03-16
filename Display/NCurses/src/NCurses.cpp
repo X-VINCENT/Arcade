@@ -5,26 +5,31 @@
 ** NCurses.cpp
 */
 
-#include "../include/NCurses.hpp"
+#include "NCurses.hpp"
+#include <memory>
+#include <iostream>
 
-NCurses::NCurses()
+Display::NCurses::NCurses()
 {
     _name = "NCurses";
 }
 
-NCurses::~NCurses()
+void Display::NCurses::create()
+{
+    std::cout << "ncurse";
+}
+
+void Display::NCurses::update()
 {
 }
 
-void NCurses::init()
+void Display::NCurses::destroy()
 {
 }
 
-void NCurses::stop()
-{
-}
+Display::NCurses::~NCurses() = default;
 
-const std::string &NCurses::getName() const
+extern "C" std::unique_ptr<Display::IDisplayModule> createModule()
 {
-    return _name;
+    return std::make_unique<Display::NCurses>();
 }

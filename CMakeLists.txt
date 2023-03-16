@@ -27,10 +27,7 @@ set(SRC_CORE
 
 set(SRC_DISPLAY
         NCurses/src/NCurses.cpp
-        NCurses/include/NCursesWindow.hpp
-        include/IWindow.hpp
-        include/ITexture.hpp
-        include/ISprite.hpp)
+        NCurses/src/NCursesWindow.cpp)
 
 set(SRC_GAME
         Snake/src/Snake.cpp

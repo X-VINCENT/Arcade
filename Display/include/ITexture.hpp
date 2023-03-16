@@ -8,10 +8,15 @@
 #pragma once
 #include "IDisplayModule.hpp"
 
-class ITexture : public IDisplayModule {
+namespace Display {
+    class ITexture : public IDisplayModule {
     public:
         virtual ~ITexture() = default;
+
         virtual void create() = 0;
+
         virtual void update() = 0;
+
         virtual void destroy() = 0;
+    };
 };

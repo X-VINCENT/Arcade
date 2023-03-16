@@ -8,10 +8,15 @@
 #pragma once
 #include "IDisplayModule.hpp"
 
-class ISprite : public IDisplayModule {
+namespace Display {
+    class ISprite : public IDisplayModule {
     public:
         virtual ~ISprite() = default;
+
         virtual void create() = 0;
+
         virtual void update() = 0;
+
         virtual void destroy() = 0;
+    };
 };

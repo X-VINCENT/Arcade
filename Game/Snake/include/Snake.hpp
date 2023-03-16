@@ -6,7 +6,9 @@
 */
 
 #pragma once
+
 #include "IGameModule.hpp"
+#include "memory"
 
 namespace Game {
 
@@ -24,7 +26,10 @@ namespace Game {
 
         [[nodiscard]] const std::vector<IGameObject> &
         getObjects() const override;
+
     private:
         std::string name;
     };
+
+    extern "C" std::unique_ptr<Game::IGameModule> createGame();
 }

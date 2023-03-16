@@ -6,17 +6,23 @@
 */
 
 #pragma once
+
 #include "IDisplayModule.hpp"
+#include <memory>
 
-class NCurses : public IDisplayModule {
-	public:
-		NCurses();
-		~NCurses();
-        void init();
-        void stop();
-        const std::string &getName() const;
+namespace Display {
+    class NCurses : public IDisplayModule {
+    public:
+        NCurses();
 
-	protected:
-	private:
+        ~NCurses() override;
+        void create() override;
+
+        void update() override;
+
+        void destroy() override;
+    protected:
+    private:
         std::string _name;
-};
+    };
+}

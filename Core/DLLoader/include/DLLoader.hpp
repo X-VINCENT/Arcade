@@ -6,20 +6,32 @@
 */
 
 #pragma once
+
 #include <string>
 #include <dlfcn.h>
+#include <memory>
 #include <functional>
 
 class DLLoader {
-	public:
-        DLLoader() = delete;
-        explicit DLLoader(std::string const &path);
-        ~DLLoader();
-        static int test(){return 1;};
-        template <class T>
-        T *getInstance(std::string const &path);
+public:
+    DLLoader() = delete;
 
-	protected:
-	private:
-        void *_handle;
+    explicit DLLoader(std::string const &path);
+
+    ~DLLoader();
+
+    static int test()
+    { return 1; };
+
+    template<class T>
+    T getInstance(const std::string &path) const
+    {
+        void *gptr = dlsym(this->_handle, path.c_str());
+        if (gptr == nullptr)
+            return T();
+        return std::move(reinterpret_cast<T>(gptr));
+    }
+
+    void *_handle;
+protected:
 };

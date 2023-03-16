@@ -6,28 +6,63 @@
 */
 
 #include "NCursesWindow.hpp"
+#include "IWindow.hpp"
 
-NCursesWindow::NCursesWindow() : _window(nullptr)
+Display::NCursesWindow::NCursesWindow(std::string const &title, int
+framerateLimit,
+                             int width, int height)
 {
 }
 
-NCursesWindow::~NCursesWindow()
+Display::NCursesWindow::~NCursesWindow()
 {
-    this->destroy();
 }
 
-void NCursesWindow::create(int width, int height, int posX, int posY) {
-    this->_window = newwin(height, width, posX, posY);
+void Display::NCursesWindow::create(std::string const &title, int framerateLimit,
+                           int width, int height)
+{
+    this->_window = newwin(height, width, 0, 0);
 }
 
-void NCursesWindow::setSize(int width, int height) {
+void Display::NCursesWindow::setSize(int width, int height)
+{
     wresize(this->_window, height, width);
 }
 
-void NCursesWindow::update() {
+void Display::NCursesWindow::destroy()
+{
+    delwin(this->_window);
+}
+
+void Display::NCursesWindow::setFramerateLimit(int framerateLimit)
+{
+}
+
+void Display::NCursesWindow::getFramerateLimit()
+{
+}
+
+void Display::NCursesWindow::getSize()
+{
+}
+
+void Display::NCursesWindow::getPosition()
+{
+}
+
+void Display::NCursesWindow::setPosition(int x, int y)
+{
+}
+
+void Display::NCursesWindow::clear()
+{
+}
+
+void Display::NCursesWindow::draw()
+{
     wrefresh(this->_window);
 }
 
-void NCursesWindow::destroy() {
-    delwin(this->_window);
+extern "C" std::unique_ptr<Display::IWindow> createWindow() {
+    return std::make_unique<Display::NCursesWindow>();
 }
