@@ -7,7 +7,9 @@ find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
 # Find the SFML library
-find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
+find_package(SFML 2.5
+        COMPONENTS
+        system window graphics audio REQUIRED)
 include_directories(${SFML_INCLUDE_DIR})
 
 # Find the SDL2 library
@@ -89,3 +91,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY})
 add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_CORE})
 
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
+target_link_libraries(sfml sfml-graphics)
