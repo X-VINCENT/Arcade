@@ -6,3 +6,8 @@ arcade
 build
 .idea
 .vscode
+*.so
+*.cmake
+ncurses
+sfml
+sdl

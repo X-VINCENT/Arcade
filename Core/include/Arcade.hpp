@@ -19,4 +19,4 @@
 #define ERROR 84
 
 // Prototypes
-int arcade();
+int arcade(std::string const &displayLibPath);

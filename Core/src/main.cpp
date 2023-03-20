@@ -7,7 +7,9 @@
 
 #include "Arcade.hpp"
 
-int main()
+int main(int argc, char **argv)
 {
-    return arcade();
+    if (argc != 2)
+        return ERROR;
+    return arcade(argv[1]);
 }

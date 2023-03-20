@@ -10,16 +10,16 @@
 
 #include <fcntl.h>
 
-int arcade()
+int arcade(std::string const &displayLibPath)
 {
-    const char *libName = "./libgames.so";
-
-    DLLoader libloader("./libdisplays.so");
+    const char *libName = displayLibPath.c_str();
+    DLLoader libloader(displayLibPath);
     const std::string &str = "createWindow";
 
     using fptr = std::unique_ptr<Display::IDisplayModule> (*)();
-    fptr lib = libloader.getInstance<fptr>(str);
-    std::unique_ptr<Display::IDisplayModule> game = lib();
-    game->create();
+    fptr createWindow = libloader.template getInstance<fptr>(str);
+    std::unique_ptr<Display::IDisplayModule> window = createWindow();
+    window->create();
+    sleep(10);
     return SUCCESS;
 }
