@@ -7,9 +7,7 @@
 
 #pragma once
 #include "IWindow.hpp"
-#include "IGameModule.hpp"
 #include <ncurses.h>
-#include <memory>
 
 namespace Display {
     class NCursesWindow : public IWindow {
@@ -39,7 +37,7 @@ namespace Display {
 
         protected:
         private:
-            WINDOW *_window;
-            std::string _title;
+            WINDOW *window;
+            std::string title;
     };
 };

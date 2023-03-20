@@ -7,62 +7,69 @@
 
 #include "SFMLWindow.hpp"
 
-Display::SFMLWindow::SFMLWindow(std::string const &title, int
-framerateLimit,
-        int width, int height)
+Display::SFMLWindow::SFMLWindow(
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height
+)
 {
+    this->create(title, framerateLimit, width, height);
 }
 
 Display::SFMLWindow::~SFMLWindow()
 {
+    this->close();
+}
+#include <iostream>
+void Display::SFMLWindow::create(
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height
+)
+{
+    this->window.create(sf::VideoMode(width, height), title);
+    this->title = title;
 }
 
-void Display::SFMLWindow::create(std::string const &title, int framerateLimit,
-        int width, int height)
+std::string Display::SFMLWindow::getTitle()
 {
-    this->_window = newwin(height, width, 0, 0);
+    return this->title;
 }
 
-void Display::SFMLWindow::setSize(int width, int height)
+void Display::SFMLWindow::setTitle(std::string const &title)
 {
-    wresize(this->_window, height, width);
+    this->title = title;
 }
 
-void Display::SFMLWindow::destroy()
+bool Display::SFMLWindow::isOpen()
 {
-    delwin(this->_window);
-}
-
-void Display::SFMLWindow::setFramerateLimit(int framerateLimit)
-{
-}
-
-void Display::SFMLWindow::getFramerateLimit()
-{
-}
-
-void Display::SFMLWindow::getSize()
-{
-}
-
-void Display::SFMLWindow::getPosition()
-{
-}
-
-void Display::SFMLWindow::setPosition(int x, int y)
-{
+    return this->window.isOpen();
 }
 
 void Display::SFMLWindow::clear()
 {
+    this->window.clear();
 }
 
 void Display::SFMLWindow::draw()
 {
-    wrefresh(this->_window);
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
+    this->window.draw(shape);
+}
+
+void Display::SFMLWindow::display()
+{
+    this->window.display();
+}
+
+void Display::SFMLWindow::close()
+{
+    this->window.close();
 }
 
 extern "C" std::unique_ptr<Display::IWindow> createWindow() {
-    return std::make_unique<Display::SFMLWindow
-    >();
+    return std::make_unique<Display::SFMLWindow>();
 }
