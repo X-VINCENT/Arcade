@@ -29,7 +29,7 @@ void Display::SFMLWindow::create(
     int height
 )
 {
-    this->window.create(sf::VideoMode(width, height), title);
+    this->window.create(sf::VideoMode(width * 10, height * 10), title);
     this->title = title;
 }
 
