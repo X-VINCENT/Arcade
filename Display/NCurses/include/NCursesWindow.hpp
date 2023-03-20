@@ -13,38 +13,33 @@
 
 namespace Display {
     class NCursesWindow : public IWindow {
-    public:
+        public:
+            NCursesWindow() = default;
+            NCursesWindow(
+                std::string const &title,
+                int framerateLimit,
+                int width,
+                int height
+            );
+            ~NCursesWindow() override;
+            void create(
+                std::string const &title,
+                int framerateLimit,
+                int width,
+                int height
+            ) override;
+            // IEvent getEvents() override;
+            std::string getTitle() override;
+            void setTitle(std::string const &title) override;
+            bool isOpen() override;
+            void clear() override;
+            void draw() override;
+            void display() override;
+            void close() override;
 
-        NCursesWindow() = default;
-
-        NCursesWindow(std::string const &title, int framerateLimit,
-                int width, int height);
-
-        ~NCursesWindow() override;
-
-        void create(std::string const &title, int framerateLimit,
-                int width, int height) override;
-
-        void getFramerateLimit() override;
-
-        void setFramerateLimit(int framerateLimit) override;
-
-        void getSize() override;
-
-        void setSize(int width, int height) override;
-
-        void getPosition() override;
-
-        void setPosition(int x, int y) override;
-
-        void clear() override;
-
-        void draw() override;
-
-        void destroy() override;
-
-    protected:
-    private:
-        WINDOW *_window;
+        protected:
+        private:
+            WINDOW *_window;
+            std::string _title;
     };
 };
