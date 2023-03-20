@@ -8,9 +8,12 @@
 #include "NCursesWindow.hpp"
 #include "IWindow.hpp"
 
-Display::NCursesWindow::NCursesWindow(std::string const &title, int
-framerateLimit,
-                             int width, int height)
+Display::NCursesWindow::NCursesWindow(
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height
+)
 {
 }
 
@@ -31,8 +34,12 @@ void init_colors()
     init_pair(7, COLOR_WHITE, COLOR_BLACK);
 }
 
-void Display::NCursesWindow::create(std::string const &title, int framerateLimit,
-                           int width, int height)
+void Display::NCursesWindow::create(
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height
+)
 {
     initscr();
     start_color();
@@ -43,48 +50,48 @@ void Display::NCursesWindow::create(std::string const &title, int framerateLimit
     keypad(stdscr, TRUE);
     init_colors();
     this->_window = newwin(height, width, 0, 0);
+    this->_title = title;
+    wattron(this->_window, COLOR_PAIR(7));
 }
 
-void Display::NCursesWindow::setSize(int width, int height)
+/* IEvent Display::NCursesWindow::getEvents()
 {
-    wresize(this->_window, height, width);
+} */
+
+std::string Display::NCursesWindow::getTitle()
+{
+    return this->_title;
 }
 
-void Display::NCursesWindow::destroy()
+void Display::NCursesWindow::setTitle(std::string const &title)
 {
-    delwin(this->_window);
+    this->_title = title;
+    if (this->_window != nullptr)
+        wattron(this->_window, COLOR_PAIR(7));
 }
 
-void Display::NCursesWindow::setFramerateLimit(int framerateLimit)
+bool Display::NCursesWindow::isOpen()
 {
-}
-
-void Display::NCursesWindow::getFramerateLimit()
-{
-}
-
-void Display::NCursesWindow::getSize()
-{
-}
-
-void Display::NCursesWindow::getPosition()
-{
-}
-
-void Display::NCursesWindow::setPosition(int x, int y)
-{
+    return this->_window != nullptr;
 }
 
 void Display::NCursesWindow::clear()
 {
-    clear();
     wclear(this->_window);
 }
 
 void Display::NCursesWindow::draw()
 {
-    refresh();
+}
+
+void Display::NCursesWindow::display()
+{
     wrefresh(this->_window);
+}
+
+void Display::NCursesWindow::close()
+{
+    delwin(this->_window);
 }
 
 extern "C" std::unique_ptr<Display::IWindow> createWindow() {

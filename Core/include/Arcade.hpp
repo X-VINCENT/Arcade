@@ -13,6 +13,7 @@
 #include "DLLoader.hpp"
 #include "IGameModule.hpp"
 #include "IDisplayModule.hpp"
+#include "IWindow.hpp"
 
 // Macros
 #define SUCCESS 0
