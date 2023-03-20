@@ -55,9 +55,6 @@ void Display::SFMLWindow::clear()
 
 void Display::SFMLWindow::draw()
 {
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-    this->window.draw(shape);
 }
 
 void Display::SFMLWindow::display()
