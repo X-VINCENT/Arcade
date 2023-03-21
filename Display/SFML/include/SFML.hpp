@@ -6,9 +6,9 @@
 */
 
 #pragma once
-
 #include "IDisplayModule.hpp"
 #include <memory>
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace Display {
     class SFML : public IDisplayModule {
@@ -16,12 +16,11 @@ namespace Display {
             SFML();
             ~SFML() override;
             void create() override;
-            void draw() override;
+            void update() override;
             void destroy() override;
 
         protected:
         private:
             std::string _name;
-            sf::Sprite **sprites;
     };
 }

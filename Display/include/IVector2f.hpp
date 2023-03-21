@@ -6,6 +6,7 @@
 */
 
 #pragma once
+#include <memory>
 
 namespace Display {
     class IVector2f {
