@@ -7,13 +7,13 @@
 
 #include "Arcade.hpp"
 #include <fcntl.h>
+#include <iostream>
 
 int arcade(std::string const &displayLibPath)
 {
-    const char *libName = displayLibPath.c_str();
-    std:: cout << "libName: " << libName << std::endl;
+    std::cout << "Graphic Library: " << displayLibPath << std::endl;
     DLLoader libLoader(displayLibPath);
-    std::cout << "Lib loaded" << std::endl;
+    std::cout << "Graphic Library Loaded" << std::endl;
 
     std::string const &createWindowFn = "createWindow";
     using windowFnPtr = std::unique_ptr<Display::IWindow> (*)();

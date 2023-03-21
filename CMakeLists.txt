@@ -39,7 +39,6 @@ set(CORE_DIRECTORY Core/)
 set(SRC_CORE
         DLLoader/src/DLLoader.cpp
         src/Arcade.cpp
-        ../Game/src/AGameObject.cpp
 )
 
 # NCurses Sources
