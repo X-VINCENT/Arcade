@@ -6,17 +6,20 @@
 */
 
 #pragma once
-#include "IDisplayModule.hpp"
+#include <memory>
+#include "IVector2f.hpp"
 
 namespace Display {
-    class ITexture : public IDisplayModule {
+    class ITexture {
     public:
         virtual ~ITexture() = default;
 
-        virtual void create() = 0;
+        virtual ITexture &load(char c, const std::string fpath);
 
-        virtual void update() = 0;
 
-        virtual void destroy() = 0;
+
+        virtual IVector2f getSize();
     };
+
+    extern "C" std::unique_ptr<ITexture> createTexture;
 };
