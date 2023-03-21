@@ -7,16 +7,27 @@
 
 #pragma once
 #include "IDisplayModule.hpp"
+#include "ITexture.hpp"
+#include "IIntRect.hpp"
+#include "IVector2f.hpp"
+#include <memory>
 
 namespace Display {
-    class ISprite : public IDisplayModule {
-    public:
-        virtual ~ISprite() = default;
-
-        virtual void create() = 0;
-
-        virtual void update() = 0;
-
-        virtual void destroy() = 0;
+    class ISprite {
+        public:
+            virtual ~ISprite() = default;
+            virtual void create(
+                ITexture *texture,
+                IIntRect const &rect,
+                IVector2f const &position
+            ) = 0;
+            virtual void getRect() = 0;
+            virtual void setRect(IIntRect const &rect) = 0;
+            virtual void getPosition() = 0;
+            virtual void setPosition(IVector2f const &position) = 0;
+            virtual void getTexture() = 0;
+            virtual void setTexture(ITexture *texture) = 0;
+            virtual void move(IVector2f const &offset) = 0;
     };
+    extern "C" std::unique_ptr<ISprite> createSprite();
 };

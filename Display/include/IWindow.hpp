@@ -8,10 +8,10 @@
 #pragma once
 
 #include "IDisplayModule.hpp"
+#include "IEvent.hpp"
 #include <memory>
 
 namespace Display {
-
     class IWindow {
         public:
             virtual ~IWindow() = default;
@@ -21,7 +21,7 @@ namespace Display {
                 int width,
                 int height
             ) = 0;
-            // virtual IEvent getEvents() = 0;
+            virtual std::unique_ptr<Display::IEvent> getEvent() = 0;
             virtual std::string getTitle() = 0;
             virtual void setTitle(std::string const &title) = 0;
             virtual bool isOpen() = 0;
