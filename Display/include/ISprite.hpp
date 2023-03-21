@@ -10,10 +10,9 @@
 #include "ITexture.hpp"
 #include "IIntRect.hpp"
 #include "IVector2f.hpp"
-#include <SFML/Graphics.hpp>
 
 namespace Display {
-    class ISprite : public IDisplayModule {
+    class ISprite {
         public:
             virtual ~ISprite() = default;
             virtual ISprite create(

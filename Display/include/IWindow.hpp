@@ -11,7 +11,6 @@
 #include <memory>
 
 namespace Display {
-
     class IWindow {
         public:
             virtual ~IWindow() = default;
