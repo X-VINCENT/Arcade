@@ -20,7 +20,7 @@ namespace Display {
                 int width,
                 int height
             );
-            ~SFMLWindow() override;
+            ~SFMLWindow();
             void create(
                 std::string const &title,
                 int framerateLimit,

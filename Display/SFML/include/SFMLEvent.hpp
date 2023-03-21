@@ -11,7 +11,7 @@
 namespace Display {
     class SFMLEvent : public IEvent {
         public:
-            SFMLEvent() = default;
+            ~SFMLEvent();
             Display::KeyType getType() override;
             void setType(Display::KeyType type) override;
 

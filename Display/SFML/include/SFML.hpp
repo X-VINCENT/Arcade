@@ -14,7 +14,7 @@ namespace Display {
     class SFML : public IDisplayModule {
         public:
             SFML();
-            ~SFML() override;
+            ~SFML();
             void create() override;
             void update() override;
             void destroy() override;

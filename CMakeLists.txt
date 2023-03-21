@@ -47,6 +47,7 @@ set(NCURSES_DIRECTORY NCurses/)
 set(SRC_DISPLAY_NCURSES
         src/NCurses.cpp
         src/NCursesEvent.cpp
+        src/NCursesTexture.cpp
         src/NCursesWindow.cpp
 )
 
@@ -55,7 +56,10 @@ set(SFML_DIRECTORY SFML/)
 set(SRC_DISPLAY_SFML
         src/SFML.cpp
         src/SFMLEvent.cpp
+        src/SFMLIntRect.cpp
+        src/SFMLSprite.cpp
         src/SFMLTexture.cpp
+        src/SFMLVector2f.cpp
         src/SFMLWindow.cpp
 )
 

@@ -6,7 +6,6 @@
 */
 
 #pragma once
-
 #include "IDisplayModule.hpp"
 #include "IEvent.hpp"
 #include <memory>

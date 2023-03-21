@@ -7,6 +7,10 @@
 
 #include "NCursesEvent.hpp"
 
+Display::NCursesEvent::~NCursesEvent()
+{
+}
+
 Display::KeyType Display::NCursesEvent::getType()
 {
     return this->type;

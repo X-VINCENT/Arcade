@@ -12,6 +12,7 @@ namespace Display {
     class IIntRect {
         public:
             virtual ~IIntRect() = default;
+            virtual void create(int left, int top, int width, int height) = 0;
             virtual int getLeft() = 0;
             virtual void setLeft(int left) = 0;
             virtual int getTop() = 0;
@@ -20,7 +21,6 @@ namespace Display {
             virtual void setWidth(int width) = 0;
             virtual int getHeight() = 0;
             virtual void setHeight(int height) = 0;
-            virtual void set(int left, int top, int width, int height) = 0;
     };
     extern "C" std::unique_ptr<IIntRect> createIntRect();
 };

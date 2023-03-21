@@ -7,6 +7,10 @@
 
 #include "SFMLEvent.hpp"
 
+Display::SFMLEvent::~SFMLEvent()
+{
+}
+
 Display::KeyType Display::SFMLEvent::getType()
 {
     return this->type;

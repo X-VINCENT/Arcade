@@ -20,7 +20,7 @@ namespace Display {
                 int width,
                 int height
             );
-            ~NCursesWindow() override;
+            ~NCursesWindow();
             void create(
                 std::string const &title,
                 int framerateLimit,

@@ -13,6 +13,12 @@
 #include "DLLoader.hpp"
 #include "IGameModule.hpp"
 #include "IDisplayModule.hpp"
+#include "IEvent.hpp"
+#include "IException.hpp"
+#include "IIntRect.hpp"
+#include "ISprite.hpp"
+#include "ITexture.hpp"
+#include "IVector2f.hpp"
 #include "IWindow.hpp"
 
 // Macros
