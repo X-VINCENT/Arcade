@@ -6,13 +6,12 @@
 */
 
 #pragma once
-
 #include <exception>
 
 namespace Display {
-class IException : public std::exception {
-public:
-    virtual ~IException() noexcept;
-    virtual const char* what() const noexcept = 0;
-};
+    class IException : public std::exception {
+        public:
+            virtual ~IException() noexcept;
+            virtual const char* what() const noexcept = 0;
+    };
 }

@@ -55,6 +55,7 @@ set(SFML_DIRECTORY SFML/)
 set(SRC_DISPLAY_SFML
         src/SFML.cpp
         src/SFMLEvent.cpp
+        src/SFMLTexture.cpp
         src/SFMLWindow.cpp
 )
 

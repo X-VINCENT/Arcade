@@ -7,7 +7,7 @@
 
 #include "SFMLTexture.hpp"
 
-Display::ITexture &Display::SFMLTexture::load(char c, const std::string fpath)
+void Display::SFMLTexture::load(char c, std::string const &fpath)
 {
     this->texture->loadFromFile(fpath);
 }

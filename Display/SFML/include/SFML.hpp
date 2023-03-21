@@ -6,7 +6,6 @@
 */
 
 #pragma once
-
 #include "IDisplayModule.hpp"
 #include <memory>
 #include <SFML/Graphics/Sprite.hpp>

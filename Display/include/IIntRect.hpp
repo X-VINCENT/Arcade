@@ -5,7 +5,7 @@
 ** IIntRect
 */
 
- #pragma once
+#pragma once
 #include <memory>
 
 namespace Display {

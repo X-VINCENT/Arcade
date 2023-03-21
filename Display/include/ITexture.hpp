@@ -6,16 +6,14 @@
 */
 
 #pragma once
-
 #include <memory>
 #include "IVector2f.hpp"
 
 namespace Display {
     class ITexture {
-    public:
-        virtual ~ITexture() = default;
-        virtual ITexture &load(char c, const std::string fpath);
+        public:
+            virtual ~ITexture() = default;
+            virtual void load(char c, std::string const &fpath) = 0;
     };
-
     extern "C" std::unique_ptr<ITexture> createTexture();
 };
