@@ -27,7 +27,7 @@ namespace Display {
                 int width,
                 int height
             ) override;
-            IEvent getEvents() override;
+            std::unique_ptr<Display::IEvent> getEvent() override;
             std::string getTitle() override;
             void setTitle(std::string const &title) override;
             bool isOpen() override;

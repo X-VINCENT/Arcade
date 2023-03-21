@@ -10,12 +10,13 @@
 #include "ITexture.hpp"
 #include "IIntRect.hpp"
 #include "IVector2f.hpp"
+#include <memory>
 
 namespace Display {
     class ISprite {
         public:
             virtual ~ISprite() = default;
-            virtual ISprite create(
+            virtual void create(
                 ITexture *texture,
                 IIntRect const &rect,
                 IVector2f const &position
@@ -28,5 +29,5 @@ namespace Display {
             virtual void setTexture(ITexture *texture) = 0;
             virtual void move(IVector2f const &offset) = 0;
     };
-    extern "C" std::unique_ptr<ISprite> createWindow();
+    extern "C" std::unique_ptr<ISprite> createSprite();
 };

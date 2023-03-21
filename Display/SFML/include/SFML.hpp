@@ -16,12 +16,11 @@ namespace Display {
             SFML();
             ~SFML() override;
             void create() override;
-            void draw() override;
+            void update() override;
             void destroy() override;
 
         protected:
         private:
             std::string _name;
-            sf::Sprite **sprites;
     };
 }

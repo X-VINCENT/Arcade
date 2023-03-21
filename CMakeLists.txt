@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(arcade)
 set(CMAKE_CXX_STANDARD 20)
 
-# Find the ncurses library
+# Find the NCurses library
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
@@ -17,53 +17,55 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 include_directories(
-        Core/DLLoader/include
         Core/include
-        Display/NCurses/include
+        Core/DLLoader/include
         Display/include
-        Game/Snake/include
-        Game/include
         Display/SFML/include
+        Display/NCurses/include
+        Game/include
+        Game/Snake/include
 )
 
 set(EXECUTABLE_NAME "arcade")
-set(CORE_DIRECTORY Core/)
 set(DISPLAY_DIRECTORY Display/)
 set(GAME_DIRECTORY Game/)
-set(NCURSES_DIRECTORY NCurses/)
-set(SFML_DIRECTORY SFML/)
-set(SNAKE_DIRECTORY Snake/)
-set(TESTS_DIRECTORY tests/)
 
 set(SRC_MAIN
         src/main.cpp
 )
 
+# Core Sources
+set(CORE_DIRECTORY Core/)
 set(SRC_CORE
         DLLoader/src/DLLoader.cpp
         src/Arcade.cpp
         ../Game/src/AGameObject.cpp
 )
 
+# NCurses Sources
+set(NCURSES_DIRECTORY NCurses/)
 set(SRC_DISPLAY_NCURSES
         src/NCurses.cpp
+        src/NCursesEvent.cpp
         src/NCursesWindow.cpp
 )
 
+# SFML Sources
+set(SFML_DIRECTORY SFML/)
 set(SRC_DISPLAY_SFML
         src/SFML.cpp
+        src/SFMLEvent.cpp
         src/SFMLWindow.cpp
 )
 
+# Snake Sources
+set(SNAKE_DIRECTORY Snake/)
 set(SRC_GAME_SNAKE
         src/Snake.cpp
 )
 
-set (SRC_DISPLAY_SFML
-        src/SFML.cpp
-        src/SFMLWindow.cpp
-)
-
+# Tests Sources
+set(TESTS_DIRECTORY tests/)
 set(SRC_TESTS
 )
 
