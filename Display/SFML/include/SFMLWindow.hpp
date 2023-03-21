@@ -7,6 +7,7 @@
 
 #pragma once
 #include "IWindow.hpp"
+#include "IEvent.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace Display {
@@ -26,7 +27,7 @@ namespace Display {
                 int width,
                 int height
             ) override;
-            // IEvent getEvents() override;
+            IEvent getEvents() override;
             std::string getTitle() override;
             void setTitle(std::string const &title) override;
             bool isOpen() override;

@@ -21,7 +21,7 @@ Display::SFMLWindow::~SFMLWindow()
 {
     this->close();
 }
-#include <iostream>
+
 void Display::SFMLWindow::create(
     std::string const &title,
     int framerateLimit,
