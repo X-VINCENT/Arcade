@@ -6,7 +6,6 @@
 */
 
 #include "SFMLWindow.hpp"
-#include "IWindow.hpp"
 
 Display::SFMLWindow::SFMLWindow(std::string const &title, int
 framerateLimit,
