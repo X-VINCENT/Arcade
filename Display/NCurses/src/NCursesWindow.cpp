@@ -6,7 +6,6 @@
 */
 
 #include "NCursesWindow.hpp"
-#include "IWindow.hpp"
 
 Display::NCursesWindow::NCursesWindow(
     std::string const &title,
@@ -15,10 +14,12 @@ Display::NCursesWindow::NCursesWindow(
     int height
 )
 {
+    this->create(title, framerateLimit, width, height);
 }
 
 Display::NCursesWindow::~NCursesWindow()
 {
+    this->close();
 }
 
 void init_colors()
@@ -49,9 +50,9 @@ void Display::NCursesWindow::create(
     curs_set(FALSE);
     keypad(stdscr, TRUE);
     init_colors();
-    this->_window = newwin(height, width, 0, 0);
-    this->_title = title;
-    wattron(this->_window, COLOR_PAIR(7));
+    this->window = newwin(height, width, 0, 0);
+    this->title = title;
+    wattron(this->window, COLOR_PAIR(7));
 }
 
 /* IEvent Display::NCursesWindow::getEvents()
@@ -60,24 +61,24 @@ void Display::NCursesWindow::create(
 
 std::string Display::NCursesWindow::getTitle()
 {
-    return this->_title;
+    return this->title;
 }
 
 void Display::NCursesWindow::setTitle(std::string const &title)
 {
-    this->_title = title;
-    if (this->_window != nullptr)
-        wattron(this->_window, COLOR_PAIR(7));
+    this->title = title;
+    if (this->window != nullptr)
+        wattron(this->window, COLOR_PAIR(7));
 }
 
 bool Display::NCursesWindow::isOpen()
 {
-    return this->_window != nullptr;
+    return this->window != nullptr;
 }
 
 void Display::NCursesWindow::clear()
 {
-    wclear(this->_window);
+    wclear(this->window);
 }
 
 void Display::NCursesWindow::draw()
@@ -86,12 +87,12 @@ void Display::NCursesWindow::draw()
 
 void Display::NCursesWindow::display()
 {
-    wrefresh(this->_window);
+    wrefresh(this->window);
 }
 
 void Display::NCursesWindow::close()
 {
-    delwin(this->_window);
+    delwin(this->window);
 }
 
 extern "C" std::unique_ptr<Display::IWindow> createWindow() {
