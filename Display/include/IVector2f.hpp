@@ -8,6 +8,8 @@
 #pragma once
 #include <memory>
 
+#include <memory>
+
 namespace Display {
     class IVector2f {
         public:

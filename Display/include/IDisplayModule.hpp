@@ -18,6 +18,5 @@ namespace Display {
             virtual void update() = 0;
             virtual void destroy() = 0;
     };
-
     extern "C" std::unique_ptr<Display::IDisplayModule> createModule();
 };

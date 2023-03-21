@@ -6,14 +6,20 @@
 */
 
 #include "ITexture.hpp"
+#include "SFML/Graphics.hpp"
 
 #ifndef ARCADE_SFMLTEXTURE_HPP
 #define ARCADE_SFMLTEXTURE_HPP
 
 namespace Display {
-    class SFMLTexture : ITexture {
+    class SFMLTexture : public ITexture {
+    public:
         SFMLTexture();
         ~SFMLTexture();
+        ITexture &load(char c, const std::string fpath) override;
+
+    private:
+        std::unique_ptr<sf::Texture> texture;
     };
 }
 
