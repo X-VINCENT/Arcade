@@ -12,7 +12,9 @@
 int arcade(std::string const &displayLibPath)
 {
     const char *libName = displayLibPath.c_str();
+    std:: cout << "libName: " << libName << std::endl;
     DLLoader libloader(displayLibPath);
+    std::cout << "Lib loaded" << std::endl;
     const std::string &str = "createWindow";
 
     using fptr = std::unique_ptr<Display::IWindow> (*)();

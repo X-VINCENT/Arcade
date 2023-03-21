@@ -7,62 +7,66 @@
 
 #include "SFMLWindow.hpp"
 
-Display::SFMLWindow::SFMLWindow(std::string const &title, int
-framerateLimit,
-        int width, int height)
+Display::SFMLWindow::SFMLWindow(
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height
+)
 {
+    this->create(title, framerateLimit, width, height);
 }
 
 Display::SFMLWindow::~SFMLWindow()
 {
+    this->close();
 }
 
-void Display::SFMLWindow::create(std::string const &title, int framerateLimit,
-        int width, int height)
+void Display::SFMLWindow::create(
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height
+)
 {
-    this->_window = newwin(height, width, 0, 0);
+    this->window.create(sf::VideoMode(width * 10, height * 10), title);
+    this->title = title;
 }
 
-void Display::SFMLWindow::setSize(int width, int height)
+std::string Display::SFMLWindow::getTitle()
 {
-    wresize(this->_window, height, width);
+    return this->title;
 }
 
-void Display::SFMLWindow::destroy()
+void Display::SFMLWindow::setTitle(std::string const &title)
 {
-    delwin(this->_window);
+    this->title = title;
 }
 
-void Display::SFMLWindow::setFramerateLimit(int framerateLimit)
+bool Display::SFMLWindow::isOpen()
 {
-}
-
-void Display::SFMLWindow::getFramerateLimit()
-{
-}
-
-void Display::SFMLWindow::getSize()
-{
-}
-
-void Display::SFMLWindow::getPosition()
-{
-}
-
-void Display::SFMLWindow::setPosition(int x, int y)
-{
+    return this->window.isOpen();
 }
 
 void Display::SFMLWindow::clear()
 {
+    this->window.clear();
 }
 
 void Display::SFMLWindow::draw()
 {
-    wrefresh(this->_window);
+}
+
+void Display::SFMLWindow::display()
+{
+    this->window.display();
+}
+
+void Display::SFMLWindow::close()
+{
+    this->window.close();
 }
 
 extern "C" std::unique_ptr<Display::IWindow> createWindow() {
-    return std::make_unique<Display::SFMLWindow
-    >();
+    return std::make_unique<Display::SFMLWindow>();
 }

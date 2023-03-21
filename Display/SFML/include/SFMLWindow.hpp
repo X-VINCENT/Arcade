@@ -6,34 +6,39 @@
 */
 
 #pragma once
-
 #include "IWindow.hpp"
-#include "IGameModule.hpp"
-#include <ncurses.h>
-#include <memory>
+#include "IEvent.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace Display {
     class SFMLWindow : public IWindow {
-    public:
+        public:
+            SFMLWindow() = default;
+            SFMLWindow(
+                std::string const &title,
+                int framerateLimit,
+                int width,
+                int height
+            );
+            ~SFMLWindow() override;
+            void create(
+                std::string const &title,
+                int framerateLimit,
+                int width,
+                int height
+            ) override;
+            IEvent getEvents() override;
+            std::string getTitle() override;
+            void setTitle(std::string const &title) override;
+            bool isOpen() override;
+            void clear() override;
+            void draw() override;
+            void display() override;
+            void close() override;
 
-        SFMLWindow() = default;
-        SFMLWindow(std::string const &title, int framerateLimit,
-                int width, int height);
-        ~SFMLWindow() override;
-        void create(std::string const &title, int framerateLimit,
-                int width, int height) override;
-        void getFramerateLimit() override;
-        void setFramerateLimit(int framerateLimit) override;
-        void getSize() override;
-        void setSize(int width, int height) override;
-        void getPosition() override;
-        void setPosition(int x, int y) override;
-        void clear() override;
-        void draw() override;
-        void destroy() override;
-
-    protected:
-    private:
-        WINDOW *_window;
+        protected:
+        private:
+            sf::RenderWindow window;
+            std::string title;
     };
 };
