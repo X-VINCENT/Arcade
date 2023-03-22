@@ -16,6 +16,12 @@ void Display::NCursesTexture::load(char c, std::string const &fpath)
     this->c = c;
 }
 
-extern "C" std::unique_ptr<Display::ITexture> Display::createTexture() {
+char Display::NCursesTexture::getNCursesTexture() const
+{
+    return this->c;
+}
+
+extern "C" std::unique_ptr<Display::ITexture> Display::createTexture()
+{
     return std::make_unique<Display::NCursesTexture>();
 }

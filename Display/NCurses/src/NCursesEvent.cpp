@@ -20,3 +20,8 @@ void Display::NCursesEvent::setType(Display::KeyType type)
 {
     this->type = type;
 }
+
+extern "C" std::unique_ptr<Display::IEvent> Display::createEvent()
+{
+    return std::make_unique<Display::NCursesEvent>();
+}

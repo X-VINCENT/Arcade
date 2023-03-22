@@ -21,6 +21,7 @@ sf::Texture Display::SFMLTexture::getSFMLTexture() const
     return this->texture;
 }
 
-extern "C" std::unique_ptr<Display::ITexture> Display::createTexture() {
+extern "C" std::unique_ptr<Display::ITexture> Display::createTexture()
+{
     return std::make_unique<Display::SFMLTexture>();
 }

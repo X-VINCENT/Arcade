@@ -40,3 +40,8 @@ sf::Vector2f Display::SFMLVector2f::getSFMLVector2f() const
 {
     return this->vector;
 }
+
+extern "C" std::unique_ptr<Display::IVector2f> Display::createVector2f()
+{
+    return std::make_unique<Display::SFMLVector2f>();
+}

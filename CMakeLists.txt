@@ -46,7 +46,10 @@ set(NCURSES_DIRECTORY NCurses/)
 set(SRC_DISPLAY_NCURSES
         src/NCurses.cpp
         src/NCursesEvent.cpp
+        src/NCursesIntRect.cpp
+        src/NCursesSprite.cpp
         src/NCursesTexture.cpp
+        src/NCursesVector2f.cpp
         src/NCursesWindow.cpp
 )
 

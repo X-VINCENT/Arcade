@@ -92,3 +92,8 @@ void Display::SFMLSprite::move(std::unique_ptr<Display::IVector2f> &offset)
     this->position->setX(this->position->getX() + offset->getX());
     this->position->setY(this->position->getY() + offset->getY());
 }
+
+extern "C" std::unique_ptr<Display::ISprite> createSprite()
+{
+    return std::make_unique<Display::SFMLSprite>();
+}

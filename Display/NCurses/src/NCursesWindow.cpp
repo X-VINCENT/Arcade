@@ -164,7 +164,8 @@ bool Display::NCursesWindow::isOpen()
 
 void Display::NCursesWindow::clear()
 {
-    wclear(this->window);
+    if (this->isOpen())
+        wclear(this->window);
 }
 
 void Display::NCursesWindow::draw()
@@ -173,14 +174,17 @@ void Display::NCursesWindow::draw()
 
 void Display::NCursesWindow::display()
 {
-    wrefresh(this->window);
+    if (this->isOpen())
+        wrefresh(this->window);
 }
 
 void Display::NCursesWindow::close()
 {
-    delwin(this->window);
+    if (this->isOpen())
+        delwin(this->window);
 }
 
-extern "C" std::unique_ptr<Display::IWindow> createWindow() {
+extern "C" std::unique_ptr<Display::IWindow> createWindow()
+{
     return std::make_unique<Display::NCursesWindow>();
 }

@@ -32,6 +32,7 @@ const std::string &Game::Snake::getName() const
     return this->name;
 }
 
-extern "C" std::unique_ptr<Game::IGameModule> createGame() {
+extern "C" std::unique_ptr<Game::IGameModule> createGame()
+{
     return std::make_unique<Game::Snake>();
 }

@@ -60,3 +60,8 @@ sf::IntRect Display::SFMLIntRect::getSFMLIntRect() const
 {
     return this->rect;
 }
+
+extern "C" std::unique_ptr<Display::IIntRect> Display::createIntRect()
+{
+    return std::make_unique<Display::SFMLIntRect>();
+}
