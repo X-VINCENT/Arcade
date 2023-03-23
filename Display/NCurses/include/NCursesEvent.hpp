@@ -12,7 +12,7 @@ namespace Display {
     class NCursesEvent : public IEvent {
         public:
             ~NCursesEvent();
-            Display::KeyType getType() override;
+            Display::KeyType &getType() override;
             void setType(Display::KeyType type) override;
 
         protected:

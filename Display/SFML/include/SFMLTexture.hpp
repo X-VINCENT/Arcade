@@ -6,18 +6,18 @@
 */
 
 #pragma once
+
 #include "ITexture.hpp"
 #include "SFML/Graphics.hpp"
 
 namespace Display {
     class SFMLTexture : public ITexture {
-        public:
-            SFMLTexture() = default;
-            ~SFMLTexture();
-            void load(char c, std::string const &fpath) override;
-            sf::Texture getSFMLTexture() const;
-
-        private:
-            sf::Texture texture;
+    public:
+        SFMLTexture() = default;
+        ~SFMLTexture() override;
+        void load(char c, std::string const &fpath) override;
+        sf::Texture &getSFMLTexture();
+    private:
+        sf::Texture texture;
     };
 }

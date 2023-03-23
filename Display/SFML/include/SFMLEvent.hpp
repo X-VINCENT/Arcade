@@ -12,7 +12,7 @@ namespace Display {
     class SFMLEvent : public IEvent {
         public:
             ~SFMLEvent();
-            Display::KeyType getType() override;
+            Display::KeyType &getType() override;
             void setType(Display::KeyType type) override;
 
         protected:

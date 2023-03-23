@@ -30,21 +30,11 @@ int arcade(std::string const &displayLibPath)
     spriteFnPtr createSprite = libLoader.template getInstance<spriteFnPtr>(createSpriteFn);
     std::unique_ptr<Display::ISprite> sprite = createSprite();
 
-    std::string const &createIntRectFn = "createIntRect";
-    using intRectFnPtr = std::unique_ptr<Display::IIntRect> (*)();
-    intRectFnPtr createIntRect = libLoader.template getInstance<intRectFnPtr>(createIntRectFn);
-    std::unique_ptr<Display::IIntRect> intRect = createIntRect();
 
-    std::string const &createVector2fFn = "createVector2f";
-    using vector2fFnPtr = std::unique_ptr<Display::IVector2f> (*)();
-    vector2fFnPtr createVector2f = libLoader.template getInstance<vector2fFnPtr>(createVector2fFn);
-    std::unique_ptr<Display::IVector2f> vector2f = createVector2f();
-
-
-    texture->load('#', "assets/block.png");
-    intRect->create(0, 0, 10, 10);
-    vector2f->create(0, 0);
-    // sprite->create(texture, intRect, vector2f); => SEGFAULT with SFML
+    Display::IIntRect rect{(Display::IIntRect){0, 0, 10, 10}};
+    Display::IVector2f vect{(Display::IVector2f){10, 10}};
+    texture->load('#', "assets/block.png");;
+    sprite->create(std::move(texture), rect, vect);
     window->create("Arcade", 60, 100, 100);
     window->clear();
     window->draw();

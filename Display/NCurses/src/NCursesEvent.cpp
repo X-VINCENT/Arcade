@@ -11,7 +11,7 @@ Display::NCursesEvent::~NCursesEvent()
 {
 }
 
-Display::KeyType Display::NCursesEvent::getType()
+Display::KeyType &Display::NCursesEvent::getType()
 {
     return this->type;
 }

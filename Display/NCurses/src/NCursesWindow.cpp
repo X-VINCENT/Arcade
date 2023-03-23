@@ -145,7 +145,7 @@ std::unique_ptr<Display::IEvent> Display::NCursesWindow::getEvent()
     return std::make_unique<Display::NCursesEvent>(event);
 }
 
-std::string Display::NCursesWindow::getTitle()
+std::string &Display::NCursesWindow::getTitle()
 {
     return this->title;
 }

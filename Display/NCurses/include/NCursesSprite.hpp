@@ -15,22 +15,22 @@ namespace Display {
             NCursesSprite() = default;
             ~NCursesSprite();
             void create(
-                std::unique_ptr<ITexture> &texture,
-                std::unique_ptr<IIntRect> &rect,
-                std::unique_ptr<IVector2f> &position
+                std::unique_ptr<ITexture> texture,
+                const IIntRect &rect,
+                const IVector2f &position
             ) override;
-            std::unique_ptr<Display::IIntRect> getRect() override;
-            void setRect(std::unique_ptr<Display::IIntRect> &rect) override;
-            std::unique_ptr<Display::IVector2f> getPosition() override;
-            void setPosition(std::unique_ptr<Display::IVector2f> &position) override;
+            Display::IIntRect getRect() override;
+            void setRect(const Display::IIntRect &rect) override;
+            Display::IVector2f getPosition() override;
+            void setPosition(const Display::IVector2f &position) override;
             std::unique_ptr<Display::ITexture> getTexture() override;
-            void setTexture(std::unique_ptr<Display::ITexture> &texture) override;
-            void move(std::unique_ptr<IVector2f> &offset) override;
+            void setTexture(std::unique_ptr<Display::ITexture> texture) override;
+            void move(const IVector2f &offset) override;
 
         private:
             char c;
-            std::unique_ptr<Display::IIntRect> rect;
-            std::unique_ptr<Display::IVector2f> position;
+            Display::IIntRect rect;
+            Display::IVector2f position;
             std::unique_ptr<Display::ITexture> texture;
     };
 }

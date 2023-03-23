@@ -158,7 +158,7 @@ std::unique_ptr<Display::IEvent> Display::SFMLWindow::getEvent()
     return std::make_unique<Display::SFMLEvent>(event);
 }
 
-std::string Display::SFMLWindow::getTitle()
+std::string &Display::SFMLWindow::getTitle()
 {
     return this->title;
 }

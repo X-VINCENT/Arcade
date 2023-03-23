@@ -11,7 +11,7 @@ Display::SFMLEvent::~SFMLEvent()
 {
 }
 
-Display::KeyType Display::SFMLEvent::getType()
+Display::KeyType &Display::SFMLEvent::getType()
 {
     return this->type;
 }
