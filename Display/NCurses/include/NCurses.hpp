@@ -13,7 +13,7 @@ namespace Display {
     class NCurses : public IDisplayModule {
         public:
             NCurses();
-            ~NCurses() override;
+            ~NCurses();
             void create() override;
             void update() override;
             void destroy() override;

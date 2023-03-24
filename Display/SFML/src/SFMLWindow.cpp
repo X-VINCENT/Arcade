@@ -158,7 +158,7 @@ std::unique_ptr<Display::IEvent> Display::SFMLWindow::getEvent()
     return std::make_unique<Display::SFMLEvent>(event);
 }
 
-std::string Display::SFMLWindow::getTitle()
+std::string &Display::SFMLWindow::getTitle()
 {
     return this->title;
 }
@@ -175,7 +175,8 @@ bool Display::SFMLWindow::isOpen()
 
 void Display::SFMLWindow::clear()
 {
-    this->window.clear();
+    if (this->isOpen())
+        this->window.clear();
 }
 
 void Display::SFMLWindow::draw()
@@ -184,14 +185,17 @@ void Display::SFMLWindow::draw()
 
 void Display::SFMLWindow::display()
 {
-    this->window.display();
+    if (this->isOpen())
+        this->window.display();
 }
 
 void Display::SFMLWindow::close()
 {
-    this->window.close();
+    if (this->isOpen())
+        this->window.close();
 }
 
-extern "C" std::unique_ptr<Display::IWindow> createWindow() {
+extern "C" std::unique_ptr<Display::IWindow> createWindow()
+{
     return std::make_unique<Display::SFMLWindow>();
 }

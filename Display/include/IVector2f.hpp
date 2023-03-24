@@ -11,12 +11,7 @@
 namespace Display {
     class IVector2f {
         public:
-            virtual ~IVector2f() = default;
-            virtual int getX() = 0;
-            virtual void setX(int x) = 0;
-            virtual int getY() = 0;
-            virtual void setY(int y) = 0;
-            virtual void set(int x, int y) = 0;
+        float x;
+        float y;
     };
-    extern "C" std::unique_ptr<IVector2f> createVector2f();
 };

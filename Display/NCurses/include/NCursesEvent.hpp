@@ -11,8 +11,8 @@
 namespace Display {
     class NCursesEvent : public IEvent {
         public:
-            NCursesEvent() = default;
-            Display::KeyType getType() override;
+            ~NCursesEvent();
+            Display::KeyType &getType() override;
             void setType(Display::KeyType type) override;
 
         protected:

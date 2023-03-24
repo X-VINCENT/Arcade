@@ -20,7 +20,7 @@ namespace Display {
                 int width,
                 int height
             );
-            ~NCursesWindow() override;
+            ~NCursesWindow();
             void create(
                 std::string const &title,
                 int framerateLimit,
@@ -28,8 +28,8 @@ namespace Display {
                 int height
             ) override;
             std::unique_ptr<Display::IEvent> getEvent() override;
-            std::string getTitle() override;
-            void setTitle(std::string const &title) override;
+            std::string &getTitle() override;
+            void setTitle(const std::string &title) override;
             bool isOpen() override;
             void clear() override;
             void draw() override;

@@ -14,6 +14,10 @@ Display::NCurses::NCurses()
     _name = "NCurses";
 }
 
+Display::NCurses::~NCurses()
+{
+}
+
 void Display::NCurses::create()
 {
     std::cout << "ncurse";
@@ -26,8 +30,6 @@ void Display::NCurses::update()
 void Display::NCurses::destroy()
 {
 }
-
-Display::NCurses::~NCurses() = default;
 
 extern "C" std::unique_ptr<Display::IDisplayModule> createModule()
 {

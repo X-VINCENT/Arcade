@@ -22,6 +22,7 @@ include_directories(
         Display/include
         Display/SFML/include
         Display/NCurses/include
+        Display/SDL2/include
         Game/include
         Game/Snake/include
 )
@@ -39,7 +40,6 @@ set(CORE_DIRECTORY Core/)
 set(SRC_CORE
         DLLoader/src/DLLoader.cpp
         src/Arcade.cpp
-        ../Game/src/AGameObject.cpp
 )
 
 # NCurses Sources
@@ -47,6 +47,10 @@ set(NCURSES_DIRECTORY NCurses/)
 set(SRC_DISPLAY_NCURSES
         src/NCurses.cpp
         src/NCursesEvent.cpp
+        src/NCursesIntRect.cpp
+        src/NCursesSprite.cpp
+        src/NCursesTexture.cpp
+        src/NCursesVector2f.cpp
         src/NCursesWindow.cpp
 )
 
@@ -55,8 +59,20 @@ set(SFML_DIRECTORY SFML/)
 set(SRC_DISPLAY_SFML
         src/SFML.cpp
         src/SFMLEvent.cpp
+        src/SFMLIntRect.cpp
+        src/SFMLSprite.cpp
         src/SFMLTexture.cpp
+        src/SFMLVector2f.cpp
         src/SFMLWindow.cpp
+)
+
+# SDL2 Sources
+set(SDL2_DIRECTORY SDL2/)
+set(SRC_DISPLAY_SDL2
+        src/SDL2.cpp
+        src/SDL2Event.cpp
+        src/SDL2Texture.cpp
+        src/SDL2Window.cpp
 )
 
 # Snake Sources
@@ -76,16 +92,20 @@ list(TRANSFORM SRC_MAIN PREPEND ${CORE_DIRECTORY})
 list(TRANSFORM SRC_CORE PREPEND ${CORE_DIRECTORY})
 list(TRANSFORM SRC_DISPLAY_NCURSES PREPEND ${DISPLAY_DIRECTORY}/${NCURSES_DIRECTORY})
 list(TRANSFORM SRC_DISPLAY_SFML PREPEND ${DISPLAY_DIRECTORY}/${SFML_DIRECTORY})
+list(TRANSFORM SRC_DISPLAY_SDL2 PREPEND ${DISPLAY_DIRECTORY}/${SDL2_DIRECTORY})
 list(TRANSFORM SRC_GAME_SNAKE PREPEND ${GAME_DIRECTORY}/${SNAKE_DIRECTORY})
 list(TRANSFORM SRC_TESTS PREPEND ${TESTS_DIRECTORY})
 
 add_library(ncurses SHARED ${SRC_DISPLAY_NCURSES})
 add_library(sfml SHARED ${SRC_DISPLAY_SFML})
+add_library(sdl2 SHARED ${SRC_DISPLAY_SDL2})
 add_library(snake SHARED ${SRC_GAME_SNAKE})
 
+set_target_properties(ncurses PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
 set_target_properties(sfml PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
-set_target_properties(ncurses PROPERTIES
+set_target_properties(sdl2 PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
 set_target_properties(snake PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
@@ -95,3 +115,6 @@ add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_CORE})
 
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
 target_link_libraries(sfml sfml-graphics)
+target_link_libraries(sdl2 ${SDL2_LIBRARIES})
+target_link_libraries(arcade ${CMAKE_DL_LIBS})
+

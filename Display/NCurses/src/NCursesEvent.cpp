@@ -7,7 +7,11 @@
 
 #include "NCursesEvent.hpp"
 
-Display::KeyType Display::NCursesEvent::getType()
+Display::NCursesEvent::~NCursesEvent()
+{
+}
+
+Display::KeyType &Display::NCursesEvent::getType()
 {
     return this->type;
 }
@@ -15,4 +19,9 @@ Display::KeyType Display::NCursesEvent::getType()
 void Display::NCursesEvent::setType(Display::KeyType type)
 {
     this->type = type;
+}
+
+extern "C" std::unique_ptr<Display::IEvent> Display::createEvent()
+{
+    return std::make_unique<Display::NCursesEvent>();
 }

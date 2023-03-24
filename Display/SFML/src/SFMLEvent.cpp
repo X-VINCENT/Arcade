@@ -7,7 +7,11 @@
 
 #include "SFMLEvent.hpp"
 
-Display::KeyType Display::SFMLEvent::getType()
+Display::SFMLEvent::~SFMLEvent()
+{
+}
+
+Display::KeyType &Display::SFMLEvent::getType()
 {
     return this->type;
 }
@@ -15,4 +19,9 @@ Display::KeyType Display::SFMLEvent::getType()
 void Display::SFMLEvent::setType(Display::KeyType type)
 {
     this->type = type;
+}
+
+extern "C" std::unique_ptr<Display::IEvent> Display::createEvent()
+{
+    return std::make_unique<Display::SFMLEvent>();
 }

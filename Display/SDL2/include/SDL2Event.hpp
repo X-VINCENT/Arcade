@@ -1,17 +1,17 @@
 /*
 ** EPITECH PROJECT, 2023
-** B-OOP-400-BDX-4-1-arcade-max.peixoto
+** Arcade
 ** File description:
-** SFMLEvent
+** SDL2Event.hpp
 */
 
 #pragma once
 #include "IEvent.hpp"
 
 namespace Display {
-    class SFMLEvent : public IEvent {
+    class SDLEvent : public IEvent {
         public:
-            ~SFMLEvent();
+            ~SDLEvent();
             Display::KeyType &getType() override;
             void setType(Display::KeyType type) override;
 
@@ -19,4 +19,4 @@ namespace Display {
         private:
             Display::KeyType type;
     };
-};
+}
