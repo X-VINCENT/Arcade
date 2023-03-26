@@ -13,7 +13,7 @@ namespace Display {
     class NCursesSprite : public ISprite {
         public:
             NCursesSprite() = default;
-            ~NCursesSprite();
+            ~NCursesSprite() override;
             void create(
                 std::unique_ptr<ITexture> texture,
                 const IIntRect &rect,

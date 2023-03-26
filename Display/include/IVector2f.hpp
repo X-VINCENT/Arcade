@@ -11,7 +11,7 @@
 namespace Display {
     class IVector2f {
         public:
-        float x;
-        float y;
+            float x;
+            float y;
     };
 };

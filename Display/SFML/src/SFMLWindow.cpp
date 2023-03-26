@@ -155,6 +155,8 @@ std::unique_ptr<Display::IEvent> Display::SFMLWindow::getEvent()
 
     this->window.pollEvent(sfEvent);
     type = KeyToEventType.find(sfEvent.key.code)->second;
+    if (sfEvent.type == sf::Event::Closed)
+        type = Display::KeyType::Return;
     event.setType(type);
     return std::make_unique<Display::SFMLEvent>(event);
 }
