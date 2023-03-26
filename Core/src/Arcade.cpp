@@ -30,14 +30,13 @@ int arcade(std::string const &displayLibPath)
     spriteFnPtr createSprite = libLoader.template getInstance<spriteFnPtr>(createSpriteFn);
     std::unique_ptr<Display::ISprite> sprite = createSprite();
 
-
-    Display::IIntRect rect{(Display::IIntRect){0, 0, 10, 10}};
-    Display::IVector2f vect{(Display::IVector2f){10, 10}};
-    texture->load('#', "assets/block.png");;
-    sprite->create(std::move(texture), rect, vect);
+    Display::IIntRect rect{0, 0, 10, 10};
+    Display::IVector2f pos{10, 10};
+    texture->load('#', "assets/block.png");
+    sprite->create(std::move(texture), rect, pos);
     window->create("Arcade", 60, 100, 100);
     window->clear();
-    window->draw();
+    window->draw(sprite);
     window->display();
     window->close();
     return SUCCESS;

@@ -7,7 +7,8 @@
 
 #include "SFMLVector2f.hpp"
 
-sf::Vector2f toSfVector2f(const Display::IVector2f &src) {
+sf::Vector2f Display::toSfVector2f(const Display::IVector2f &src)
+{
     sf::Vector2f dest;
 
     dest.x = src.x;
@@ -15,7 +16,9 @@ sf::Vector2f toSfVector2f(const Display::IVector2f &src) {
     return dest;
 
 }
-Display::IVector2f toIVector2f(const sf::Vector2f &src) {
+
+Display::IVector2f Display::toIVector2f(const sf::Vector2f &src)
+{
     Display::IVector2f dest;
 
     dest.x = src.x;

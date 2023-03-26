@@ -7,6 +7,7 @@
 
 #include "SDL2Window.hpp"
 #include "SDL2Event.hpp"
+#include "SDL2Texture.hpp"
 #include <map>
 
 using KeyToEventTypeMap = std::map<SDL_Keycode, Display::KeyType>;
@@ -203,8 +204,20 @@ void Display::SDL2Window::display()
     SDL_RenderPresent(this->renderer);
 }
 
-void Display::SDL2Window::draw()
+void Display::SDL2Window::draw(std::unique_ptr<Display::ISprite> &sprite)
 {
+    SDL_Rect rect;
+
+    Display::IVector2f pos = sprite->getPosition();
+    Display::IIntRect size = sprite->getRect();
+    rect.x = pos.x;
+    rect.y = pos.y;
+    rect.w = size.width;
+    rect.h = size.height;
+    //Display::SDL2Texture &sdl2Texture = dynamic_cast<Display::SDL2Texture &>(sprite.getTexture());
+    //SDL_Texture *texture = sdl2Texture.getSDLTexture();
+
+    //SDL_RenderCopy(this->renderer, texture, nullptr, &rect);
 }
 
 void Display::SDL2Window::close()

@@ -10,10 +10,10 @@
 
 namespace Display {
     class IIntRect {
-    public:
-        int top;
-        int left;
-        int width;
-        int height;
+        public:
+            int top;
+            int left;
+            int width;
+            int height;
     };
 };

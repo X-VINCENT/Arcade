@@ -32,7 +32,7 @@ namespace Display {
         void setTitle(std::string const &title) override;
         bool isOpen() override;
         void clear() override;
-        void draw() override;
+        void draw(std::unique_ptr<Display::ISprite> &sprite) override;
         void display() override;
         void close() override;
     protected:

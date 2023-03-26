@@ -7,6 +7,7 @@
 
 #include "NCursesWindow.hpp"
 #include "NCursesEvent.hpp"
+#include "NCursesTexture.hpp"
 #include <map>
 
 using KeyToEventTypeMap = std::map<int, Display::KeyType>;
@@ -168,8 +169,16 @@ void Display::NCursesWindow::clear()
         wclear(this->window);
 }
 
-void Display::NCursesWindow::draw()
+void Display::NCursesWindow::draw(std::unique_ptr<Display::ISprite> &sprite)
 {
+    if (!this->isOpen())
+        return;
+
+    Display::NCursesTexture ncursesTexture =
+        dynamic_cast<Display::NCursesTexture &>(*sprite->getTexture());
+    char c = ncursesTexture.getNCursesTexture();
+
+    mvwprintw(this->window, sprite->getPosition().y, sprite->getPosition().x, &c);
 }
 
 void Display::NCursesWindow::display()

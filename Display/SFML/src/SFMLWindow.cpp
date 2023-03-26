@@ -7,6 +7,7 @@
 
 #include "SFMLWindow.hpp"
 #include "SFMLEvent.hpp"
+#include "SFMLSprite.hpp"
 #include <map>
 
 using KeyToEventTypeMap = std::map<sf::Keyboard::Key, Display::KeyType>;
@@ -179,8 +180,15 @@ void Display::SFMLWindow::clear()
         this->window.clear();
 }
 
-void Display::SFMLWindow::draw()
+void Display::SFMLWindow::draw(std::unique_ptr<Display::ISprite> &sprite)
 {
+    if (!this->isOpen())
+        return;
+
+    Display::SFMLSprite &sfmlSprite = dynamic_cast<Display::SFMLSprite &>(*sprite);
+    sf::Sprite sfSprite = sfmlSprite.getSfSprite();
+
+    this->window.draw(sfSprite);
 }
 
 void Display::SFMLWindow::display()

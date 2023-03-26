@@ -8,6 +8,7 @@
 #pragma once
 #include "IDisplayModule.hpp"
 #include "IEvent.hpp"
+#include "ISprite.hpp"
 #include <memory>
 
 namespace Display {
@@ -25,7 +26,7 @@ namespace Display {
             virtual void setTitle(std::string const &title) = 0;
             virtual bool isOpen() = 0;
             virtual void clear() = 0;
-            virtual void draw() = 0;
+            virtual void draw(std::unique_ptr<Display::ISprite> &sprite) = 0;
             virtual void display() = 0;
             virtual void close() = 0;
     };

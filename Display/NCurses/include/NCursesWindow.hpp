@@ -7,7 +7,6 @@
 
 #pragma once
 #include "IWindow.hpp"
-#include "IEvent.hpp"
 #include <ncurses.h>
 
 namespace Display {
@@ -32,7 +31,7 @@ namespace Display {
             void setTitle(const std::string &title) override;
             bool isOpen() override;
             void clear() override;
-            void draw() override;
+            void draw(std::unique_ptr<Display::ISprite> &sprite) override;
             void display() override;
             void close() override;
 
