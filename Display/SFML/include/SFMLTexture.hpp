@@ -16,6 +16,7 @@ namespace Display {
             SFMLTexture() = default;
             ~SFMLTexture() override;
             void load(char c, std::string const &fpath) override;
+            std::unique_ptr<ITexture> clone() const override;
             sf::Texture &getSFMLTexture();
 
         private:

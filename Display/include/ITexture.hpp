@@ -14,6 +14,7 @@ namespace Display {
         public:
             virtual ~ITexture() = default;
             virtual void load(char c, std::string const &fpath) = 0;
+            virtual std::unique_ptr<ITexture> clone() const = 0;
     };
     extern "C" std::unique_ptr<ITexture> createTexture();
 };

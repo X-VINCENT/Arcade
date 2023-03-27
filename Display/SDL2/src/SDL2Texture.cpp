@@ -16,6 +16,11 @@ void Display::SDL2Texture::load(char c, std::string const &fpath)
     this->_texture = SDL_CreateTextureFromSurface(this->_renderer, SDL_LoadBMP(fpath.c_str()));
 }
 
+std::unique_ptr<Display::ITexture> Display::SDL2Texture::clone() const
+{
+    return std::make_unique<Display::SDL2Texture>(*this);
+}
+
 SDL_Texture *Display::SDL2Texture::getSDLTexture() const
 {
     return this->_texture;

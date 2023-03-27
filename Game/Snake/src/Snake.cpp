@@ -18,59 +18,87 @@ Game::Snake::~Snake()
 
 void Game::Snake::setFunctions(
     std::unique_ptr<Display::IWindow> (*window)(),
-    std::unique_ptr<Display::ISprite> (*sprite)(),
-    std::unique_ptr<Display::ITexture> (*texture)()
+    std::unique_ptr<Display::ITexture> (*texture)(),
+    std::unique_ptr<Display::ISprite> (*sprite)()
 )
 {
-    this->windowPtr = window();
-    this->spritePtr = sprite();
-    this->texturePtr = texture();
+    this->createWindow = std::move(window);
+    this->createTexture = std::move(texture);
+    this->createSprite = std::move(sprite);
 }
 
 void Game::Snake::init()
 {
-    this->windowPtr->create("Snake", 60, 100, 100);
-    this->snakeTexture = std::move(texturePtr);
-    this->foodTexture = std::move(texturePtr);
+    this->window = this->createWindow();
+    this->window->create("Snake", 60, 100, 100);
+
+    this->snakeTexture = this->createTexture();
+    this->foodTexture = this->createTexture();
     this->snakeTexture->load('#', "assets/snake/body.png");
     this->foodTexture->load('o', "assets/snake/food.png");
-    this->texturePtr->load('#', "assets/snake/body.png");
-    this->snake = {
-        std::move(spritePtr),
-        std::move(spritePtr),
-        std::move(spritePtr)
-    };
-    std::vector<Display::IVector2f> positions = {
-        {50, 50},
-        {40, 50},
-        {30, 50}
-    };
-    Display::IIntRect rect{0, 0, 10, 10};
-    for (size_t i = 0; i < this->snake.size(); i++)
-        this->snake[i]->create(std::move(this->texturePtr), rect, positions[i]);
-    this->food = std::move(spritePtr);
-    this->food->create(std::move(this->foodTexture), rect, Display::IVector2f{100, 100});
+
+    this->food = this->createSprite();
+    this->food->create(
+        this->foodTexture->clone(),
+        {0, 0, 10, 10},
+        {30, 40}
+    );
+
+    for (size_t i = 0; i < 3; i++) {
+        this->snake.push_back(this->createSprite());
+        this->snake[i]->create(
+            this->snakeTexture->clone(),
+            {0, 0, 10, 10},
+            {(float)50 + (i * 10), 50}
+        );
+    }
+
+    this->direction = Game::Direction::RIGHT;
+    this->setState(Game::State::GAME);
 }
 
-void Game::Snake::update()
+void Game::Snake::handleEvents()
 {
-    Display::KeyType key = this->windowPtr->getEvent()->getType();
+    Display::KeyType key = this->window->getEvent()->getType();
 
     switch (key) {
+        case Display::KeyType::Escape:
+            this->setState(Game::State::MENU);
+            break;
         case Display::KeyType::Q:
         case Display::KeyType::Left:
-            this->snake[0]->move({-10, 0});
+            this->direction = Game::Direction::LEFT;
             break;
         case Display::KeyType::D:
         case Display::KeyType::Right:
-            this->snake[0]->move({10, 0});
+            this->direction = Game::Direction::RIGHT;
             break;
         case Display::KeyType::Z:
         case Display::KeyType::Up:
-            this->snake[0]->move({0, -10});
+            this->direction = Game::Direction::UP;
             break;
         case Display::KeyType::S:
         case Display::KeyType::Down:
+            this->direction = Game::Direction::DOWN;
+            break;
+        default:
+            break;
+    }
+}
+
+void Game::Snake::moveSnake()
+{
+    switch (this->direction) {
+        case Game::Direction::LEFT:
+            this->snake[0]->move({-10, 0});
+            break;
+        case Game::Direction::RIGHT:
+            this->snake[0]->move({10, 0});
+            break;
+        case Game::Direction::UP:
+            this->snake[0]->move({0, -10});
+            break;
+        case Game::Direction::DOWN:
             this->snake[0]->move({0, 10});
             break;
         default:
@@ -79,25 +107,77 @@ void Game::Snake::update()
 
     for (size_t i = this->snake.size() - 1; i > 0; i--)
         this->snake[i]->setPosition(this->snake[i - 1]->getPosition());
+}
 
+void Game::Snake::handleEat()
+{
     if (this->snake[0]->getPosition().x == this->food->getPosition().x &&
         this->snake[0]->getPosition().y == this->food->getPosition().y) {
-        this->snake.push_back(std::move(spritePtr));
-        this->snake.back()->create(std::move(this->snakeTexture), Display::IIntRect{0, 0, 10, 10}, this->snake[this->snake.size() - 2]->getPosition());
-        this->food->setPosition({20, 30});
+        this->snake.push_back(this->createSprite());
+        this->snake.back()->create(
+            this->snakeTexture->clone(),
+            {0, 0, 10, 10},
+            this->snake[this->snake.size() - 2]->getPosition()
+        );
+        this->food->setPosition({
+            (float)(rand() % 100) * 10,
+            (float)(rand() % 100) * 10
+        });
     }
+}
 
-    this->windowPtr->clear();
-    for (auto &sprite : this->snake) {
-        this->windowPtr->draw(sprite);
-    }
-    this->windowPtr->draw(this->food);
-    this->windowPtr->display();
+void Game::Snake::handleCollision()
+{
+    if (this->snake[0]->getPosition().x < 0 ||
+        this->snake[0]->getPosition().x > 1000 ||
+        this->snake[0]->getPosition().y < 0 ||
+        this->snake[0]->getPosition().y > 1000)
+        this->setState(Game::State::END);
+}
+
+void Game::Snake::updateWindow()
+{
+    this->window->clear();
+
+    for (auto &sprite : this->snake)
+        this->window->draw(sprite);
+    this->window->draw(this->food);
+
+    this->window->display();
+}
+
+void Game::Snake::update()
+{
+    this->handleEvents();
+    this->moveSnake();
+    this->handleEat();
+    this->handleCollision();
+    this->updateWindow();
+}
+
+void Game::Snake::setState(Game::State state)
+{
+    this->state = state;
+}
+
+Game::State Game::Snake::getState() const
+{
+    return this->state;
+}
+
+void Game::Snake::run()
+{
+    this->init();
+    while (this->getState() != Game::State::END)
+        this->update();
+    this->stop();
 }
 
 void Game::Snake::stop()
 {
-    this->windowPtr->close();
+    if (!this->window->isOpen())
+        return;
+    this->window->close();
 }
 
 const std::string &Game::Snake::getName() const

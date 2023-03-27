@@ -16,6 +16,11 @@ void Display::NCursesTexture::load(char c, std::string const &fpath)
     this->c = c;
 }
 
+std::unique_ptr<Display::ITexture> Display::NCursesTexture::clone() const
+{
+    return std::make_unique<Display::NCursesTexture>(*this);
+}
+
 char Display::NCursesTexture::getNCursesTexture() const
 {
     return this->c;

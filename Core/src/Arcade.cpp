@@ -8,6 +8,7 @@
 #include "Arcade.hpp"
 #include <fcntl.h>
 #include <iostream>
+#include <unistd.h>
 
 int arcade(std::string const &displayLibPath)
 {
@@ -31,10 +32,12 @@ int arcade(std::string const &displayLibPath)
 
     std::unique_ptr<Game::IGameModule> game = createGame();
 
-    game->setFunctions(createWindow, createSprite, createTexture);
+    game->setFunctions(createWindow, createTexture, createSprite);
     game->init();
-    while (1)
+    while (1) {
         game->update();
+        usleep(100000);
+    }
     game->stop();
     return SUCCESS;
 }
