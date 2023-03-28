@@ -8,6 +8,7 @@
 #include "SDL2Window.hpp"
 #include "SDL2Event.hpp"
 #include "SDL2Texture.hpp"
+#include "SDL2Sprite.hpp"
 #include <map>
 
 using KeyToEventTypeMap = std::map<SDL_Keycode, Display::KeyType>;
@@ -141,8 +142,8 @@ void Display::SDL2Window::create(std::string const &title, int framerateLimit, i
         this->title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        width,
-        height,
+        width * 10,
+        height * 10,
         SDL_WINDOW_SHOWN
     );
     if (this->window == nullptr) {
@@ -167,9 +168,9 @@ std::unique_ptr<Display::IEvent> Display::SDL2Window::getEvent()
     Display::KeyType type;
 
     SDL_PollEvent(&SDL_event);
-        type = KeyToEventType.find(SDL_event.key.keysym.sym)->second;
-        event.setType(type);
-        return std::make_unique<Display::SDLEvent>(event);
+    type = KeyToEventType.find(SDL_event.key.keysym.sym)->second;
+    event.setType(type);
+    return std::make_unique<Display::SDLEvent>(event);
 }
 
 std::string &Display::SDL2Window::getTitle()
@@ -206,18 +207,20 @@ void Display::SDL2Window::display()
 
 void Display::SDL2Window::draw(std::unique_ptr<Display::ISprite> &sprite)
 {
-    SDL_Rect rect;
+    if (!renderer || !sprite) {
+        return;
+    }
 
-    Display::IVector2f pos = sprite->getPosition();
-    Display::IIntRect size = sprite->getRect();
-    rect.x = pos.x;
-    rect.y = pos.y;
-    rect.w = size.width;
-    rect.h = size.height;
-    //Display::SDL2Texture &sdl2Texture = dynamic_cast<Display::SDL2Texture &>(sprite.getTexture());
-    //SDL_Texture *texture = sdl2Texture.getSDLTexture();
+    Display::SDL2Sprite &sdlSprite = dynamic_cast<SDL2Sprite &>(*sprite);
 
-    //SDL_RenderCopy(this->renderer, texture, nullptr, &rect);
+    SDL_Texture *texture = &sdlSprite.getSDLSprite();
+
+    int w, h;
+    SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
+    SDL_Rect texr;
+    texr.x = 1000/2; texr.y = 1000/2; texr.w = w*2; texr.h = h*2;
+
+    SDL_RenderCopy(renderer, texture, nullptr, &texr);
 }
 
 void Display::SDL2Window::close()
