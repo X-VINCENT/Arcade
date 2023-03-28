@@ -14,6 +14,7 @@
 Display::SFMLSprite::~SFMLSprite()
 {
 }
+
 void Display::SFMLSprite::create(
         std::unique_ptr<Display::ITexture> src_texture,
         const Display::IIntRect &src_rect,
@@ -22,17 +23,19 @@ void Display::SFMLSprite::create(
 {
     Display::SFMLTexture sfmlTexture = dynamic_cast<Display::SFMLTexture &>(*src_texture);
 
-    this->sprite.setTexture(sfmlTexture.getSFMLTexture());
+    this->texture = sfmlTexture.getSFMLTexture();
+    this->sprite.setTexture(this->texture);
     this->sprite.setTextureRect(toSfIntRect(src_rect));
     this->sprite.setPosition(toSfVector2f(src_position));
-    this->texture = sfmlTexture.getSFMLTexture();
     this->position = toSfVector2f(src_position);
     this->rect = toSfIntRect(src_rect);
 }
+
 Display::IIntRect Display::SFMLSprite::getRect()
 {
     return toIIntRect(this->rect);
 }
+
 void Display::SFMLSprite::setRect(const Display::IIntRect &src)
 {
     this->sprite.setTextureRect(toSfIntRect(src));
