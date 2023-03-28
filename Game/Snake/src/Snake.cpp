@@ -35,11 +35,6 @@ void Game::Snake::init()
     this->snakeTexture->load('#', "assets/snake/body.png");
     this->foodTexture->load('o', "assets/snake/food.png");
     this->texturePtr->load('#', "assets/snake/body.png");
-    this->snake = {
-        std::move(spritePtr),
-        std::move(spritePtr),
-        std::move(spritePtr)
-    };
     std::vector<Display::IVector2f> positions = {
         {50, 50},
         {40, 50},
