@@ -15,6 +15,7 @@ namespace Display {
             SDL2Texture() = default;
             ~SDL2Texture();
             void load(char c, std::string const &fpath) override;
+            std::unique_ptr<ITexture> clone() const;
             SDL_Texture *getSDLTexture() const;
 
         private:

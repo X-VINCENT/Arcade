@@ -73,6 +73,9 @@ set(SRC_DISPLAY_SDL2
         src/SDL2Event.cpp
         src/SDL2Texture.cpp
         src/SDL2Window.cpp
+        src/SDL2Sprite.cpp
+        src/SDL2Vector2f.cpp
+        src/SDL2IntRect.cpp
 )
 
 # Snake Sources

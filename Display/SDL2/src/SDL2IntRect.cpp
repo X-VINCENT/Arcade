@@ -5,7 +5,6 @@
 ** SDLIntRect
 */
 
-#pragma once
 #include "SDL2IntRect.hpp"
 
 namespace Display {

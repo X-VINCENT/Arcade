@@ -13,14 +13,16 @@
 #include "SDL2Texture.hpp"
 
 namespace Display {
-    class SDLSprite : public ISprite {
+    class SDL2Sprite : public ISprite {
         public:
-            SDLSprite() = default;
-            ~SDLSprite() override;
+            SDL2Sprite() = default;
+            ~SDL2Sprite() override;
             void create(
-        std::unique_ptr<ITexture> texture,
-        const IIntRect &rect,
-        const IVector2f &position);
+                std::unique_ptr<ITexture> texture,
+                const IIntRect &rect,
+                const IVector2f &position
+            ) override;
+            void create(const SDL2Sprite &);
             Display::IIntRect getRect() override;
             SDL_Rect &getSDLRect();
             void setRect(const Display::IIntRect &rect) override;
@@ -29,12 +31,12 @@ namespace Display {
             std::unique_ptr<Display::ITexture> getTexture() override;
             void setTexture(std::unique_ptr<Display::ITexture> texture) override;
             void move(const IVector2f &offset) override;
-            SDL_Texture &getSDLTexture();
+            SDL_Texture &getSDLSprite();
 
         private:
             SDL_Texture *sprite;
             SDL_Texture *texture;
-            SDL_Rect *rect;
+            SDL_Rect rect;
             SDL_Point position;
     };
 }
