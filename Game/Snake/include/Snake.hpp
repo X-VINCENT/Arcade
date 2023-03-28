@@ -12,6 +12,7 @@
 #include "IWindow.hpp"
 #include "IIntRect.hpp"
 #include "IVector2f.hpp"
+#include "IRenderer.hpp"
 #include <memory>
 #include <string>
 #include <vector>
@@ -30,7 +31,8 @@ namespace Game {
             void setFunctions(
                 std::unique_ptr<Display::IWindow> (*window)(),
                 std::unique_ptr<Display::ITexture> (*texture)(),
-                std::unique_ptr<Display::ISprite> (*sprite)()
+                std::unique_ptr<Display::ISprite> (*sprite)(),
+                std::unique_ptr<Display::IRenderer> (*renderer)()
             ) override;
             void init() override;
             void update() override;
@@ -46,7 +48,9 @@ namespace Game {
             std::unique_ptr<Display::IWindow> (*createWindow)();
             std::unique_ptr<Display::ITexture> (*createTexture)();
             std::unique_ptr<Display::ISprite> (*createSprite)();
+            std::unique_ptr<Display::IRenderer> (*createRenderer)();
             std::unique_ptr<Display::IWindow> window;
+            std::unique_ptr<Display::IRenderer> renderer;
             std::unique_ptr<Display::ITexture> snakeTexture;
             std::unique_ptr<Display::ITexture> foodTexture;
             std::vector<std::unique_ptr<Display::ISprite>> snake;

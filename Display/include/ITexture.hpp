@@ -7,13 +7,14 @@
 
 #pragma once
 #include <memory>
-#include "IVector2f.hpp"
+#include "IRenderer.hpp"
 
 namespace Display {
+    class IRenderer;
     class ITexture {
         public:
             virtual ~ITexture() = default;
-            virtual void load(char c, std::string const &fpath) = 0;
+            virtual void load(char c, std::string const &fpath, std::unique_ptr<Display::IRenderer> renderer) = 0;
             virtual std::unique_ptr<ITexture> clone() const = 0;
     };
     extern "C" std::unique_ptr<ITexture> createTexture();

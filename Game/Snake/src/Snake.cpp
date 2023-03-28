@@ -19,23 +19,26 @@ Game::Snake::~Snake()
 void Game::Snake::setFunctions(
     std::unique_ptr<Display::IWindow> (*window)(),
     std::unique_ptr<Display::ITexture> (*texture)(),
-    std::unique_ptr<Display::ISprite> (*sprite)()
+    std::unique_ptr<Display::ISprite> (*sprite)(),
+    std::unique_ptr<Display::IRenderer> (*renderer)()
 )
 {
     this->createWindow = std::move(window);
     this->createTexture = std::move(texture);
     this->createSprite = std::move(sprite);
+    this->createRenderer = std::move(renderer);
 }
 
 void Game::Snake::init()
 {
     this->window = this->createWindow();
-    this->window->create("Snake", 60, 100, 100);
+    this->renderer = this->createRenderer();
+    this->window->create("Snake", 60, 100, 100, this->renderer->clone());
 
     this->snakeTexture = this->createTexture();
     this->foodTexture = this->createTexture();
-    this->snakeTexture->load('#', "assets/snake/body.png");
-    this->foodTexture->load('o', "assets/snake/food.png");
+    this->snakeTexture->load('#', "assets/snake/body.png", std::move(this->renderer));
+    this->foodTexture->load('o', "assets/snake/food.png", std::move(this->renderer));
 
     this->food = this->createSprite();
     this->food->create(
@@ -149,10 +152,19 @@ void Game::Snake::updateWindow()
 void Game::Snake::update()
 {
     this->handleEvents();
-    this->moveSnake();
-    this->handleEat();
-    this->handleCollision();
-    this->updateWindow();
+    switch (this->state) {
+        case Game::State::MENU:
+            this->window->close();
+        case Game::State::GAME:
+            this->moveSnake();
+            this->handleEat();
+            this->handleCollision();
+            this->updateWindow();
+        //case Game::State::END:
+          //  this->window->close();
+        default:
+            break;
+    }
 }
 
 void Game::Snake::setState(Game::State state)

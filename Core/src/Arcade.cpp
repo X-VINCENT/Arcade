@@ -19,20 +19,23 @@ int arcade(std::string const &displayLibPath)
     std::string const &createTextureFn = "createTexture";
     std::string const &createSpriteFn = "createSprite";
     std::string const &createGameFn = "createGame";
+    std::string const &createRendererFn = "createRender";
 
     using windowFnPtr = std::unique_ptr<Display::IWindow> (*)();
     using textureFnPtr = std::unique_ptr<Display::ITexture> (*)();
     using spriteFnPtr = std::unique_ptr<Display::ISprite> (*)();
     using gameFnPtr = std::unique_ptr<Game::IGameModule> (*)();
+    using rendererFnPtr = std::unique_ptr<Display::IRenderer> (*)();
 
     windowFnPtr createWindow = displayLoader.template getInstance<windowFnPtr>(createWindowFn);
     textureFnPtr createTexture = displayLoader.template getInstance<textureFnPtr>(createTextureFn);
     spriteFnPtr createSprite = displayLoader.template getInstance<spriteFnPtr>(createSpriteFn);
     gameFnPtr createGame = gameLoader.template getInstance<gameFnPtr>(createGameFn);
+    rendererFnPtr createRenderer = displayLoader.template getInstance<rendererFnPtr>(createRendererFn);
 
     std::unique_ptr<Game::IGameModule> game = createGame();
 
-    game->setFunctions(createWindow, createTexture, createSprite);
+    game->setFunctions(createWindow, createTexture, createSprite, createRenderer);
     game->init();
     while (1) {
         game->update();

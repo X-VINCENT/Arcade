@@ -48,6 +48,7 @@ set(SRC_DISPLAY_NCURSES
         src/NCurses.cpp
         src/NCursesEvent.cpp
         src/NCursesIntRect.cpp
+        src/NCursesRenderer.cpp
         src/NCursesSprite.cpp
         src/NCursesTexture.cpp
         src/NCursesVector2f.cpp
@@ -60,6 +61,7 @@ set(SRC_DISPLAY_SFML
         src/SFML.cpp
         src/SFMLEvent.cpp
         src/SFMLIntRect.cpp
+        src/SFMLRenderer.cpp
         src/SFMLSprite.cpp
         src/SFMLTexture.cpp
         src/SFMLVector2f.cpp
@@ -71,6 +73,7 @@ set(SDL2_DIRECTORY SDL2/)
 set(SRC_DISPLAY_SDL2
         src/SDL2.cpp
         src/SDL2Event.cpp
+        src/SDL2Renderer.cpp
         src/SDL2Texture.cpp
         src/SDL2Window.cpp
         src/SDL2Sprite.cpp

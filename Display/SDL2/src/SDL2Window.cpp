@@ -9,7 +9,9 @@
 #include "SDL2Event.hpp"
 #include "SDL2Texture.hpp"
 #include "SDL2Sprite.hpp"
+#include "SDL2Renderer.hpp"
 #include <map>
+#include <iostream>
 
 using KeyToEventTypeMap = std::map<SDL_Keycode, Display::KeyType>;
 static const KeyToEventTypeMap KeyToEventType = {
@@ -132,7 +134,13 @@ Display::SDL2Window::~SDL2Window()
     SDL_Quit();
 }
 
-void Display::SDL2Window::create(std::string const &title, int framerateLimit, int width, int height)
+void Display::SDL2Window::create(
+        std::string const &title,
+        int framerateLimit,
+        int width,
+        int height,
+        std::unique_ptr<Display::IRenderer> renderer
+)
 {
     this->title = title;
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -150,15 +158,8 @@ void Display::SDL2Window::create(std::string const &title, int framerateLimit, i
         SDL_Quit();
         exit(84);
     }
-    this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
-    if (this->renderer == nullptr) {
-        SDL_DestroyWindow(this->window);
-        SDL_Quit();
-        exit(84);
-    }
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
-    SDL_RenderClear(this->renderer);
-    SDL_RenderPresent(this->renderer);
+    Display::SDL2Renderer sdl2Renderer = dynamic_cast<Display::SDL2Renderer &>(*renderer);
+    this->renderer = sdl2Renderer.getSDL2Renderer();
 }
 
 std::unique_ptr<Display::IEvent> Display::SDL2Window::getEvent()
@@ -218,7 +219,7 @@ void Display::SDL2Window::draw(std::unique_ptr<Display::ISprite> &sprite)
     int w, h;
     SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
     SDL_Rect texr;
-    texr.x = 1000/2; texr.y = 1000/2; texr.w = w*2; texr.h = h*2;
+    texr.x = 1000/2; texr.y = 1000/2; texr.w = w; texr.h = h;
 
     SDL_RenderCopy(renderer, texture, nullptr, &texr);
 }
@@ -228,6 +229,11 @@ void Display::SDL2Window::close()
     SDL_DestroyRenderer(this->renderer);
     SDL_DestroyWindow(this->window);
     SDL_Quit();
+}
+
+SDL_Window *Display::SDL2Window::getSDL2Window() const
+{
+    return this->window;
 }
 
 extern "C" std::unique_ptr<Display::IWindow> createWindow()

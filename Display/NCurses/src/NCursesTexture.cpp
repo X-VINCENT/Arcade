@@ -11,8 +11,10 @@ Display::NCursesTexture::~NCursesTexture()
 {
 }
 
-void Display::NCursesTexture::load(char c, std::string const &fpath)
+void Display::NCursesTexture::load(char c, std::string const &fpath, std::unique_ptr<Display::IRenderer> renderer)
 {
+    (void)fpath;
+    (void)renderer;
     this->c = c;
 }
 

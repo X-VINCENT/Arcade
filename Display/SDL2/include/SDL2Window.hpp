@@ -18,14 +18,16 @@ namespace Display {
             std::string const &title,
             int framerateLimit,
             int width,
-            int height
+            int height,
+            std::unique_ptr<Display::IRenderer> renderer
         );
         ~SDL2Window();
         void create(
             std::string const &title,
             int framerateLimit,
             int width,
-            int height
+            int height,
+            std::unique_ptr<Display::IRenderer> renderer
         ) override;
         std::unique_ptr<Display::IEvent> getEvent() override;
         std::string &getTitle() override;
@@ -35,6 +37,7 @@ namespace Display {
         void draw(std::unique_ptr<Display::ISprite> &sprite) override;
         void display() override;
         void close() override;
+        SDL_Window *getSDL2Window() const;
     protected:
     private:
         std::string title;

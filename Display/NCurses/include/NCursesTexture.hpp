@@ -13,7 +13,7 @@ namespace Display {
         public:
             NCursesTexture() = default;
             ~NCursesTexture();
-            void load(char c, std::string const &fpath) override;
+            void load(char c, std::string const &fpath, std::unique_ptr<Display::IRenderer> renderer) override;
             std::unique_ptr<ITexture> clone() const override;
             char getNCursesTexture() const;
 

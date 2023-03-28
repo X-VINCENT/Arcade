@@ -20,6 +20,7 @@
 #include "ITexture.hpp"
 #include "IVector2f.hpp"
 #include "IWindow.hpp"
+#include "IRenderer.hpp"
 
 // Macros
 #define SUCCESS 0

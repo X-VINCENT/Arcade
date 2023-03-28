@@ -6,12 +6,14 @@
 */
 
 #pragma once
+#include "IRenderer.hpp"
 #include "IDisplayModule.hpp"
 #include "IEvent.hpp"
 #include "ISprite.hpp"
 #include <memory>
 
 namespace Display {
+    class IRenderer;
     class IWindow {
         public:
             virtual ~IWindow() = default;
@@ -19,7 +21,8 @@ namespace Display {
                 std::string const &title,
                 int framerateLimit,
                 int width,
-                int height
+                int height,
+                std::unique_ptr<Display::IRenderer> renderer
             ) = 0;
             virtual std::unique_ptr<Display::IEvent> getEvent() = 0;
             virtual std::string &getTitle() = 0;

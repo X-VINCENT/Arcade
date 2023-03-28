@@ -11,8 +11,9 @@ Display::SFMLTexture::~SFMLTexture()
 {
 }
 
-void Display::SFMLTexture::load(char c, std::string const &fpath)
+void Display::SFMLTexture::load(char c, std::string const &fpath, std::unique_ptr<Display::IRenderer> renderer)
 {
+    (void)renderer;
     this->texture.loadFromFile(fpath);
 }
 

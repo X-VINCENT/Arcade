@@ -9,6 +9,7 @@
 #include "IWindow.hpp"
 #include "ISprite.hpp"
 #include "ITexture.hpp"
+#include "IRenderer.hpp"
 #include <string>
 #include <memory>
 
@@ -24,7 +25,8 @@ namespace Game {
             virtual void setFunctions(
                 std::unique_ptr<Display::IWindow> (*)(),
                 std::unique_ptr<Display::ITexture> (*)(),
-                std::unique_ptr<Display::ISprite> (*)()
+                std::unique_ptr<Display::ISprite> (*)(),
+                std::unique_ptr<Display::IRenderer> (*)()
             ) = 0;
             virtual void init() = 0;
             virtual void update() = 0;
