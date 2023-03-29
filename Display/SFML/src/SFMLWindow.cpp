@@ -121,16 +121,6 @@ static const KeyToEventTypeMap KeyToEventType = {
     {sf::Keyboard::Key::Return, Display::KeyType::Return}
 };
 
-Display::SFMLWindow::SFMLWindow(
-    std::string const &title,
-    int framerateLimit,
-    int width,
-    int height
-)
-{
-    this->create(title, framerateLimit, width, height);
-}
-
 Display::SFMLWindow::~SFMLWindow()
 {
     this->close();
@@ -145,6 +135,11 @@ void Display::SFMLWindow::create(
 {
     this->window.create(sf::VideoMode(width * 10, height * 10), title);
     this->title = title;
+}
+
+void Display::SFMLWindow::setRenderer(std::unique_ptr<Display::IRenderer> renderer)
+{
+    (void)renderer;
 }
 
 std::unique_ptr<Display::IEvent> Display::SFMLWindow::getEvent()

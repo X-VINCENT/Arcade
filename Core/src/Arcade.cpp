@@ -19,7 +19,7 @@ int arcade(std::string const &displayLibPath)
     std::string const &createTextureFn = "createTexture";
     std::string const &createSpriteFn = "createSprite";
     std::string const &createGameFn = "createGame";
-    std::string const &createRendererFn = "createRender";
+    std::string const &createRendererFn = "createRenderer";
 
     using windowFnPtr = std::unique_ptr<Display::IWindow> (*)();
     using textureFnPtr = std::unique_ptr<Display::ITexture> (*)();

@@ -14,6 +14,7 @@
 
 namespace Display {
     class IRenderer;
+    class ISprite;
     class IWindow {
         public:
             virtual ~IWindow() = default;
@@ -21,9 +22,9 @@ namespace Display {
                 std::string const &title,
                 int framerateLimit,
                 int width,
-                int height,
-                std::unique_ptr<Display::IRenderer> renderer
+                int height
             ) = 0;
+            virtual void setRenderer(std::unique_ptr<Display::IRenderer> renderer) = 0;
             virtual std::unique_ptr<Display::IEvent> getEvent() = 0;
             virtual std::string &getTitle() = 0;
             virtual void setTitle(std::string const &title) = 0;

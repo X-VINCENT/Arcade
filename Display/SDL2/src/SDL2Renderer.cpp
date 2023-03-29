@@ -16,17 +16,22 @@ Display::SDL2Renderer::~SDL2Renderer()
 
 void Display::SDL2Renderer::create(std::unique_ptr<Display::IWindow> &window)
 {
-    Display::SDL2Window sdl2Window = dynamic_cast<Display::SDL2Window &>(*window);
-    SDL_Window *sdlWindow = sdl2Window.getSDL2Window();
-
-    this->renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED);
-    if (this->renderer == nullptr) {
+    SDL_Window *sdlWindow = dynamic_cast<SDL2Window *>(window.get())->getSDL2Window();
+    if (sdlWindow == nullptr) {
+        SDL_Log("Unable to get SDL2window: %s", SDL_GetError());
         SDL_Quit();
         exit(84);
     }
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
-    SDL_RenderClear(this->renderer);
-    SDL_RenderPresent(this->renderer);
+
+    SDL_Renderer *renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == nullptr) {
+        SDL_Log("Unable to create renderer: %s", SDL_GetError());
+        SDL_Quit();
+        exit(84);
+    }
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+    this->renderer = renderer;
 }
 
 std::unique_ptr<Display::IRenderer> Display::SDL2Renderer::clone() const
@@ -36,6 +41,11 @@ std::unique_ptr<Display::IRenderer> Display::SDL2Renderer::clone() const
 
 SDL_Renderer *Display::SDL2Renderer::getSDL2Renderer() const
 {
+    if (this->renderer == nullptr) {
+        SDL_Log("Unable to get SDL2renderer: %s", SDL_GetError());
+        SDL_Quit();
+        exit(84);
+    }
     return this->renderer;
 }
 

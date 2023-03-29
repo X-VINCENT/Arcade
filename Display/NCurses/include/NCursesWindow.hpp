@@ -13,12 +13,6 @@ namespace Display {
     class NCursesWindow : public IWindow {
         public:
             NCursesWindow() = default;
-            NCursesWindow(
-                std::string const &title,
-                int framerateLimit,
-                int width,
-                int height
-            );
             ~NCursesWindow();
             void create(
                 std::string const &title,
@@ -26,6 +20,7 @@ namespace Display {
                 int width,
                 int height
             ) override;
+            void setRenderer(std::unique_ptr<Display::IRenderer> renderer) override;
             std::unique_ptr<Display::IEvent> getEvent() override;
             std::string &getTitle() override;
             void setTitle(const std::string &title) override;

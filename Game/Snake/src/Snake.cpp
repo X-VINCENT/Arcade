@@ -28,17 +28,20 @@ void Game::Snake::setFunctions(
     this->createSprite = std::move(sprite);
     this->createRenderer = std::move(renderer);
 }
-
+#include <unistd.h>
 void Game::Snake::init()
 {
     this->window = this->createWindow();
     this->renderer = this->createRenderer();
-    this->window->create("Snake", 60, 100, 100, this->renderer->clone());
+    this->window->create("Snake", 60, 100, 100);
+    this->renderer->create(this->window);
+    this->window->setRenderer(this->renderer->clone());
 
     this->snakeTexture = this->createTexture();
     this->foodTexture = this->createTexture();
-    this->snakeTexture->load('#', "assets/snake/body.png", std::move(this->renderer));
-    this->foodTexture->load('o', "assets/snake/food.png", std::move(this->renderer));
+    this->snakeTexture->load('#', "assets/snake/body.png", this->renderer->clone());
+    this->renderer->create(this->window);
+    this->foodTexture->load('o', "assets/snake/food.png", this->renderer->clone());
 
     this->food = this->createSprite();
     this->food->create(

@@ -5,9 +5,7 @@
 ** SFMLVector2f
 */
 
-#pragma once
 #include "SDL2Vector2f.hpp"
-
 
 SDL_Point Display::toSdlVector2f(const IVector2f &src)
 {

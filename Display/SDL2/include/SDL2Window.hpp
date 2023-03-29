@@ -14,21 +14,14 @@ namespace Display {
     class SDL2Window : public IWindow {
     public:
         SDL2Window() = default;
-        SDL2Window(
-            std::string const &title,
-            int framerateLimit,
-            int width,
-            int height,
-            std::unique_ptr<Display::IRenderer> renderer
-        );
         ~SDL2Window();
         void create(
             std::string const &title,
             int framerateLimit,
             int width,
-            int height,
-            std::unique_ptr<Display::IRenderer> renderer
+            int height
         ) override;
+        void setRenderer(std::unique_ptr<Display::IRenderer> renderer) override;
         std::unique_ptr<Display::IEvent> getEvent() override;
         std::string &getTitle() override;
         void setTitle(std::string const &title) override;

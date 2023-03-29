@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include "IDisplayModule.hpp"
 #include "ITexture.hpp"
 #include "IIntRect.hpp"
 #include "IVector2f.hpp"
 #include <memory>
 
 namespace Display {
+    class ITexture;
     class ISprite {
         public:
             virtual ~ISprite() = default;

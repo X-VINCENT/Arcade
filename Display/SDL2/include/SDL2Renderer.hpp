@@ -18,7 +18,7 @@ namespace Display {
             void create(std::unique_ptr<Display::IWindow> &window) override;
             std::unique_ptr<Display::IRenderer> clone() const override;
             SDL_Renderer *getSDL2Renderer() const;
-        protected:
+
         private:
             SDL_Renderer *renderer;
     };

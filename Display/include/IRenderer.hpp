@@ -15,7 +15,7 @@ namespace Display {
         public:
             virtual ~IRenderer() = default;
             virtual void create(std::unique_ptr<Display::IWindow> &window) = 0;
-            virtual std::unique_ptr<IRenderer> clone() const = 0;
+            virtual std::unique_ptr<Display::IRenderer> clone() const = 0;
     };
     extern "C" std::unique_ptr<IRenderer> createRenderer();
 };

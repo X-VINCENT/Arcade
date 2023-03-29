@@ -86,16 +86,6 @@ static const KeyToEventTypeMap KeyToEventType = {
     {13, Display::KeyType::Return}
 };
 
-Display::NCursesWindow::NCursesWindow(
-    std::string const &title,
-    int framerateLimit,
-    int width,
-    int height
-)
-{
-    this->create(title, framerateLimit, width, height);
-}
-
 Display::NCursesWindow::~NCursesWindow()
 {
     this->close();
@@ -132,6 +122,11 @@ void Display::NCursesWindow::create(
     this->window = newwin(height, width, 0, 0);
     this->title = title;
     wattron(this->window, COLOR_PAIR(7));
+}
+
+void Display::NCursesWindow::setRenderer(std::unique_ptr<Display::IRenderer> renderer)
+{
+    (void)renderer;
 }
 
 std::unique_ptr<Display::IEvent> Display::NCursesWindow::getEvent()

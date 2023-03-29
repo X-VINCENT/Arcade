@@ -73,12 +73,12 @@ set(SDL2_DIRECTORY SDL2/)
 set(SRC_DISPLAY_SDL2
         src/SDL2.cpp
         src/SDL2Event.cpp
-        src/SDL2Renderer.cpp
-        src/SDL2Texture.cpp
-        src/SDL2Window.cpp
-        src/SDL2Sprite.cpp
-        src/SDL2Vector2f.cpp
         src/SDL2IntRect.cpp
+        src/SDL2Renderer.cpp
+        src/SDL2Sprite.cpp
+        src/SDL2Texture.cpp
+        src/SDL2Vector2f.cpp
+        src/SDL2Window.cpp
 )
 
 # Snake Sources
@@ -121,6 +121,6 @@ add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_CORE})
 
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
 target_link_libraries(sfml sfml-graphics)
-target_link_libraries(sdl2 ${SDL2_LIBRARIES})
+target_link_libraries(sdl2 ${SDL2_LIBRARIES} SDL2_image)
 target_link_libraries(arcade ${CMAKE_DL_LIBS})
 

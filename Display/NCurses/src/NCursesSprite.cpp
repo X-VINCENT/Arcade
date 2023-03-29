@@ -8,7 +8,6 @@
 #include "NCursesSprite.hpp"
 #include "NCursesTexture.hpp"
 
-
 Display::NCursesSprite::~NCursesSprite()
 {
 }

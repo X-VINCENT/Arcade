@@ -7,7 +7,7 @@
 
 #include "SDL2Texture.hpp"
 #include "SDL2Renderer.hpp"
-#include <iostream>
+#include <SDL2/SDL_image.h>
 
 Display::SDL2Texture::~SDL2Texture()
 {
@@ -15,10 +15,21 @@ Display::SDL2Texture::~SDL2Texture()
 
 void Display::SDL2Texture::load(char c, std::string const &fpath, std::unique_ptr<Display::IRenderer> renderer)
 {
-    Display::SDL2Renderer sdl2Renderer = dynamic_cast<Display::SDL2Renderer &>(*renderer);
-    SDL_Renderer *sdlRenderer = sdl2Renderer.getSDL2Renderer();
+    SDL_Renderer *sdlRenderer = dynamic_cast<Display::SDL2Renderer &>(*renderer).getSDL2Renderer();
 
-    this->_texture = SDL_CreateTextureFromSurface(sdlRenderer, SDL_LoadBMP(fpath.c_str()));
+    if (sdlRenderer == nullptr) {
+        SDL_Log("Unable to create renderer: %s", SDL_GetError());
+        SDL_Quit();
+        exit(84);
+    }
+
+    SDL_Texture *texture = IMG_LoadTexture(sdlRenderer, fpath.c_str());
+    if (texture == nullptr) {
+        SDL_Log("Unable to create texture: %s", SDL_GetError());
+        SDL_Quit();
+        exit(84);
+    }
+    this->texture = texture;
 }
 
 std::unique_ptr<Display::ITexture> Display::SDL2Texture::clone() const
@@ -28,7 +39,7 @@ std::unique_ptr<Display::ITexture> Display::SDL2Texture::clone() const
 
 SDL_Texture *Display::SDL2Texture::getSDLTexture() const
 {
-    return this->_texture;
+    return this->texture;
 }
 
 extern "C" std::unique_ptr<Display::ITexture> Display::createTexture()

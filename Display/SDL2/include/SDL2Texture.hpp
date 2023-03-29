@@ -8,7 +8,7 @@
 #pragma once
 #include "ITexture.hpp"
 #include "IRenderer.hpp"
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
 
 namespace Display {
     class SDL2Texture : public ITexture {
@@ -20,7 +20,6 @@ namespace Display {
             SDL_Texture *getSDLTexture() const;
 
         private:
-            SDL_Texture *_texture;
-            SDL_Renderer *_renderer;
+            SDL_Texture *texture;
     };
 }
