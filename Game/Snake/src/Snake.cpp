@@ -134,11 +134,11 @@ void Game::Snake::handleEat()
 
 void Game::Snake::handleCollision()
 {
-    if (this->snake[0]->getPosition().x < 0 ||
+    /* if (this->snake[0]->getPosition().x < 0 ||
         this->snake[0]->getPosition().x > 1000 ||
         this->snake[0]->getPosition().y < 0 ||
         this->snake[0]->getPosition().y > 1000)
-        this->setState(Game::State::END);
+        this->setState(Game::State::END); */
 }
 
 void Game::Snake::updateWindow()
@@ -163,8 +163,8 @@ void Game::Snake::update()
             this->handleEat();
             this->handleCollision();
             this->updateWindow();
-        //case Game::State::END:
-          //  this->window->close();
+        // case Game::State::END:
+        //     this->window->close();
         default:
             break;
     }
