@@ -11,17 +11,12 @@
 #include "SFMLIntRect.hpp"
 #include "SFMLVector2f.hpp"
 
-Display::SFMLSprite::~SFMLSprite()
+Display::SFMLSprite::SFMLSprite(
+        Display::ITexture &src_texture,
+        const Display::IntRect &src_rect,
+        const Display::Vector2f &src_position)
 {
-}
-
-void Display::SFMLSprite::create(
-        std::unique_ptr<Display::ITexture> src_texture,
-        const Display::IIntRect &src_rect,
-        const Display::IVector2f &src_position
-)
-{
-    Display::SFMLTexture sfmlTexture = dynamic_cast<Display::SFMLTexture &>(*src_texture);
+    Display::SFMLTexture sfmlTexture = dynamic_cast<Display::SFMLTexture &>(src_texture);
 
     this->texture = sfmlTexture.getSFMLTexture();
     this->sprite.setTexture(this->texture);
@@ -31,53 +26,51 @@ void Display::SFMLSprite::create(
     this->rect = toSfIntRect(src_rect);
 }
 
-Display::IIntRect Display::SFMLSprite::getRect()
+Display::SFMLSprite::~SFMLSprite()
+{
+}
+
+Display::IntRect Display::SFMLSprite::getRect()
 {
     return toIIntRect(this->rect);
 }
 
-void Display::SFMLSprite::setRect(const Display::IIntRect &src)
+void Display::SFMLSprite::setRect(const Display::IntRect &src)
 {
     this->sprite.setTextureRect(toSfIntRect(src));
     this->rect = toSfIntRect(src);
 }
-void Display::SFMLSprite::setPosition(
-        const Display::IVector2f &position)
+
+void Display::SFMLSprite::setPosition(const Display::Vector2f &position)
 {
     this->sprite.setPosition(toSfVector2f(position));
     this->position = toSfVector2f(position);
 }
 
-Display::IVector2f Display::SFMLSprite::getPosition()
+Display::Vector2f Display::SFMLSprite::getPosition()
 {
     return toIVector2f(this->position);
 }
 
-std::unique_ptr<Display::ITexture> Display::SFMLSprite::getTexture()
+Display::ITexture &Display::SFMLSprite::getTexture()
 {
-    std::unique_ptr<Display::SFMLTexture> text =
-            std::make_unique<Display::SFMLTexture>();
+    std::unique_ptr<Display::SFMLTexture> text = std::make_unique<Display::SFMLTexture>();
 
-    text->getSFMLTexture() = this->texture;
-    return text;
+    return *text;
 }
 
-void Display::SFMLSprite::setTexture(std::unique_ptr<Display::ITexture> src)
+void Display::SFMLSprite::setTexture(Display::ITexture &src)
 {
-    Display::SFMLTexture text = dynamic_cast<Display::SFMLTexture &>(*src);
-    this->sprite.setTexture(text.getSFMLTexture());
+    Display::SFMLTexture sfmlTexture = dynamic_cast<Display::SFMLTexture &>(src);
+
+    this->texture = sfmlTexture.getSFMLTexture();
+    this->sprite.setTexture(this->texture);
 }
 
-void Display::SFMLSprite::move(const Display::IVector2f &offset)
+void Display::SFMLSprite::move(const Display::Vector2f &offset)
 {
     this->sprite.move(toSfVector2f(offset));
     this->setPosition(this->position + toSfVector2f(offset));
-}
-
-void Display::SFMLSprite::create(const Display::SFMLSprite &src)
-{
-    this->position = src.position;
-    this->texture = src.texture;
 }
 
 void Display::SFMLSprite::setPosition(const sf::Vector2f &src)

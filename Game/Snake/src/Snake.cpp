@@ -35,13 +35,11 @@ void Game::Snake::init()
     this->renderer = this->createRenderer();
     this->window->create("Snake", 60, 100, 100);
     this->renderer->create(this->window);
-    this->window->setRenderer(this->renderer->clone());
 
     this->snakeTexture = this->createTexture();
     this->foodTexture = this->createTexture();
-    this->snakeTexture->load('#', "assets/snake/body.png", this->renderer->clone());
-    this->renderer->create(this->window);
-    this->foodTexture->load('o', "assets/snake/food.png", this->renderer->clone());
+    this->snakeTexture('#', "assets/snake/body.png", this->renderer->clone());
+    this->foodTexture('o', "assets/snake/food.png", this->renderer->clone());
 
     this->food = this->createSprite();
     this->food->create(

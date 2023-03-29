@@ -7,20 +7,19 @@
 
 #include "SFMLTexture.hpp"
 
-Display::SFMLTexture::~SFMLTexture()
-{
-}
-
-void Display::SFMLTexture::load(char c, std::string const &fpath, std::unique_ptr<Display::IRenderer> renderer)
+Display::SFMLTexture::SFMLTexture(
+    char c,
+    std::string const &fpath,
+    Display::IRenderer &renderer
+)
 {
     (void)c;
     (void)renderer;
     this->texture.loadFromFile(fpath);
 }
 
-std::unique_ptr<Display::ITexture> Display::SFMLTexture::clone() const
+Display::SFMLTexture::~SFMLTexture()
 {
-    return std::make_unique<Display::SFMLTexture>(*this);
 }
 
 sf::Texture &Display::SFMLTexture::getSFMLTexture()

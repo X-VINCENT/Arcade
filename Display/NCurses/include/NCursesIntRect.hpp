@@ -6,7 +6,7 @@
 */
 
 #pragma once
-#include "IIntRect.hpp"
+#include "IntRect.hpp"
 #include <ncurses.h>
 
 namespace Display {

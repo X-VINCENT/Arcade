@@ -10,6 +10,17 @@
 #include "SFMLSprite.hpp"
 #include <map>
 
+Display::SFMLWindow::SFMLWindow(
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height)
+{
+    this->window.create(sf::VideoMode(width * 10, height * 10), title);
+    this->window.setFramerateLimit(framerateLimit);
+    this->title = title;
+}
+
 using KeyToEventTypeMap = std::map<sf::Keyboard::Key, Display::KeyType>;
 static const KeyToEventTypeMap KeyToEventType = {
     {sf::Keyboard::Key::A, Display::KeyType::A},
@@ -126,23 +137,7 @@ Display::SFMLWindow::~SFMLWindow()
     this->close();
 }
 
-void Display::SFMLWindow::create(
-    std::string const &title,
-    int framerateLimit,
-    int width,
-    int height
-)
-{
-    this->window.create(sf::VideoMode(width * 10, height * 10), title);
-    this->title = title;
-}
-
-void Display::SFMLWindow::setRenderer(std::unique_ptr<Display::IRenderer> renderer)
-{
-    (void)renderer;
-}
-
-std::unique_ptr<Display::IEvent> Display::SFMLWindow::getEvent()
+Display::IEvent &Display::SFMLWindow::getEvent()
 {
     sf::Event sfEvent;
     Display::SFMLEvent event;
@@ -153,7 +148,7 @@ std::unique_ptr<Display::IEvent> Display::SFMLWindow::getEvent()
     if (sfEvent.type == sf::Event::Closed)
         type = Display::KeyType::Return;
     event.setType(type);
-    return std::make_unique<Display::SFMLEvent>(event);
+    return event;
 }
 
 std::string &Display::SFMLWindow::getTitle()
@@ -177,12 +172,12 @@ void Display::SFMLWindow::clear()
         this->window.clear();
 }
 
-void Display::SFMLWindow::draw(std::unique_ptr<Display::ISprite> &sprite)
+void Display::SFMLWindow::draw(Display::ISprite &sprite)
 {
     if (!this->isOpen())
         return;
 
-    Display::SFMLSprite &sfmlSprite = dynamic_cast<Display::SFMLSprite &>(*sprite);
+    Display::SFMLSprite &sfmlSprite = dynamic_cast<Display::SFMLSprite &>(sprite);
     sf::Sprite sfSprite = sfmlSprite.getSfSprite();
 
     this->window.draw(sfSprite);

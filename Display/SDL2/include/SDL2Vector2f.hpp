@@ -6,10 +6,10 @@
 */
 
 #pragma once
-#include "IVector2f.hpp"
+#include "Vector2f.hpp"
 #include "SDL2/SDL_rect.h"
 
 namespace Display {
-    SDL_Point toSdlVector2f(const IVector2f &src);
-    IVector2f toIVector2f(const SDL_Point &src);
+    SDL_Point toSdlVector2f(const Vector2f &src);
+    Vector2f toIVector2f(const SDL_Point &src);
 }

@@ -10,8 +10,8 @@
 #include "ISprite.hpp"
 #include "IEvent.hpp"
 #include "IWindow.hpp"
-#include "IIntRect.hpp"
-#include "IVector2f.hpp"
+#include "IntRect.hpp"
+#include "Vector2f.hpp"
 #include "IRenderer.hpp"
 #include <memory>
 #include <string>

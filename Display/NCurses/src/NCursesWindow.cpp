@@ -10,6 +10,26 @@
 #include "NCursesTexture.hpp"
 #include <map>
 
+Display::NCursesWindow::NCursesWindow(
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height
+)
+{
+    initscr();
+    start_color();
+    raw();
+    noecho();
+    nodelay(stdscr, TRUE);
+    curs_set(FALSE);
+    keypad(stdscr, TRUE);
+    init_colors();
+    this->window = newwin(height, width, 0, 0);
+    this->title = title;
+    wattron(this->window, COLOR_PAIR(7));
+}
+
 using KeyToEventTypeMap = std::map<int, Display::KeyType>;
 static const KeyToEventTypeMap KeyToEventType = {
     {97, Display::KeyType::A},
@@ -104,32 +124,7 @@ void init_colors()
     init_pair(7, COLOR_WHITE, COLOR_BLACK);
 }
 
-void Display::NCursesWindow::create(
-    std::string const &title,
-    int framerateLimit,
-    int width,
-    int height
-)
-{
-    initscr();
-    start_color();
-    raw();
-    noecho();
-    nodelay(stdscr, TRUE);
-    curs_set(FALSE);
-    keypad(stdscr, TRUE);
-    init_colors();
-    this->window = newwin(height, width, 0, 0);
-    this->title = title;
-    wattron(this->window, COLOR_PAIR(7));
-}
-
-void Display::NCursesWindow::setRenderer(std::unique_ptr<Display::IRenderer> renderer)
-{
-    (void)renderer;
-}
-
-std::unique_ptr<Display::IEvent> Display::NCursesWindow::getEvent()
+Display::IEvent &Display::NCursesWindow::getEvent()
 {
     int key = getch();
     Display::NCursesEvent event;
@@ -138,7 +133,7 @@ std::unique_ptr<Display::IEvent> Display::NCursesWindow::getEvent()
     if (key != ERR)
         type = KeyToEventType.find(key)->second;
     event.setType(type);
-    return std::make_unique<Display::NCursesEvent>(event);
+    return event;
 }
 
 std::string &Display::NCursesWindow::getTitle()
@@ -164,16 +159,15 @@ void Display::NCursesWindow::clear()
         wclear(this->window);
 }
 
-void Display::NCursesWindow::draw(std::unique_ptr<Display::ISprite> &sprite)
+void Display::NCursesWindow::draw(Display::ISprite &sprite)
 {
     if (!this->isOpen())
         return;
 
-    Display::NCursesTexture ncursesTexture =
-        dynamic_cast<Display::NCursesTexture &>(*sprite->getTexture());
+    Display::NCursesTexture ncursesTexture = dynamic_cast<Display::NCursesTexture &>(sprite.getTexture());
     char c = ncursesTexture.getNCursesTexture();
 
-    mvwprintw(this->window, sprite->getPosition().y, sprite->getPosition().x, &c);
+    mvwprintw(this->window, sprite.getPosition().y, sprite.getPosition().x, "%c", c);
 }
 
 void Display::NCursesWindow::display()

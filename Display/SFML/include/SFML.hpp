@@ -15,7 +15,6 @@ namespace Display {
         public:
             SFML();
             ~SFML();
-            void create() override;
             void update() override;
             void destroy() override;
 

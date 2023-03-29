@@ -12,14 +12,9 @@ Display::SFMLRenderer::~SFMLRenderer()
 {
 }
 
-void Display::SFMLRenderer::create(std::unique_ptr<Display::IWindow> &window)
+void Display::SFMLRenderer::create(Display::IWindow &window)
 {
     (void)window;
-}
-
-std::unique_ptr<Display::IRenderer> Display::SFMLRenderer::clone() const
-{
-    return std::make_unique<Display::SFMLRenderer>(*this);
 }
 
 extern "C" std::unique_ptr<Display::IRenderer> createRenderer()

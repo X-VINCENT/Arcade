@@ -7,7 +7,7 @@
 
 #include "SDL2Vector2f.hpp"
 
-SDL_Point Display::toSdlVector2f(const IVector2f &src)
+SDL_Point Display::toSdlVector2f(const Vector2f &src)
 {
     SDL_Point dest;
 
@@ -17,9 +17,9 @@ SDL_Point Display::toSdlVector2f(const IVector2f &src)
 
 }
 
-Display::IVector2f Display::toIVector2f(const SDL_Point &src)
+Display::Vector2f Display::toIVector2f(const SDL_Point &src)
 {
-    Display::IVector2f dest;
+    Display::Vector2f dest;
 
     dest.x = src.x;
     dest.y = src.y;

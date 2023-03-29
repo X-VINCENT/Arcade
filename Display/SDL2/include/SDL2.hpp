@@ -13,7 +13,6 @@ namespace Display {
     public:
         SDL2();
         ~SDL2() override;
-        void create() override;
         void update() override;
         void destroy() override;
 

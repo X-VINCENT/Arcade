@@ -14,7 +14,6 @@ namespace Display {
         public:
             NCurses();
             ~NCurses();
-            void create() override;
             void update() override;
             void destroy() override;
 

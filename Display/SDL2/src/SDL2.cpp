@@ -14,11 +14,6 @@ Display::SDL2::SDL2()
     _name = "SDL2";
 }
 
-void Display::SDL2::create()
-{
-    std::cout << "SDL2";
-}
-
 void Display::SDL2::update()
 {
 }

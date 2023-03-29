@@ -12,21 +12,18 @@
 namespace Display {
     class SFMLWindow : public IWindow {
         public:
-            SFMLWindow() = default;
-            ~SFMLWindow();
-            void create(
+            SFMLWindow(
                 std::string const &title,
                 int framerateLimit,
                 int width,
-                int height
-            ) override;
-            void setRenderer(std::unique_ptr<Display::IRenderer> renderer) override;
-            std::unique_ptr<Display::IEvent> getEvent() override;
+                int height);
+            ~SFMLWindow();
+            Display::IEvent &getEvent() override;
             std::string &getTitle() override;
             void setTitle(std::string const &title) override;
             bool isOpen() override;
             void clear() override;
-            void draw(std::unique_ptr<Display::ISprite> &sprite) override;
+            void draw(Display::ISprite &sprite) override;
             void display() override;
             void close() override;
 

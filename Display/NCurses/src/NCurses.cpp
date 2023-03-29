@@ -18,11 +18,6 @@ Display::NCurses::~NCurses()
 {
 }
 
-void Display::NCurses::create()
-{
-    std::cout << "ncurse";
-}
-
 void Display::NCurses::update()
 {
 }

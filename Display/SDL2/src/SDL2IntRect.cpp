@@ -7,8 +7,9 @@
 
 #include "SDL2IntRect.hpp"
 
-namespace Display {
-    SDL_Rect toSdlIntRect(const IIntRect &IIntrect)
+namespace Display
+{
+    SDL_Rect toSdlIntRect(const IntRect &IIntrect)
     {
         SDL_Rect dest{};
 
@@ -19,9 +20,9 @@ namespace Display {
         return dest;
     }
 
-    IIntRect toIIntRect(const SDL_Rect &sdlIntRect)
+    IntRect toIIntRect(const SDL_Rect &sdlIntRect)
     {
-        IIntRect dest{};
+        IntRect dest{};
 
         dest.top = sdlIntRect.y;
         dest.left = sdlIntRect.x;

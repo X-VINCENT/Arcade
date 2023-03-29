@@ -12,8 +12,8 @@ namespace Display {
     class SDLEvent : public IEvent {
         public:
             ~SDLEvent();
-            Display::KeyType &getType() override;
-            void setType(Display::KeyType type) override;
+            Display::KeyType getType() override;
+            void setType(Display::KeyType &type) override;
 
         protected:
         private:

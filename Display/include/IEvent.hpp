@@ -44,8 +44,8 @@ namespace Display {
     class IEvent {
         public:
             virtual ~IEvent() = default;
-            virtual Display::KeyType &getType() = 0;
-            virtual void setType(Display::KeyType type) = 0;
+            virtual Display::KeyType getType() = 0;
+            virtual void setType(Display::KeyType &type) = 0;
     };
     extern "C" std::unique_ptr<IEvent> createEvent();
 };

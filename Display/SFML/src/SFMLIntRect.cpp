@@ -7,7 +7,7 @@
 
 #include "SFMLIntRect.hpp"
 
-sf::IntRect Display::toSfIntRect(const IIntRect &IIntrect)
+sf::IntRect Display::toSfIntRect(const IntRect &IIntrect)
 {
     sf::IntRect dest{};
 
@@ -18,9 +18,9 @@ sf::IntRect Display::toSfIntRect(const IIntRect &IIntrect)
     return dest;
 }
 
-Display::IIntRect Display::toIIntRect(const sf::IntRect &sfIntRect)
+Display::IntRect Display::toIIntRect(const sf::IntRect &sfIntRect)
 {
-    IIntRect dest{};
+    IntRect dest{};
 
     dest.top = sfIntRect.top;
     dest.left = sfIntRect.left;

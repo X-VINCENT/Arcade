@@ -13,10 +13,8 @@
 namespace Display {
     class SDL2Texture : public ITexture {
         public:
-            SDL2Texture() = default;
+            SDL2Texture(char c, std::string const &fpath, Display::IRenderer &renderer);
             ~SDL2Texture();
-            void load(char c, std::string const &fpath, std::unique_ptr<Display::IRenderer> renderer) override;
-            std::unique_ptr<ITexture> clone() const override;
             SDL_Texture *getSDLTexture() const;
 
         private:

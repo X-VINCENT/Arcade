@@ -11,12 +11,12 @@ Display::SDLEvent::~SDLEvent()
 {
 }
 
-Display::KeyType &Display::SDLEvent::getType()
+Display::KeyType Display::SDLEvent::getType()
 {
     return this->type;
 }
 
-void Display::SDLEvent::setType(Display::KeyType type)
+void Display::SDLEvent::setType(Display::KeyType &type)
 {
     this->type = type;
 }

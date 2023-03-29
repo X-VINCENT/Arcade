@@ -15,8 +15,7 @@ namespace Display {
         public:
             SDL2Renderer() = default;
             ~SDL2Renderer() override;
-            void create(std::unique_ptr<Display::IWindow> &window) override;
-            std::unique_ptr<Display::IRenderer> clone() const override;
+            void create(Display::IWindow &window) override;
             SDL_Renderer *getSDL2Renderer() const;
 
         private:

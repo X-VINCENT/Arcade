@@ -13,6 +13,31 @@
 #include <map>
 #include <iostream>
 
+Display::SDL2Window::SDL2Window(
+            std::string const &title,
+            int framerateLimit,
+            int width,
+            int height)
+{
+    this->title = title;
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        exit(84);
+    }
+    this->window = SDL_CreateWindow(
+        this->title.c_str(),
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        width * 10,
+        height * 10,
+        SDL_WINDOW_SHOWN
+    );
+    if (this->window == nullptr) {
+        SDL_Log("Unable to create window: %s", SDL_GetError());
+        SDL_Quit();
+        exit(84);
+    }
+}
+
 using KeyToEventTypeMap = std::map<SDL_Keycode, Display::KeyType>;
 static const KeyToEventTypeMap KeyToEventType = {
     {SDLK_a, Display::KeyType::A},
@@ -129,40 +154,7 @@ Display::SDL2Window::~SDL2Window()
     SDL_Quit();
 }
 
-void Display::SDL2Window::create(
-    std::string const &title,
-    int framerateLimit,
-    int width,
-    int height
-)
-{
-    this->title = title;
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        exit(84);
-    }
-    this->window = SDL_CreateWindow(
-        this->title.c_str(),
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        width * 10,
-        height * 10,
-        SDL_WINDOW_SHOWN
-    );
-    if (this->window == nullptr) {
-        SDL_Log("Unable to create window: %s", SDL_GetError());
-        SDL_Quit();
-        exit(84);
-    }
-}
-
-void Display::SDL2Window::setRenderer(std::unique_ptr<Display::IRenderer> renderer)
-{
-    SDL_Renderer *sdlRenderer = dynamic_cast<Display::SDL2Renderer *>(renderer.get())->getSDL2Renderer();
-
-    this->renderer = sdlRenderer;
-}
-
-std::unique_ptr<Display::IEvent> Display::SDL2Window::getEvent()
+Display::IEvent &Display::SDL2Window::getEvent()
 {
     SDL_Event SDL_event;
     Display::SDLEvent event;
@@ -171,7 +163,7 @@ std::unique_ptr<Display::IEvent> Display::SDL2Window::getEvent()
     SDL_PollEvent(&SDL_event);
     type = KeyToEventType.find(SDL_event.key.keysym.sym)->second;
     event.setType(type);
-    return std::make_unique<Display::SDLEvent>(event);
+    return event;
 }
 
 std::string &Display::SDL2Window::getTitle()
@@ -206,9 +198,9 @@ void Display::SDL2Window::display()
     SDL_RenderPresent(this->renderer);
 }
 
-void Display::SDL2Window::draw(std::unique_ptr<Display::ISprite> &sprite)
+void Display::SDL2Window::draw(Display::ISprite &sprite)
 {
-    Display::SDL2Sprite &sdlSprite = dynamic_cast<SDL2Sprite &>(*sprite);
+    Display::SDL2Sprite &sdlSprite = dynamic_cast<Display::SDL2Sprite &>(sprite);
 
     SDL_Texture *texture = &sdlSprite.getSDLSprite();
 

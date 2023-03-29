@@ -17,23 +17,20 @@
 namespace Display {
     class SFMLSprite : public ISprite {
         public:
-            SFMLSprite() = default;
+            SFMLSprite(
+                    Display::ITexture &texture,
+                    const IntRect &rect,
+                    const Vector2f &position);
             ~SFMLSprite() override;
-            void create(
-                    std::unique_ptr<ITexture> texture,
-                    const IIntRect &rect,
-                    const IVector2f &position
-            ) override;
-            void create(const SFMLSprite &);
-            Display::IIntRect getRect() override;
+            Display::IntRect getRect() override;
             sf::IntRect &getSfRect();
-            void setRect(const Display::IIntRect &rect) override;
-            Display::IVector2f getPosition() override;
-            void setPosition(const Display::IVector2f &position) override;
+            void setRect(const Display::IntRect &rect) override;
+            Display::Vector2f getPosition() override;
+            void setPosition(const Display::Vector2f &position) override;
             void setPosition(const sf::Vector2f &);
-            std::unique_ptr<Display::ITexture> getTexture() override;
-            void setTexture(std::unique_ptr<Display::ITexture> texture) override;
-            void move(const IVector2f &offset) override;
+            Display::ITexture &getTexture() override;
+            void setTexture(Display::ITexture &texture) override;
+            void move(const Vector2f &offset) override;
             sf::Sprite &getSfSprite();
 
         private:

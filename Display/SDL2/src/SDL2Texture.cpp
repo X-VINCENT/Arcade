@@ -9,13 +9,9 @@
 #include "SDL2Renderer.hpp"
 #include <SDL2/SDL_image.h>
 
-Display::SDL2Texture::~SDL2Texture()
+Display::SDL2Texture::SDL2Texture(char c, std::string const &fpath, Display::IRenderer &renderer)
 {
-}
-
-void Display::SDL2Texture::load(char c, std::string const &fpath, std::unique_ptr<Display::IRenderer> renderer)
-{
-    SDL_Renderer *sdlRenderer = dynamic_cast<Display::SDL2Renderer &>(*renderer).getSDL2Renderer();
+    SDL_Renderer *sdlRenderer = dynamic_cast<Display::SDL2Renderer &>(renderer).getSDL2Renderer();
 
     if (sdlRenderer == nullptr) {
         SDL_Log("Unable to create renderer: %s", SDL_GetError());
@@ -32,9 +28,8 @@ void Display::SDL2Texture::load(char c, std::string const &fpath, std::unique_pt
     this->texture = texture;
 }
 
-std::unique_ptr<Display::ITexture> Display::SDL2Texture::clone() const
+Display::SDL2Texture::~SDL2Texture()
 {
-    return std::make_unique<Display::SDL2Texture>(*this);
 }
 
 SDL_Texture *Display::SDL2Texture::getSDLTexture() const

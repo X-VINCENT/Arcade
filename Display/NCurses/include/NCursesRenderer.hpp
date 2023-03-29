@@ -14,7 +14,6 @@ namespace Display {
         public:
             NCursesRenderer() = default;
             ~NCursesRenderer() override;
-            void create(std::unique_ptr<Display::IWindow> &window) override;
-            std::unique_ptr<Display::IRenderer> clone() const override;
+            void create(Display::IWindow &window) override;
     };
 };

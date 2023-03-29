@@ -6,7 +6,7 @@
 */
 
 #pragma once
-#include "IVector2f.hpp"
+#include "Vector2f.hpp"
 
 namespace Display {
 }

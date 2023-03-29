@@ -12,14 +12,14 @@ Display::NCursesSprite::~NCursesSprite()
 {
 }
 
-void Display::NCursesSprite::create(
+Display::NCursesSprite::NCursesSprite(
     std::unique_ptr<ITexture> src_texture,
-    const IIntRect &src_rect,
-    const IVector2f &src_position
+    const IntRect &src_rect,
+    const Vector2f &src_position
 )
 {
     Display::NCursesTexture ncursesTexture =
-            dynamic_cast<Display::NCursesTexture &>(*texture);
+            dynamic_cast<Display::NCursesTexture &>(*src_texture);
 
     // !!Character not set
     this->c = ncursesTexture.getNCursesTexture();
@@ -28,42 +28,41 @@ void Display::NCursesSprite::create(
     this->position = src_position;
 }
 
-Display::IIntRect Display::NCursesSprite::getRect()
+Display::IntRect Display::NCursesSprite::getRect()
 {
     return this->rect;
 }
 
-void Display::NCursesSprite::setRect(const Display::IIntRect &src_rect)
+void Display::NCursesSprite::setRect(const Display::IntRect &src_rect)
 {
     this->rect = src_rect;
 }
 
-Display::IVector2f Display::NCursesSprite::getPosition()
+Display::Vector2f Display::NCursesSprite::getPosition()
 {
     return this->position;
 }
 
-void Display::NCursesSprite::setPosition(const Display::IVector2f &position)
+void Display::NCursesSprite::setPosition(const Display::Vector2f &position)
 {
     this->position = position;
 }
 
-std::unique_ptr<Display::ITexture> Display::NCursesSprite::getTexture()
+const Display::ITexture &Display::NCursesSprite::getTexture()
 {
-    return std::move(this->texture);
+    return this->texture;
 }
 
-void Display::NCursesSprite::setTexture(std::unique_ptr<Display::ITexture>
-src_texture)
+void Display::NCursesSprite::setTexture(Display::ITexture &src_texture)
 {
     Display::NCursesTexture ncursesTexture =
-            dynamic_cast<Display::NCursesTexture &>(*src_texture);
+            dynamic_cast<Display::NCursesTexture &>(src_texture);
 
     this->c = ncursesTexture.getNCursesTexture();
     this->texture = std::move(src_texture);
 }
 
-void Display::NCursesSprite::move(const IVector2f &offset)
+void Display::NCursesSprite::move(const Vector2f &offset)
 {
     this->position.x = this->position.x + offset.x;
     this->position.y = this->position.y + offset.y;

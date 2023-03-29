@@ -6,10 +6,10 @@
 */
 
 #pragma once
-#include "IIntRect.hpp"
+#include "IntRect.hpp"
 #include "SFML/Graphics.hpp"
 
 namespace Display {
-    sf::IntRect toSfIntRect(const IIntRect &);
-    IIntRect toIIntRect(const sf::IntRect &);
+    sf::IntRect toSfIntRect(const IntRect &);
+    IntRect toIIntRect(const sf::IntRect &);
 }

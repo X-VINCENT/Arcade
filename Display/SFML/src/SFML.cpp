@@ -14,11 +14,6 @@ Display::SFML::SFML()
     _name = "SFML";
 }
 
-void Display::SFML::create()
-{
-    std::cout << "SFML";
-}
-
 void Display::SFML::update()
 {
 }

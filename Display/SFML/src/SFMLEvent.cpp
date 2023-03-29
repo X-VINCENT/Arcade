@@ -11,12 +11,12 @@ Display::SFMLEvent::~SFMLEvent()
 {
 }
 
-Display::KeyType &Display::SFMLEvent::getType()
+Display::KeyType Display::SFMLEvent::getType()
 {
     return this->type;
 }
 
-void Display::SFMLEvent::setType(Display::KeyType type)
+void Display::SFMLEvent::setType(Display::KeyType &type)
 {
     this->type = type;
 }
