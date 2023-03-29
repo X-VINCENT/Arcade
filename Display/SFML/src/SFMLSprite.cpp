@@ -12,9 +12,10 @@
 #include "SFMLVector2f.hpp"
 
 Display::SFMLSprite::SFMLSprite(
-        Display::ITexture &src_texture,
-        const Display::IntRect &src_rect,
-        const Display::Vector2f &src_position)
+    Display::ITexture &src_texture,
+    const Display::IntRect &src_rect,
+    const Display::Vector2f &src_position
+)
 {
     Display::SFMLTexture sfmlTexture = dynamic_cast<Display::SFMLTexture &>(src_texture);
 
@@ -52,13 +53,6 @@ Display::Vector2f Display::SFMLSprite::getPosition()
     return toIVector2f(this->position);
 }
 
-Display::ITexture &Display::SFMLSprite::getTexture()
-{
-    std::unique_ptr<Display::SFMLTexture> text = std::make_unique<Display::SFMLTexture>();
-
-    return *text;
-}
-
 void Display::SFMLSprite::setTexture(Display::ITexture &src)
 {
     Display::SFMLTexture sfmlTexture = dynamic_cast<Display::SFMLTexture &>(src);
@@ -86,9 +80,4 @@ sf::IntRect &Display::SFMLSprite::getSfRect()
 sf::Sprite &Display::SFMLSprite::getSfSprite()
 {
     return this->sprite;
-}
-
-extern "C" std::unique_ptr<Display::ISprite> createSprite()
-{
-    return std::make_unique<Display::SFMLSprite>();
 }

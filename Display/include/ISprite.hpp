@@ -13,7 +13,6 @@
 #include <memory>
 
 namespace Display {
-    class ITexture;
     class ISprite {
         public:
             virtual ~ISprite() = default;
@@ -21,10 +20,7 @@ namespace Display {
             virtual void setRect(const Display::IntRect &rect) = 0;
             virtual Display::Vector2f getPosition() = 0;
             virtual void setPosition(const Display::Vector2f &position) = 0;
-            virtual const Display::ITexture &getTexture() = 0;
             virtual void setTexture(Display::ITexture &texture) = 0;
             virtual void move(const Display::Vector2f &offset) = 0;
     };
-
-    extern "C" std::unique_ptr<ISprite> createSprite();
 };

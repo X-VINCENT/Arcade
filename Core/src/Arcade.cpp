@@ -6,39 +6,24 @@
 */
 
 #include "Arcade.hpp"
-#include <fcntl.h>
-#include <iostream>
-#include <unistd.h>
 
 int arcade(std::string const &displayLibPath)
 {
     DLLoader displayLoader(displayLibPath);
     DLLoader gameLoader("lib/libsnake.so");
 
-    std::string const &createWindowFn = "createWindow";
-    std::string const &createTextureFn = "createTexture";
-    std::string const &createSpriteFn = "createSprite";
+    std::string const &createFactoryFn = "createFactory";
+    using factoryFnPtr = std::unique_ptr<Display::IFactory> (*)();
+    factoryFnPtr createFactory = displayLoader.template getInstance<factoryFnPtr>(createFactoryFn);
+    std::unique_ptr<Display::IFactory> factory = createFactory();
+
     std::string const &createGameFn = "createGame";
-    std::string const &createRendererFn = "createRenderer";
-
-    using windowFnPtr = std::unique_ptr<Display::IWindow> (*)();
-    using textureFnPtr = std::unique_ptr<Display::ITexture> (*)();
-    using spriteFnPtr = std::unique_ptr<Display::ISprite> (*)();
-    using gameFnPtr = std::unique_ptr<Game::IGameModule> (*)();
-    using rendererFnPtr = std::unique_ptr<Display::IRenderer> (*)();
-
-    windowFnPtr createWindow = displayLoader.template getInstance<windowFnPtr>(createWindowFn);
-    textureFnPtr createTexture = displayLoader.template getInstance<textureFnPtr>(createTextureFn);
-    spriteFnPtr createSprite = displayLoader.template getInstance<spriteFnPtr>(createSpriteFn);
+    using gameFnPtr = std::unique_ptr<Game::IGameModule> (*)(Display::IFactory &);
     gameFnPtr createGame = gameLoader.template getInstance<gameFnPtr>(createGameFn);
-    rendererFnPtr createRenderer = displayLoader.template getInstance<rendererFnPtr>(createRendererFn);
+    std::unique_ptr<Game::IGameModule> game = createGame(*factory);
 
-    std::unique_ptr<Game::IGameModule> game = createGame();
-
-    game->setFunctions(createWindow, createTexture, createSprite, createRenderer);
-    game->init();
     while (1) {
-        game->update();
+        game->update(*factory);
         usleep(100000);
     }
     game->stop();

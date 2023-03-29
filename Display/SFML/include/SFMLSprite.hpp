@@ -28,7 +28,6 @@ namespace Display {
             Display::Vector2f getPosition() override;
             void setPosition(const Display::Vector2f &position) override;
             void setPosition(const sf::Vector2f &);
-            Display::ITexture &getTexture() override;
             void setTexture(Display::ITexture &texture) override;
             void move(const Vector2f &offset) override;
             sf::Sprite &getSfSprite();

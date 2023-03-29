@@ -6,9 +6,20 @@
 */
 
 #include "NCursesWindow.hpp"
-#include "NCursesEvent.hpp"
 #include "NCursesTexture.hpp"
-#include <map>
+
+void init_colors()
+{
+    start_color();
+    init_pair(0, COLOR_BLACK, COLOR_BLACK);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(4, COLOR_BLUE, COLOR_BLACK);
+    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(6, COLOR_CYAN, COLOR_BLACK);
+    init_pair(7, COLOR_WHITE, COLOR_BLACK);
+}
 
 Display::NCursesWindow::NCursesWindow(
     std::string const &title,
@@ -26,124 +37,113 @@ Display::NCursesWindow::NCursesWindow(
     keypad(stdscr, TRUE);
     init_colors();
     this->window = newwin(height, width, 0, 0);
-    this->title = title;
     wattron(this->window, COLOR_PAIR(7));
 }
-
-using KeyToEventTypeMap = std::map<int, Display::KeyType>;
-static const KeyToEventTypeMap KeyToEventType = {
-    {97, Display::KeyType::A},
-    {98, Display::KeyType::B},
-    {99, Display::KeyType::C},
-    {100, Display::KeyType::D},
-    {101, Display::KeyType::E},
-    {102, Display::KeyType::F},
-    {103, Display::KeyType::G},
-    {104, Display::KeyType::H},
-    {105, Display::KeyType::I},
-    {106, Display::KeyType::J},
-    {107, Display::KeyType::K},
-    {108, Display::KeyType::L},
-    {109, Display::KeyType::M},
-    {110, Display::KeyType::N},
-    {111, Display::KeyType::O},
-    {112, Display::KeyType::P},
-    {113, Display::KeyType::Q},
-    {114, Display::KeyType::R},
-    {115, Display::KeyType::S},
-    {116, Display::KeyType::T},
-    {117, Display::KeyType::U},
-    {118, Display::KeyType::V},
-    {119, Display::KeyType::W},
-    {120, Display::KeyType::X},
-    {121, Display::KeyType::Y},
-    {122, Display::KeyType::Z},
-    {48, Display::KeyType::Num0},
-    {49, Display::KeyType::Num1},
-    {50, Display::KeyType::Num2},
-    {51, Display::KeyType::Num3},
-    {52, Display::KeyType::Num4},
-    {53, Display::KeyType::Num5},
-    {54, Display::KeyType::Num6},
-    {55, Display::KeyType::Num7},
-    {56, Display::KeyType::Num8},
-    {57, Display::KeyType::Num9},
-    {27, Display::KeyType::Escape},
-    {32, Display::KeyType::Space},
-    {10, Display::KeyType::Enter},
-    {KEY_BACKSPACE, Display::KeyType::Backspace},
-    {9, Display::KeyType::Tab},
-    {KEY_PPAGE, Display::KeyType::PageUp},
-    {KEY_NPAGE, Display::KeyType::PageDown},
-    {KEY_END, Display::KeyType::End},
-    {KEY_HOME, Display::KeyType::Home},
-    {KEY_IC, Display::KeyType::Insert},
-    {KEY_DC, Display::KeyType::Delete},
-    {KEY_LEFT, Display::KeyType::Left},
-    {KEY_RIGHT, Display::KeyType::Right},
-    {KEY_UP, Display::KeyType::Up},
-    {KEY_DOWN, Display::KeyType::Down},
-    {KEY_F(1), Display::KeyType::F1},
-    {KEY_F(2), Display::KeyType::F2},
-    {KEY_F(3), Display::KeyType::F3},
-    {KEY_F(4), Display::KeyType::F4},
-    {KEY_F(5), Display::KeyType::F5},
-    {KEY_F(6), Display::KeyType::F6},
-    {KEY_F(7), Display::KeyType::F7},
-    {KEY_F(8), Display::KeyType::F8},
-    {KEY_F(9), Display::KeyType::F9},
-    {KEY_F(10), Display::KeyType::F10},
-    {KEY_F(11), Display::KeyType::F11},
-    {KEY_F(12), Display::KeyType::F12},
-    {KEY_F(13), Display::KeyType::F13},
-    {KEY_F(14), Display::KeyType::F14},
-    {KEY_F(15), Display::KeyType::F15},
-    {KEY_SUSPEND, Display::KeyType::Pause},
-    {45, Display::KeyType::Dash},
-    {8, Display::KeyType::BackSpace},
-    {92, Display::KeyType::BackSlash},
-    {59, Display::KeyType::SemiColon},
-    {13, Display::KeyType::Return}
-};
 
 Display::NCursesWindow::~NCursesWindow()
 {
     this->close();
 }
 
-void init_colors()
-{
-    start_color();
-    init_pair(0, COLOR_BLACK, COLOR_BLACK);
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-    init_pair(2, COLOR_GREEN, COLOR_BLACK);
-    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(4, COLOR_BLUE, COLOR_BLACK);
-    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
-    init_pair(6, COLOR_CYAN, COLOR_BLACK);
-    init_pair(7, COLOR_WHITE, COLOR_BLACK);
-}
-
-Display::IEvent &Display::NCursesWindow::getEvent()
+Display::Event Display::NCursesWindow::getEvent()
 {
     int key = getch();
-    Display::NCursesEvent event;
-    Display::KeyType type = Display::KeyType::Unknown;
 
-    if (key != ERR)
-        type = KeyToEventType.find(key)->second;
-    event.setType(type);
-    return event;
-}
-
-std::string &Display::NCursesWindow::getTitle()
-{
-    return this->title;
+    switch (key) {
+        case 97:
+            return Display::Event::A;
+        case 98:
+            return Display::Event::B;
+        case 99:
+            return Display::Event::C;
+        case 100:
+            return Display::Event::D;
+        case 101:
+            return Display::Event::E;
+        case 102:
+            return Display::Event::F;
+        case 103:
+            return Display::Event::G;
+        case 104:
+            return Display::Event::H;
+        case 105:
+            return Display::Event::I;
+        case 106:
+            return Display::Event::J;
+        case 107:
+            return Display::Event::K;
+        case 108:
+            return Display::Event::L;
+        case 109:
+            return Display::Event::M;
+        case 110:
+            return Display::Event::N;
+        case 111:
+            return Display::Event::O;
+        case 112:
+            return Display::Event::P;
+        case 113:
+            return Display::Event::Q;
+        case 114:
+            return Display::Event::R;
+        case 115:
+            return Display::Event::S;
+        case 116:
+            return Display::Event::T;
+        case 117:
+            return Display::Event::U;
+        case 118:
+            return Display::Event::V;
+        case 119:
+            return Display::Event::W;
+        case 120:
+            return Display::Event::X;
+        case 121:
+            return Display::Event::Y;
+        case 122:
+            return Display::Event::Z;
+        case 48:
+            return Display::Event::Num0;
+        case 49:
+            return Display::Event::Num1;
+        case 50:
+            return Display::Event::Num2;
+        case 51:
+            return Display::Event::Num3;
+        case 52:
+            return Display::Event::Num4;
+        case 53:
+            return Display::Event::Num5;
+        case 54:
+            return Display::Event::Num6;
+        case 55:
+            return Display::Event::Num7;
+        case 56:
+            return Display::Event::Num8;
+        case 57:
+            return Display::Event::Num9;
+        case KEY_LEFT:
+            return Display::Event::Left;
+        case KEY_RIGHT:
+            return Display::Event::Right;
+        case KEY_UP:
+            return Display::Event::Up;
+        case KEY_DOWN:
+            return Display::Event::Down;
+        case 27:
+            return Display::Event::Escape;
+        case 13:
+            return Display::Event::Enter;
+        case 32:
+            return Display::Event::Space;
+        default:
+            break;
+    }
+    return Display::Event::Unknown;
 }
 
 void Display::NCursesWindow::setTitle(std::string const &title)
 {
-    this->title = title;
     if (this->window != nullptr)
         wattron(this->window, COLOR_PAIR(7));
 }
@@ -164,7 +164,7 @@ void Display::NCursesWindow::draw(Display::ISprite &sprite)
     if (!this->isOpen())
         return;
 
-    Display::NCursesTexture ncursesTexture = dynamic_cast<Display::NCursesTexture &>(sprite.getTexture());
+    Display::NCursesTexture &ncursesTexture = dynamic_cast<Display::NCursesTexture &>(sprite);
     char c = ncursesTexture.getNCursesTexture();
 
     mvwprintw(this->window, sprite.getPosition().y, sprite.getPosition().x, "%c", c);
@@ -180,9 +180,4 @@ void Display::NCursesWindow::close()
 {
     if (this->isOpen())
         delwin(this->window);
-}
-
-extern "C" std::unique_ptr<Display::IWindow> createWindow()
-{
-    return std::make_unique<Display::NCursesWindow>();
 }

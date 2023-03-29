@@ -6,20 +6,15 @@
 */
 
 #pragma once
-#include "IRenderer.hpp"
-#include "IDisplayModule.hpp"
-#include "IEvent.hpp"
+#include "Event.hpp"
 #include "ISprite.hpp"
 #include <memory>
 
 namespace Display {
-    class IRenderer;
-    class ISprite;
     class IWindow {
         public:
             virtual ~IWindow() = default;
-            virtual Display::IEvent &getEvent() = 0;
-            virtual std::string &getTitle() = 0;
+            virtual Display::Event getEvent() = 0;
             virtual void setTitle(std::string const &title) = 0;
             virtual bool isOpen() = 0;
             virtual void clear() = 0;
@@ -27,5 +22,4 @@ namespace Display {
             virtual void display() = 0;
             virtual void close() = 0;
     };
-    extern "C" std::unique_ptr<IWindow> createWindow();
 };

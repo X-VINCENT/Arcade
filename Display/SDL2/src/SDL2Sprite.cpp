@@ -50,13 +50,6 @@ void Display::SDL2Sprite::setPosition(const Display::Vector2f &position)
     this->position = toSdlVector2f(position);
 }
 
-Display::ITexture &Display::SDL2Sprite::getTexture()
-{
-    std::unique_ptr<Display::SDL2Texture> text = std::make_unique<Display::SDL2Texture>();
-
-    return *text;
-}
-
 void Display::SDL2Sprite::setTexture(Display::ITexture &texture)
 {
     Display::SDL2Texture sdlTexture = dynamic_cast<Display::SDL2Texture &>(texture);
@@ -72,9 +65,4 @@ void Display::SDL2Sprite::move(const Vector2f &offset)
 SDL_Texture &Display::SDL2Sprite::getSDLSprite()
 {
     return *this->texture;
-}
-
-extern "C" std::unique_ptr<Display::ISprite> Display::createSprite()
-{
-    return std::make_unique<Display::SDL2Sprite>();
 }

@@ -6,25 +6,22 @@
 */
 
 #include "SDL2Window.hpp"
-#include "SDL2Event.hpp"
 #include "SDL2Texture.hpp"
 #include "SDL2Sprite.hpp"
-#include "SDL2Renderer.hpp"
-#include <map>
 #include <iostream>
 
 Display::SDL2Window::SDL2Window(
-            std::string const &title,
-            int framerateLimit,
-            int width,
-            int height)
+    std::string const &title,
+    int framerateLimit,
+    int width,
+    int height
+)
 {
-    this->title = title;
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         exit(84);
     }
     this->window = SDL_CreateWindow(
-        this->title.c_str(),
+        title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         width * 10,
@@ -38,115 +35,6 @@ Display::SDL2Window::SDL2Window(
     }
 }
 
-using KeyToEventTypeMap = std::map<SDL_Keycode, Display::KeyType>;
-static const KeyToEventTypeMap KeyToEventType = {
-    {SDLK_a, Display::KeyType::A},
-    {SDLK_b, Display::KeyType::B},
-    {SDLK_c, Display::KeyType::C},
-    {SDLK_d, Display::KeyType::D},
-    {SDLK_e, Display::KeyType::E},
-    {SDLK_f, Display::KeyType::F},
-    {SDLK_g, Display::KeyType::G},
-    {SDLK_h, Display::KeyType::H},
-    {SDLK_i, Display::KeyType::I},
-    {SDLK_j, Display::KeyType::J},
-    {SDLK_k, Display::KeyType::K},
-    {SDLK_l, Display::KeyType::L},
-    {SDLK_m, Display::KeyType::M},
-    {SDLK_n, Display::KeyType::N},
-    {SDLK_o, Display::KeyType::O},
-    {SDLK_p, Display::KeyType::P},
-    {SDLK_q, Display::KeyType::Q},
-    {SDLK_r, Display::KeyType::R},
-    {SDLK_s, Display::KeyType::S},
-    {SDLK_t, Display::KeyType::T},
-    {SDLK_u, Display::KeyType::U},
-    {SDLK_v, Display::KeyType::V},
-    {SDLK_w, Display::KeyType::W},
-    {SDLK_x, Display::KeyType::X},
-    {SDLK_y, Display::KeyType::Y},
-    {SDLK_z, Display::KeyType::Z},
-    {SDLK_0, Display::KeyType::Num0},
-    {SDLK_1, Display::KeyType::Num1},
-    {SDLK_2, Display::KeyType::Num2},
-    {SDLK_3, Display::KeyType::Num3},
-    {SDLK_4, Display::KeyType::Num4},
-    {SDLK_5, Display::KeyType::Num5},
-    {SDLK_6, Display::KeyType::Num6},
-    {SDLK_7, Display::KeyType::Num7},
-    {SDLK_8, Display::KeyType::Num8},
-    {SDLK_9, Display::KeyType::Num9},
-    {SDLK_ESCAPE, Display::KeyType::Escape},
-    {SDLK_LCTRL, Display::KeyType::LControl},
-    {SDLK_LSHIFT, Display::KeyType::LShift},
-    {SDLK_LALT, Display::KeyType::LAlt},
-    {SDLK_LGUI, Display::KeyType::LSystem},
-    {SDLK_RCTRL, Display::KeyType::RControl},
-    {SDLK_RSHIFT, Display::KeyType::RShift},
-    {SDLK_RALT, Display::KeyType::RAlt},
-    {SDLK_RGUI, Display::KeyType::RSystem},
-    {SDLK_MENU, Display::KeyType::Menu},
-    {SDLK_LEFTBRACKET, Display::KeyType::LBracket},
-    {SDLK_RIGHTBRACKET, Display::KeyType::RBracket},
-    {SDLK_SEMICOLON, Display::KeyType::SemiColon},
-    {SDLK_COMMA, Display::KeyType::Comma},
-    {SDLK_PERIOD, Display::KeyType::Period},
-    {SDLK_QUOTE, Display::KeyType::Quote},
-    {SDLK_SLASH, Display::KeyType::Slash},
-    {SDLK_BACKSLASH, Display::KeyType::BackSlash},
-    {SDLK_BACKQUOTE, Display::KeyType::Tilde},
-    {SDLK_EQUALS, Display::KeyType::Equal},
-    {SDLK_MINUS, Display::KeyType::Dash},
-    {SDLK_SPACE, Display::KeyType::Space},
-    {SDLK_RETURN, Display::KeyType::Return},
-    {SDLK_BACKSPACE, Display::KeyType::BackSpace},
-    {SDLK_TAB, Display::KeyType::Tab},
-    {SDLK_PAGEUP, Display::KeyType::PageUp},
-    {SDLK_PAGEDOWN, Display::KeyType::PageDown},
-    {SDLK_END, Display::KeyType::End},
-    {SDLK_HOME, Display::KeyType::Home},
-    {SDLK_INSERT, Display::KeyType::Insert},
-    {SDLK_DELETE, Display::KeyType::Delete},
-    {SDLK_KP_PLUS, Display::KeyType::Add},
-    {SDLK_KP_MINUS, Display::KeyType::Subtract},
-    {SDLK_KP_MULTIPLY, Display::KeyType::Multiply},
-    {SDLK_KP_DIVIDE, Display::KeyType::Divide},
-    {SDLK_LEFT, Display::KeyType::Left},
-    {SDLK_RIGHT, Display::KeyType::Right},
-    {SDLK_UP, Display::KeyType::Up},
-    {SDLK_DOWN, Display::KeyType::Down},
-    {SDLK_KP_0, Display::KeyType::Numpad0},
-    {SDLK_KP_1, Display::KeyType::Numpad1},
-    {SDLK_KP_2, Display::KeyType::Numpad2},
-    {SDLK_KP_3, Display::KeyType::Numpad3},
-    {SDLK_KP_4, Display::KeyType::Numpad4},
-    {SDLK_KP_5, Display::KeyType::Numpad5},
-    {SDLK_KP_6, Display::KeyType::Numpad6},
-    {SDLK_KP_7, Display::KeyType::Numpad7},
-    {SDLK_KP_8, Display::KeyType::Numpad8},
-    {SDLK_KP_9, Display::KeyType::Numpad9},
-    {SDLK_F1, Display::KeyType::F1},
-    {SDLK_F2, Display::KeyType::F2},
-    {SDLK_F3, Display::KeyType::F3},
-    {SDLK_F4, Display::KeyType::F4},
-    {SDLK_F5, Display::KeyType::F5},
-    {SDLK_F6, Display::KeyType::F6},
-    {SDLK_F7, Display::KeyType::F7},
-    {SDLK_F8, Display::KeyType::F8},
-    {SDLK_F9, Display::KeyType::F9},
-    {SDLK_F10, Display::KeyType::F10},
-    {SDLK_F11, Display::KeyType::F11},
-    {SDLK_F12, Display::KeyType::F12},
-    {SDLK_F13, Display::KeyType::F13},
-    {SDLK_F14, Display::KeyType::F14},
-    {SDLK_F15, Display::KeyType::F15},
-    {SDLK_PAUSE, Display::KeyType::Pause},
-    {SDLK_BACKSPACE, Display::KeyType::BackSpace},
-    {SDLK_BACKSLASH, Display::KeyType::BackSlash},
-    {SDLK_SEMICOLON, Display::KeyType::SemiColon},
-    {SDLK_RETURN, Display::KeyType::Return}
-};
-
 Display::SDL2Window::~SDL2Window()
 {
     SDL_DestroyRenderer(this->renderer);
@@ -154,27 +42,115 @@ Display::SDL2Window::~SDL2Window()
     SDL_Quit();
 }
 
-Display::IEvent &Display::SDL2Window::getEvent()
+Display::Event Display::SDL2Window::getEvent()
 {
     SDL_Event SDL_event;
-    Display::SDLEvent event;
-    Display::KeyType type;
 
     SDL_PollEvent(&SDL_event);
-    type = KeyToEventType.find(SDL_event.key.keysym.sym)->second;
-    event.setType(type);
-    return event;
-}
+    switch (SDL_event.key.keysym.sym) {
+        case SDLK_a:
+            return Display::Event::A;
+        case SDLK_b:
+            return Display::Event::B;
+        case SDLK_c:
+            return Display::Event::C;
+        case SDLK_d:
+            return Display::Event::D;
+        case SDLK_e:
+            return Display::Event::E;
+        case SDLK_f:
+            return Display::Event::F;
+        case SDLK_g:
+            return Display::Event::G;
+        case SDLK_h:
+            return Display::Event::H;
+        case SDLK_i:
+            return Display::Event::I;
+        case SDLK_j:
+            return Display::Event::J;
+        case SDLK_k:
+            return Display::Event::K;
+        case SDLK_l:
+            return Display::Event::L;
+        case SDLK_m:
+            return Display::Event::M;
+        case SDLK_n:
+            return Display::Event::N;
+        case SDLK_o:
+            return Display::Event::O;
+        case SDLK_p:
+            return Display::Event::P;
+        case SDLK_q:
+            return Display::Event::Q;
+        case SDLK_r:
+            return Display::Event::R;
+        case SDLK_s:
+            return Display::Event::S;
+        case SDLK_t:
+            return Display::Event::T;
+        case SDLK_u:
+            return Display::Event::U;
+        case SDLK_v:
+            return Display::Event::V;
+        case SDLK_w:
+            return Display::Event::W;
+        case SDLK_x:
+            return Display::Event::X;
+        case SDLK_y:
+            return Display::Event::Y;
+        case SDLK_z:
+            return Display::Event::Z;
+        case SDLK_0:
+            return Display::Event::Num0;
+        case SDLK_1:
+            return Display::Event::Num1;
+        case SDLK_2:
+            return Display::Event::Num2;
+        case SDLK_3:
+            return Display::Event::Num3;
+        case SDLK_4:
+            return Display::Event::Num4;
+        case SDLK_5:
+            return Display::Event::Num5;
+        case SDLK_6:
+            return Display::Event::Num6;
+        case SDLK_7:
+            return Display::Event::Num7;
+        case SDLK_8:
+            return Display::Event::Num8;
+        case SDLK_9:
+            return Display::Event::Num9;
+        case SDLK_LEFT:
+            return Display::Event::Left;
+        case SDLK_RIGHT:
+            return Display::Event::Right;
+        case SDLK_UP:
+            return Display::Event::Up;
+        case SDLK_DOWN:
+            return Display::Event::Down;
+        case SDLK_ESCAPE:
+            return Display::Event::Escape;
+        case SDLK_RETURN:
+            return Display::Event::Enter;
+        case SDLK_SPACE:
+            return Display::Event::Space;
+        default:
+            break;
+    }
 
-std::string &Display::SDL2Window::getTitle()
-{
-    return this->title;
+    switch (SDL_event.type) {
+        case SDL_QUIT:
+            return Display::Event::Close;
+        default:
+            break;
+    }
+
+    return Display::Event::Unknown;
 }
 
 void Display::SDL2Window::setTitle(const std::string &title)
 {
-    this->title = title;
-    SDL_SetWindowTitle(this->window, this->title.c_str());
+    SDL_SetWindowTitle(this->window, title.c_str());
 }
 
 bool Display::SDL2Window::isOpen()
@@ -209,7 +185,7 @@ void Display::SDL2Window::draw(Display::ISprite &sprite)
     SDL_Rect texr;
     texr.x = 1000/2; texr.y = 1000/2; texr.w = w; texr.h = h;
 
-    SDL_RenderCopy(renderer, texture, nullptr, &texr);
+    SDL_RenderCopy(this->renderer, texture, nullptr, &texr);
 }
 
 void Display::SDL2Window::close()
@@ -224,7 +200,7 @@ SDL_Window *Display::SDL2Window::getSDL2Window() const
     return this->window;
 }
 
-extern "C" std::unique_ptr<Display::IWindow> createWindow()
+SDL_Renderer *Display::SDL2Window::getRenderer() const
 {
-    return std::make_unique<Display::SDL2Window>();
+    return this->renderer;
 }

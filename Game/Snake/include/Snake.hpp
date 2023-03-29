@@ -7,12 +7,11 @@
 
 #pragma once
 #include "IGameModule.hpp"
+#include "IFactory.hpp"
 #include "ISprite.hpp"
-#include "IEvent.hpp"
 #include "IWindow.hpp"
 #include "IntRect.hpp"
 #include "Vector2f.hpp"
-#include "IRenderer.hpp"
 #include <memory>
 #include <string>
 #include <vector>
@@ -26,31 +25,19 @@ namespace Game {
     };
     class Snake : public IGameModule {
         public:
-            Snake();
+            Snake(Display::IFactory &factory);
             ~Snake() override;
-            void setFunctions(
-                std::unique_ptr<Display::IWindow> (*window)(),
-                std::unique_ptr<Display::ITexture> (*texture)(),
-                std::unique_ptr<Display::ISprite> (*sprite)(),
-                std::unique_ptr<Display::IRenderer> (*renderer)()
-            ) override;
-            void init() override;
-            void update() override;
+            void update(Display::IFactory &factory) override;
             void setState(Game::State state) override;
             Game::State getState() const override;
-            void run() override;
+            void run(Display::IFactory &factory) override;
             void stop() override;
             const std::string &getName() const override;
 
         private:
             std::string name;
             Game::State state;
-            std::unique_ptr<Display::IWindow> (*createWindow)();
-            std::unique_ptr<Display::ITexture> (*createTexture)();
-            std::unique_ptr<Display::ISprite> (*createSprite)();
-            std::unique_ptr<Display::IRenderer> (*createRenderer)();
             std::unique_ptr<Display::IWindow> window;
-            std::unique_ptr<Display::IRenderer> renderer;
             std::unique_ptr<Display::ITexture> snakeTexture;
             std::unique_ptr<Display::ITexture> foodTexture;
             std::vector<std::unique_ptr<Display::ISprite>> snake;
@@ -58,9 +45,8 @@ namespace Game {
             Direction direction = Direction::RIGHT;
             void handleEvents();
             void moveSnake();
-            void handleEat();
+            void handleEat(Display::IFactory &factory);
             void handleCollision();
             void updateWindow();
     };
-    extern "C" std::unique_ptr<Game::IGameModule> createGame();
 }

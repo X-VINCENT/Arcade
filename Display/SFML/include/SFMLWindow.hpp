@@ -18,8 +18,7 @@ namespace Display {
                 int width,
                 int height);
             ~SFMLWindow();
-            Display::IEvent &getEvent() override;
-            std::string &getTitle() override;
+            Display::Event getEvent() override;
             void setTitle(std::string const &title) override;
             bool isOpen() override;
             void clear() override;

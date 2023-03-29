@@ -7,20 +7,14 @@
 
 #pragma once
 
-// C++ includes
+#include "IFactory.hpp"
+#include "IGameModule.hpp"
+#include <fcntl.h>
+#include <iostream>
+#include <unistd.h>
 
 // Project includes
 #include "DLLoader.hpp"
-#include "IGameModule.hpp"
-#include "IDisplayModule.hpp"
-#include "IEvent.hpp"
-#include "IException.hpp"
-#include "IntRect.hpp"
-#include "ISprite.hpp"
-#include "ITexture.hpp"
-#include "Vector2f.hpp"
-#include "IWindow.hpp"
-#include "IRenderer.hpp"
 
 // Macros
 #define SUCCESS 0

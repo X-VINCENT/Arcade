@@ -7,13 +7,10 @@
 
 #pragma once
 #include <memory>
-#include "IRenderer.hpp"
 
 namespace Display {
-    class IRenderer;
     class ITexture {
         public:
             virtual ~ITexture() = default;
     };
-    extern "C" std::unique_ptr<ITexture> createTexture();
 };
