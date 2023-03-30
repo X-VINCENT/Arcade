@@ -12,12 +12,12 @@
 
 namespace Display {
     class SFMLTexture : public ITexture {
-    public:
-        SFMLTexture() = default;
-        ~SFMLTexture() override;
-        void load(char c, std::string const &fpath) override;
-        sf::Texture &getSFMLTexture();
-    private:
-        sf::Texture texture;
+        public:
+            SFMLTexture(char c, std::string const &fpath);
+            ~SFMLTexture() override;
+            sf::Texture &getSFTexture();
+
+        private:
+            sf::Texture texture;
     };
 }

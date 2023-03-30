@@ -45,32 +45,26 @@ set(SRC_CORE
 # NCurses Sources
 set(NCURSES_DIRECTORY NCurses/)
 set(SRC_DISPLAY_NCURSES
-        src/NCurses.cpp
-        src/NCursesEvent.cpp
-        src/NCursesIntRect.cpp
+        src/NCursesFactory.cpp
         src/NCursesSprite.cpp
         src/NCursesTexture.cpp
-        src/NCursesVector2f.cpp
         src/NCursesWindow.cpp
 )
 
 # SFML Sources
 set(SFML_DIRECTORY SFML/)
 set(SRC_DISPLAY_SFML
-        src/SFML.cpp
-        src/SFMLEvent.cpp
-        src/SFMLIntRect.cpp
+        src/SFMLFactory.cpp
         src/SFMLSprite.cpp
         src/SFMLTexture.cpp
-        src/SFMLVector2f.cpp
         src/SFMLWindow.cpp
 )
 
 # SDL2 Sources
 set(SDL2_DIRECTORY SDL2/)
 set(SRC_DISPLAY_SDL2
-        src/SDL2.cpp
-        src/SDL2Event.cpp
+        src/SDL2Factory.cpp
+        src/SDL2Sprite.cpp
         src/SDL2Texture.cpp
         src/SDL2Window.cpp
 )
@@ -115,6 +109,5 @@ add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_CORE})
 
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
 target_link_libraries(sfml sfml-graphics)
-target_link_libraries(sdl2 ${SDL2_LIBRARIES})
+target_link_libraries(sdl2 ${SDL2_LIBRARIES} SDL2_image)
 target_link_libraries(arcade ${CMAKE_DL_LIBS})
-

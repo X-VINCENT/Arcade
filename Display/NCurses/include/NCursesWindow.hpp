@@ -7,7 +7,6 @@
 
 #pragma once
 #include "IWindow.hpp"
-#include "IEvent.hpp"
 #include <ncurses.h>
 
 namespace Display {
@@ -15,30 +14,25 @@ namespace Display {
         public:
             NCursesWindow() = default;
             NCursesWindow(
-                std::string const &title,
+                const std::string &title,
                 int framerateLimit,
                 int width,
                 int height
             );
             ~NCursesWindow();
-            void create(
-                std::string const &title,
-                int framerateLimit,
-                int width,
-                int height
-            ) override;
-            std::unique_ptr<Display::IEvent> getEvent() override;
-            std::string &getTitle() override;
+            NCursesWindow(const Display::NCursesWindow &other) = delete;
+            NCursesWindow(Display::NCursesWindow &&other) = delete;
+            Display::NCursesWindow &operator=(const Display::NCursesWindow &other) = delete;
+            Display::NCursesWindow &operator=(Display::NCursesWindow &&other) = delete;
+            Display::Event getEvent() override;
             void setTitle(const std::string &title) override;
             bool isOpen() override;
             void clear() override;
-            void draw() override;
+            void draw(Display::ISprite &sprite) override;
             void display() override;
             void close() override;
 
-        protected:
         private:
             WINDOW *window;
-            std::string title;
     };
 };

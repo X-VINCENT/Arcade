@@ -11,10 +11,9 @@
 namespace Display {
     class NCursesTexture : public ITexture {
         public:
-            NCursesTexture() = default;
+            NCursesTexture(char c);
             ~NCursesTexture();
-            void load(char c, std::string const &fpath) override;
-            char getNCursesTexture() const;
+            char getChar() const;
 
         private:
             char c;

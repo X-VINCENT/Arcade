@@ -7,21 +7,16 @@
 
 #include "NCursesTexture.hpp"
 
-Display::NCursesTexture::~NCursesTexture()
-{
-}
-
-void Display::NCursesTexture::load(char c, std::string const &fpath)
+Display::NCursesTexture::NCursesTexture(char c)
 {
     this->c = c;
 }
 
-char Display::NCursesTexture::getNCursesTexture() const
+Display::NCursesTexture::~NCursesTexture()
 {
-    return this->c;
 }
 
-extern "C" std::unique_ptr<Display::ITexture> Display::createTexture()
+char Display::NCursesTexture::getChar() const
 {
-    return std::make_unique<Display::NCursesTexture>();
+    return this->c;
 }

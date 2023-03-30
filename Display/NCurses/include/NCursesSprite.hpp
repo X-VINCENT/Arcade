@@ -7,30 +7,30 @@
 
 #pragma once
 #include "ISprite.hpp"
+#include "ITexture.hpp"
 #include <memory>
 
 namespace Display {
     class NCursesSprite : public ISprite {
         public:
-            NCursesSprite() = default;
-            ~NCursesSprite();
-            void create(
-                std::unique_ptr<ITexture> texture,
-                const IIntRect &rect,
-                const IVector2f &position
-            ) override;
-            Display::IIntRect getRect() override;
-            void setRect(const Display::IIntRect &rect) override;
-            Display::IVector2f getPosition() override;
-            void setPosition(const Display::IVector2f &position) override;
-            std::unique_ptr<Display::ITexture> getTexture() override;
-            void setTexture(std::unique_ptr<Display::ITexture> texture) override;
-            void move(const IVector2f &offset) override;
+            NCursesSprite(
+                Display::ITexture &texture,
+                const IntRect &rect,
+                const Vector2f &position
+            );
+            ~NCursesSprite() override;
+            Display::IntRect getRect() override;
+            void setRect(const Display::IntRect &rect) override;
+            Display::Vector2f getPosition() override;
+            void setPosition(const Display::Vector2f &position) override;
+            void setTexture(Display::ITexture &texture) override;
+            void move(const Vector2f &offset) override;
+            char &getChar();
 
         private:
             char c;
-            Display::IIntRect rect;
-            Display::IVector2f position;
-            std::unique_ptr<Display::ITexture> texture;
+            Display::IntRect rect;
+            Display::Vector2f position;
+            Display::ITexture texture;
     };
 }

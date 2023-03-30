@@ -7,38 +7,35 @@
 
 #pragma once
 #include "IWindow.hpp"
-#include "IEvent.hpp"
 #include <SDL2/SDL.h>
 
 namespace Display {
     class SDL2Window : public IWindow {
-    public:
-        SDL2Window() = default;
-        SDL2Window(
-            std::string const &title,
-            int framerateLimit,
-            int width,
-            int height
-        );
-        ~SDL2Window();
-        void create(
-            std::string const &title,
-            int framerateLimit,
-            int width,
-            int height
-        ) override;
-        std::unique_ptr<Display::IEvent> getEvent() override;
-        std::string &getTitle() override;
-        void setTitle(std::string const &title) override;
-        bool isOpen() override;
-        void clear() override;
-        void draw() override;
-        void display() override;
-        void close() override;
-    protected:
-    private:
-        std::string title;
-        SDL_Window *window;
-        SDL_Renderer *renderer;
+        public:
+            SDL2Window() = default;
+            SDL2Window(
+                const std::string &title,
+                int framerateLimit,
+                int width,
+                int height
+            );
+            ~SDL2Window();
+            SDL2Window(const Display::SDL2Window &other) = delete;
+            SDL2Window(Display::SDL2Window &&other) = delete;
+            Display::SDL2Window &operator=(const Display::SDL2Window &other) = delete;
+            Display::SDL2Window &operator=(Display::SDL2Window &&other) = delete;
+            Display::Event getEvent() override;
+            void setTitle(const std::string &title) override;
+            bool isOpen() override;
+            void clear() override;
+            void draw(Display::ISprite &sprite) override;
+            void display() override;
+            void close() override;
+            SDL_Window *getWindow() const;
+            SDL_Renderer *getRenderer() const;
+
+        private:
+            SDL_Window *window;
+            SDL_Renderer *renderer;
     };
 };

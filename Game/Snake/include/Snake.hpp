@@ -7,20 +7,46 @@
 
 #pragma once
 #include "IGameModule.hpp"
+#include "IFactory.hpp"
+#include "ISprite.hpp"
+#include "IWindow.hpp"
+#include "IntRect.hpp"
+#include "Vector2f.hpp"
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace Game {
+    enum Direction {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    };
     class Snake : public IGameModule {
         public:
-            Snake();
-            ~Snake();
-            void init() override;
+            Snake(Display::IFactory &factory);
+            ~Snake() override;
+            void update(Display::IFactory &factory) override;
+            void setState(Game::State state) override;
+            Game::State getState() const override;
+            void run(Display::IFactory &factory) override;
             void stop() override;
             const std::string &getName() const override;
 
         private:
             std::string name;
+            Game::State state;
+            std::unique_ptr<Display::IWindow> window;
+            std::unique_ptr<Display::ITexture> snakeTexture;
+            std::unique_ptr<Display::ITexture> foodTexture;
+            std::vector<std::unique_ptr<Display::ISprite>> snake;
+            std::unique_ptr<Display::ISprite> food;
+            Direction direction = Direction::RIGHT;
+            void handleEvents();
+            void moveSnake();
+            void handleEat(Display::IFactory &factory);
+            void handleCollision();
+            void updateWindow();
     };
-    extern "C" std::unique_ptr<Game::IGameModule> createGame();
 }

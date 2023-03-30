@@ -6,39 +6,22 @@
 */
 
 #include "Arcade.hpp"
-#include <fcntl.h>
-#include <iostream>
 
 int arcade(std::string const &displayLibPath)
 {
-    std::cout << "Graphic Library: " << displayLibPath << std::endl;
-    DLLoader libLoader(displayLibPath);
-    std::cout << "Graphic Library Loaded" << std::endl;
+    DLLoader displayLoader(displayLibPath);
+    DLLoader gameLoader("lib/libsnake.so");
 
-    std::string const &createWindowFn = "createWindow";
-    using windowFnPtr = std::unique_ptr<Display::IWindow> (*)();
-    windowFnPtr createWindow = libLoader.template getInstance<windowFnPtr>(createWindowFn);
-    std::unique_ptr<Display::IWindow> window = createWindow();
+    std::string const &createFactoryFn = "createFactory";
+    using factoryFnPtr = std::unique_ptr<Display::IFactory> (*)();
+    factoryFnPtr createFactory = displayLoader.template getInstance<factoryFnPtr>(createFactoryFn);
+    std::unique_ptr<Display::IFactory> factory = createFactory();
 
-    std::string const &createTextureFn = "createTexture";
-    using textureFnPtr = std::unique_ptr<Display::ITexture> (*)();
-    textureFnPtr createTexture = libLoader.template getInstance<textureFnPtr>(createTextureFn);
-    std::unique_ptr<Display::ITexture> texture = createTexture();
+    std::string const &createGameFn = "createGame";
+    using gameFnPtr = std::unique_ptr<Game::IGameModule> (*)(Display::IFactory &);
+    gameFnPtr createGame = gameLoader.template getInstance<gameFnPtr>(createGameFn);
+    std::unique_ptr<Game::IGameModule> game = createGame(*factory);
 
-    std::string const &createSpriteFn = "createSprite";
-    using spriteFnPtr = std::unique_ptr<Display::ISprite> (*)();
-    spriteFnPtr createSprite = libLoader.template getInstance<spriteFnPtr>(createSpriteFn);
-    std::unique_ptr<Display::ISprite> sprite = createSprite();
-
-
-    Display::IIntRect rect{(Display::IIntRect){0, 0, 10, 10}};
-    Display::IVector2f vect{(Display::IVector2f){10, 10}};
-    texture->load('#', "assets/block.png");;
-    sprite->create(std::move(texture), rect, vect);
-    window->create("Arcade", 60, 100, 100);
-    window->clear();
-    window->draw();
-    window->display();
-    window->close();
+    game->run(*factory);
     return SUCCESS;
 }

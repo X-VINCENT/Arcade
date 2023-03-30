@@ -6,14 +6,24 @@
 */
 
 #pragma once
+#include "IFactory.hpp"
 #include <string>
+#include <memory>
 
 namespace Game {
+    enum State {
+        MENU,
+        GAME,
+        END
+    };
     class IGameModule {
-    public:
-        virtual ~IGameModule() = default;
-        virtual void init() = 0;
-        virtual void stop() = 0;
-        virtual const std::string &getName() const = 0;
+        public:
+            virtual ~IGameModule() = default;
+            virtual void update(Display::IFactory &factory) = 0;
+            virtual void setState(Game::State state) = 0;
+            virtual Game::State getState() const = 0;
+            virtual void run(Display::IFactory &factory) = 0;
+            virtual void stop() = 0;
+            virtual const std::string &getName() const = 0;
     };
 }
