@@ -10,10 +10,6 @@
 #include <memory>
 #include <iostream>
 
-Display::NCursesFactory::NCursesFactory()
-{
-}
-
 Display::NCursesFactory::~NCursesFactory()
 {
 }
@@ -42,7 +38,7 @@ std::unique_ptr<Display::ITexture> Display::NCursesFactory::createTexture(
     std::string const &fpath
 )
 {
-    return std::make_unique<Display::NCursesTexture>(c, fpath);
+    return std::make_unique<Display::NCursesTexture>(c);
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

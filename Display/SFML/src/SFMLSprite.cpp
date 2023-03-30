@@ -9,6 +9,8 @@
 #include "ITexture.hpp"
 #include "SFMLTexture.hpp"
 
+#define SFML_RATIO 10
+
 Display::SFMLSprite::SFMLSprite(
     Display::ITexture &src_texture,
     const Display::IntRect &src_rect,
@@ -17,13 +19,13 @@ Display::SFMLSprite::SFMLSprite(
 {
     Display::SFMLTexture sfmlTexture = dynamic_cast<Display::SFMLTexture &>(src_texture);
 
-    this->texture = sfmlTexture.getTexture();
+    this->texture = sfmlTexture.getSFTexture();
     this->sprite.setTexture(this->texture);
     this->sprite.setTextureRect({
-        src_rect.left,
-        src_rect.top,
-        src_rect.width,
-        src_rect.height
+        src_rect.left * SFML_RATIO,
+        src_rect.top * SFML_RATIO,
+        src_rect.width * SFML_RATIO,
+        src_rect.height * SFML_RATIO
     });
     this->sprite.setPosition({
         src_position.x,
@@ -45,10 +47,10 @@ Display::IntRect Display::SFMLSprite::getRect()
 void Display::SFMLSprite::setRect(const Display::IntRect &src)
 {
     this->sprite.setTextureRect({
-        src.left,
-        src.top,
-        src.width,
-        src.height
+        src.left * SFML_RATIO,
+        src.top * SFML_RATIO,
+        src.width * SFML_RATIO,
+        src.height * SFML_RATIO
     });
     this->rect = src;
 }
@@ -71,7 +73,7 @@ void Display::SFMLSprite::setTexture(Display::ITexture &src)
 {
     Display::SFMLTexture sfmlTexture = dynamic_cast<Display::SFMLTexture &>(src);
 
-    this->texture = sfmlTexture.getTexture();
+    this->texture = sfmlTexture.getSFTexture();
     this->sprite.setTexture(this->texture);
 }
 

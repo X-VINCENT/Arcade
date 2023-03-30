@@ -22,10 +22,6 @@ int arcade(std::string const &displayLibPath)
     gameFnPtr createGame = gameLoader.template getInstance<gameFnPtr>(createGameFn);
     std::unique_ptr<Game::IGameModule> game = createGame(*factory);
 
-    while (1) {
-        game->update(*factory);
-        usleep(100000);
-    }
-    game->stop();
+    game->run(*factory);
     return SUCCESS;
 }

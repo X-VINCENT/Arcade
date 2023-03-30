@@ -12,12 +12,18 @@
 namespace Display {
     class NCursesWindow : public IWindow {
         public:
+            NCursesWindow() = default;
             NCursesWindow(
                 const std::string &title,
                 int framerateLimit,
                 int width,
-                int height);
+                int height
+            );
             ~NCursesWindow();
+            NCursesWindow(const Display::NCursesWindow &other) = delete;
+            NCursesWindow(Display::NCursesWindow &&other) = delete;
+            Display::NCursesWindow &operator=(const Display::NCursesWindow &other) = delete;
+            Display::NCursesWindow &operator=(Display::NCursesWindow &&other) = delete;
             Display::Event getEvent() override;
             void setTitle(const std::string &title) override;
             bool isOpen() override;

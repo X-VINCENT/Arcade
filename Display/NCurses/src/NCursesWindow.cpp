@@ -7,6 +7,7 @@
 
 #include "NCursesWindow.hpp"
 #include "NCursesTexture.hpp"
+#include "NCursesSprite.hpp"
 
 void init_colors()
 {
@@ -29,7 +30,6 @@ Display::NCursesWindow::NCursesWindow(
 )
 {
     initscr();
-    start_color();
     raw();
     noecho();
     nodelay(stdscr, TRUE);
@@ -144,8 +144,7 @@ Display::Event Display::NCursesWindow::getEvent()
 
 void Display::NCursesWindow::setTitle(const std::string &title)
 {
-    if (this->window != nullptr)
-        wattron(this->window, COLOR_PAIR(7));
+    (void)title;
 }
 
 bool Display::NCursesWindow::isOpen()
@@ -155,29 +154,33 @@ bool Display::NCursesWindow::isOpen()
 
 void Display::NCursesWindow::clear()
 {
-    if (this->isOpen())
-        wclear(this->window);
+    if (!this->window)
+        return;
+    wclear(this->window);
 }
 
 void Display::NCursesWindow::draw(Display::ISprite &sprite)
 {
-    if (!this->isOpen())
+    if (!this->window)
         return;
 
-    Display::NCursesTexture &ncursesTexture = dynamic_cast<Display::NCursesTexture &>(sprite);
-    char c = ncursesTexture.getTexture();
+    Display::NCursesSprite &ncursesSprite = dynamic_cast<Display::NCursesSprite &>(sprite);
+    char c = ncursesSprite.getChar();
+    Vector2f pos = sprite.getPosition();
 
-    mvwprintw(this->window, sprite.getPosition().y, sprite.getPosition().x, "%c", c);
+    mvwprintw(this->window, pos.y, pos.x, "%c", c);
 }
 
 void Display::NCursesWindow::display()
 {
-    if (this->isOpen())
-        wrefresh(this->window);
+    if (!this->window)
+        return;
+    wrefresh(this->window);
 }
 
 void Display::NCursesWindow::close()
 {
-    if (this->isOpen())
-        delwin(this->window);
+    if (!this->window)
+        return;
+    delwin(this->window);
 }

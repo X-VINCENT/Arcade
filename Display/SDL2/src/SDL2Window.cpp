@@ -10,6 +10,8 @@
 #include "SDL2Sprite.hpp"
 #include <iostream>
 
+#define SDL2_RATIO 10
+
 Display::SDL2Window::SDL2Window(
     const std::string &title,
     int framerateLimit,
@@ -25,8 +27,8 @@ Display::SDL2Window::SDL2Window(
         title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        width * 10,
-        height * 10,
+        width * SDL2_RATIO,
+        height * SDL2_RATIO,
         SDL_WINDOW_SHOWN
     );
     if (!this->window) {
@@ -169,37 +171,46 @@ void Display::SDL2Window::setTitle(const std::string &title)
 
 bool Display::SDL2Window::isOpen()
 {
-    SDL_Event event;
-
-    while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT)
-            return false;
-    }
-    return true;
+    return this->window != nullptr;
 }
 
 void Display::SDL2Window::clear()
 {
+    if (this->renderer == nullptr) {
+        SDL_Log("Unable to clear renderer: %s", SDL_GetError());
+        SDL_DestroyWindow(this->window);
+        SDL_Quit();
+    }
     SDL_RenderClear(this->renderer);
-}
-
-void Display::SDL2Window::display()
-{
-    SDL_RenderPresent(this->renderer);
 }
 
 void Display::SDL2Window::draw(Display::ISprite &sprite)
 {
-    Display::SDL2Sprite &sdlSprite = dynamic_cast<Display::SDL2Sprite &>(sprite);
+    if (this->renderer == nullptr) {
+        SDL_Log("Unable to draw sprite: %s", SDL_GetError());
+        SDL_DestroyWindow(this->window);
+        SDL_Quit();
+    }
 
-    SDL_Texture *texture = &sdlSprite.getTexture();
+    Display::SDL2Sprite &sdlSprite = dynamic_cast<Display::SDL2Sprite &>(sprite);
+    SDL_Texture *texture = &sdlSprite.getSDLTexture();
 
     SDL_Rect dest;
-	dest.x = sprite.getPosition().x;
-	dest.y = sprite.getPosition().y;
+	dest.x = sprite.getPosition().x * SDL2_RATIO;
+	dest.y = sprite.getPosition().y * SDL2_RATIO;
 	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
     SDL_RenderCopy(this->renderer, texture, nullptr, &dest);
+}
+
+void Display::SDL2Window::display()
+{
+    if (this->renderer == nullptr) {
+        SDL_Log("Unable to display renderer: %s", SDL_GetError());
+        SDL_DestroyWindow(this->window);
+        SDL_Quit();
+    }
+    SDL_RenderPresent(this->renderer);
 }
 
 void Display::SDL2Window::close()

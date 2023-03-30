@@ -16,7 +16,8 @@ namespace Display {
             SDL2Sprite(
                 Display::ITexture &texture,
                 const IntRect &rect,
-                const Vector2f &position);
+                const Vector2f &position
+            );
             ~SDL2Sprite() override;
             void create(const SDL2Sprite &);
             Display::IntRect getRect() override;
@@ -25,7 +26,7 @@ namespace Display {
             void setPosition(const Display::Vector2f &position) override;
             void setTexture(Display::ITexture &texture) override;
             void move(const Vector2f &offset) override;
-            SDL_Texture &getTexture();
+            SDL_Texture &getSDLTexture();
 
         private:
             SDL_Texture *texture;

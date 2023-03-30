@@ -8,6 +8,8 @@
 #include "SFMLWindow.hpp"
 #include "SFMLSprite.hpp"
 
+#define SFML_RATIO 10
+
 Display::SFMLWindow::SFMLWindow(
     const std::string &title,
     int framerateLimit,
@@ -15,7 +17,11 @@ Display::SFMLWindow::SFMLWindow(
     int height
 )
 {
-    this->window.create(sf::VideoMode(width * 10, height * 10), title);
+    sf::VideoMode mode(width * SFML_RATIO, height * SFML_RATIO);
+    this->window.create(
+        mode,
+        title
+    );
     this->window.setFramerateLimit(framerateLimit);
 }
 
@@ -154,7 +160,12 @@ void Display::SFMLWindow::draw(Display::ISprite &sprite)
 
     Display::SFMLSprite &sfmlSprite = dynamic_cast<Display::SFMLSprite &>(sprite);
     sf::Sprite sfSprite = sfmlSprite.getSfSprite();
+    Display::Vector2f pos = sfmlSprite.getPosition();
 
+    sfSprite.setPosition(
+        pos.x * SFML_RATIO,
+        pos.y * SFML_RATIO
+    );
     this->window.draw(sfSprite);
 }
 

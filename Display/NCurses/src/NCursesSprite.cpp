@@ -16,8 +16,7 @@ Display::NCursesSprite::NCursesSprite(
 {
     Display::NCursesTexture ncursesTexture = dynamic_cast<Display::NCursesTexture &>(texture);
 
-    // !!Character not set
-    this->c = ncursesTexture.getTexture();
+    this->c = ncursesTexture.getChar();
     this->texture = texture;
     this->rect = rect;
     this->position = position;
@@ -32,9 +31,9 @@ Display::IntRect Display::NCursesSprite::getRect()
     return this->rect;
 }
 
-void Display::NCursesSprite::setRect(const Display::IntRect &src_rect)
+void Display::NCursesSprite::setRect(const Display::IntRect &src)
 {
-    this->rect = src_rect;
+    this->rect = src;
 }
 
 Display::Vector2f Display::NCursesSprite::getPosition()
@@ -42,22 +41,26 @@ Display::Vector2f Display::NCursesSprite::getPosition()
     return this->position;
 }
 
-void Display::NCursesSprite::setPosition(const Display::Vector2f &position)
+void Display::NCursesSprite::setPosition(const Display::Vector2f &src)
 {
-    this->position = position;
+    this->position = src;
 }
 
-void Display::NCursesSprite::setTexture(Display::ITexture &src_texture)
+void Display::NCursesSprite::setTexture(Display::ITexture &src)
 {
-    Display::NCursesTexture ncursesTexture =
-            dynamic_cast<Display::NCursesTexture &>(src_texture);
+    Display::NCursesTexture ncursesTexture = dynamic_cast<Display::NCursesTexture &>(src);
 
-    this->c = ncursesTexture.getTexture();
-    this->texture = std::move(src_texture);
+    this->c = ncursesTexture.getChar();
+    this->texture = src;
 }
 
 void Display::NCursesSprite::move(const Vector2f &offset)
 {
-    this->position.x = this->position.x + offset.x;
-    this->position.y = this->position.y + offset.y;
+    this->position.x += offset.x;
+    this->position.y += offset.y;
+}
+
+char &Display::NCursesSprite::getChar()
+{
+    return this->c;
 }

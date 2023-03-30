@@ -11,9 +11,9 @@
 namespace Display {
     class NCursesTexture : public ITexture {
         public:
-            NCursesTexture(char c, std::string const &fpath);
+            NCursesTexture(char c);
             ~NCursesTexture();
-            char getTexture() const;
+            char getChar() const;
 
         private:
             char c;

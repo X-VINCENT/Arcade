@@ -7,9 +7,8 @@
 
 #include "NCursesTexture.hpp"
 
-Display::NCursesTexture::NCursesTexture(char c, std::string const &fpath)
+Display::NCursesTexture::NCursesTexture(char c)
 {
-    (void)fpath;
     this->c = c;
 }
 
@@ -17,7 +16,7 @@ Display::NCursesTexture::~NCursesTexture()
 {
 }
 
-char Display::NCursesTexture::getTexture() const
+char Display::NCursesTexture::getChar() const
 {
     return this->c;
 }

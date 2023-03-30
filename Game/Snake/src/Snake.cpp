@@ -10,24 +10,28 @@
 #include "SDL2Window.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <unistd.h>
+
+#define WINDOW_WIDTH 100
+#define WINDOW_HEIGHT 50
 
 Game::Snake::Snake(Display::IFactory &factory)
 {
-    this->window = factory.createWindow("Snake", 60, 100, 100);
+    this->window = factory.createWindow("Snake", 60, WINDOW_WIDTH, WINDOW_HEIGHT);
     this->snakeTexture = factory.createTexture('#', "assets/snake/body.png");
     this->foodTexture = factory.createTexture('o', "assets/snake/food.png");
 
     this->food = factory.createSprite(
         *this->foodTexture,
-        {0, 0, 10, 10},
-        {30, 40}
+        {0, 0, 1, 1},
+        {3, 4}
     );
 
     for (size_t i = 0; i < 3; i++) {
         this->snake.push_back(factory.createSprite(
             *this->snakeTexture,
-            {0, 0, 10, 10},
-            {(float)10 * i, 0}
+            {0, 0, 1, 1},
+            {(float)i, 0}
         ));
     }
 
@@ -75,16 +79,16 @@ void Game::Snake::moveSnake()
 {
     switch (this->direction) {
         case Game::Direction::LEFT:
-            this->snake[0]->move({-10, 0});
+            this->snake[0]->move({-1, 0});
             break;
         case Game::Direction::RIGHT:
-            this->snake[0]->move({10, 0});
+            this->snake[0]->move({1, 0});
             break;
         case Game::Direction::UP:
-            this->snake[0]->move({0, -10});
+            this->snake[0]->move({0, -1});
             break;
         case Game::Direction::DOWN:
-            this->snake[0]->move({0, 10});
+            this->snake[0]->move({0, 1});
             break;
         default:
             break;
@@ -100,23 +104,33 @@ void Game::Snake::handleEat(Display::IFactory &factory)
         this->snake[0]->getPosition().y == this->food->getPosition().y) {
         this->snake.push_back(factory.createSprite(
             *this->snakeTexture,
-            {0, 0, 10, 10},
+            {0, 0, 1, 1},
             this->snake[this->snake.size() - 2]->getPosition()
         ));
         this->food->setPosition({
-            (float)(rand() % 100) * 10,
-            (float)(rand() % 100) * 10
+            (float)(rand() % WINDOW_WIDTH) * 1,
+            (float)(rand() % WINDOW_HEIGHT) * 1
         });
     }
 }
 
 void Game::Snake::handleCollision()
 {
-    /* if (this->snake[0]->getPosition().x < 0 ||
-        this->snake[0]->getPosition().x > 1000 ||
-        this->snake[0]->getPosition().y < 0 ||
-        this->snake[0]->getPosition().y > 1000)
-        this->setState(Game::State::END); */
+    Display::Vector2f headPos = this->snake[0]->getPosition();
+
+    /* for (size_t i = 1; i < this->snake.size(); i++) {
+        if (headPos.x == this->snake[i]->getPosition().x &&
+            headPos.y == this->snake[i]->getPosition().y)
+            this->setState(Game::State::END);
+    } */
+    if (headPos.x < 0)
+        this->snake[0]->setPosition({(float)WINDOW_WIDTH - 1, headPos.y});
+    if (headPos.x >= WINDOW_WIDTH)
+        this->snake[0]->setPosition({0, headPos.y});
+    if (headPos.y < 0)
+        this->snake[0]->setPosition({headPos.x, (float)WINDOW_HEIGHT - 1});
+    if (headPos.y >= WINDOW_HEIGHT)
+        this->snake[0]->setPosition({headPos.x, 0});
 }
 
 void Game::Snake::updateWindow()
@@ -141,8 +155,10 @@ void Game::Snake::update(Display::IFactory &factory)
             this->handleEat(factory);
             this->handleCollision();
             this->updateWindow();
-        // case Game::State::END:
-        //     this->window->close();
+            break;
+        case Game::State::END:
+            this->stop();
+            break;
         default:
             break;
     }
@@ -160,15 +176,15 @@ Game::State Game::Snake::getState() const
 
 void Game::Snake::run(Display::IFactory &factory)
 {
-    while (this->getState() != Game::State::END)
+    while (this->getState() != Game::State::END) {
         this->update(factory);
+        usleep(100000);
+    }
     this->stop();
 }
 
 void Game::Snake::stop()
 {
-    if (!this->window->isOpen())
-        return;
     this->window->close();
 }
 

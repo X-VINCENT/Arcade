@@ -16,8 +16,8 @@ Display::SDL2Sprite::SDL2Sprite(
     Display::SDL2Texture sdlTexture = dynamic_cast<Display::SDL2Texture &>(src_texture);
 
     this->texture = sdlTexture.getSDLTexture();
-    this->position = src_position;
     this->rect = src_rect;
+    this->position = src_position;
 }
 
 Display::SDL2Sprite::~SDL2Sprite()
@@ -39,14 +39,14 @@ Display::Vector2f Display::SDL2Sprite::getPosition()
     return this->position;
 }
 
-void Display::SDL2Sprite::setPosition(const Display::Vector2f &position)
+void Display::SDL2Sprite::setPosition(const Display::Vector2f &src)
 {
-    this->position = position;
+    this->position = src;
 }
 
-void Display::SDL2Sprite::setTexture(Display::ITexture &texture)
+void Display::SDL2Sprite::setTexture(Display::ITexture &src)
 {
-    Display::SDL2Texture sdlTexture = dynamic_cast<Display::SDL2Texture &>(texture);
+    Display::SDL2Texture sdlTexture = dynamic_cast<Display::SDL2Texture &>(src);
 
     this->texture = sdlTexture.getSDLTexture();
 }
@@ -57,7 +57,7 @@ void Display::SDL2Sprite::move(const Vector2f &offset)
     this->position.y += offset.y;
 }
 
-SDL_Texture &Display::SDL2Sprite::getTexture()
+SDL_Texture &Display::SDL2Sprite::getSDLTexture()
 {
     return *this->texture;
 }

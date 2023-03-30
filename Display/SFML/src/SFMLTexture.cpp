@@ -20,7 +20,7 @@ Display::SFMLTexture::~SFMLTexture()
 {
 }
 
-sf::Texture &Display::SFMLTexture::getTexture()
+sf::Texture &Display::SFMLTexture::getSFTexture()
 {
     return this->texture;
 }

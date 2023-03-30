@@ -17,7 +17,8 @@ namespace Display {
                 const std::string &title,
                 int framerateLimit,
                 int width,
-                int height);
+                int height
+            );
             ~SDL2Window();
             SDL2Window(const Display::SDL2Window &other) = delete;
             SDL2Window(Display::SDL2Window &&other) = delete;

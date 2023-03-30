@@ -15,7 +15,7 @@
 namespace Display {
     class SFMLFactory : public IFactory {
         public:
-            SFMLFactory();
+            SFMLFactory() = default;
             ~SFMLFactory() override;
             std::unique_ptr<Display::IWindow> createWindow(
                 const std::string &title,
