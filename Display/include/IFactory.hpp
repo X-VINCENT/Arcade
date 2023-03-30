@@ -19,7 +19,7 @@ namespace Display {
         public:
             virtual ~IFactory() = default;
             virtual std::unique_ptr<Display::IWindow> createWindow(
-                std::string const &title,
+                const std::string &title,
                 int framerate,
                 int width,
                 int height

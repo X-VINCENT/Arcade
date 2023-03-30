@@ -13,7 +13,7 @@ namespace Display {
         public:
             NCursesTexture(char c, std::string const &fpath);
             ~NCursesTexture();
-            char getNCursesTexture() const;
+            char getTexture() const;
 
         private:
             char c;

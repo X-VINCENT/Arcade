@@ -11,19 +11,18 @@
 
 Display::SDL2Texture::SDL2Texture(char c, std::string const &fpath, SDL_Renderer *renderer)
 {
-    if (renderer == nullptr) {
+    if (!renderer) {
         SDL_Log("Invalid renderer: %s", SDL_GetError());
         SDL_Quit();
         exit(84);
     }
 
-    SDL_Texture *texture = IMG_LoadTexture(renderer, fpath.c_str());
-    if (texture == nullptr) {
+    this->texture = IMG_LoadTexture(renderer, fpath.c_str());
+    if (!this->texture) {
         SDL_Log("Unable to create texture: %s", SDL_GetError());
         SDL_Quit();
         exit(84);
     }
-    this->texture = texture;
 }
 
 Display::SDL2Texture::~SDL2Texture()

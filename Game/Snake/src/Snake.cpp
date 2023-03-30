@@ -7,10 +7,13 @@
 
 #include "Snake.hpp"
 #include <iostream>
+#include "SDL2Window.hpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 Game::Snake::Snake(Display::IFactory &factory)
 {
-    this->window = factory.createWindow("Snake", 60, 1000, 1000);
+    this->window = factory.createWindow("Snake", 60, 100, 100);
     this->snakeTexture = factory.createTexture('#', "assets/snake/body.png");
     this->foodTexture = factory.createTexture('o', "assets/snake/food.png");
 
@@ -21,10 +24,10 @@ Game::Snake::Snake(Display::IFactory &factory)
     );
 
     for (size_t i = 0; i < 3; i++) {
-        this->snake[i] = (factory.createSprite(
+        this->snake.push_back(factory.createSprite(
             *this->snakeTexture,
             {0, 0, 10, 10},
-            {(float)50 + (i * 10), 50}
+            {(float)10 * i, 0}
         ));
     }
 

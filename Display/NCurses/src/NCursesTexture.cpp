@@ -17,7 +17,7 @@ Display::NCursesTexture::~NCursesTexture()
 {
 }
 
-char Display::NCursesTexture::getNCursesTexture() const
+char Display::NCursesTexture::getTexture() const
 {
     return this->c;
 }

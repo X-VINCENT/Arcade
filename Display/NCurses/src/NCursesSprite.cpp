@@ -17,7 +17,7 @@ Display::NCursesSprite::NCursesSprite(
     Display::NCursesTexture ncursesTexture = dynamic_cast<Display::NCursesTexture &>(texture);
 
     // !!Character not set
-    this->c = ncursesTexture.getNCursesTexture();
+    this->c = ncursesTexture.getTexture();
     this->texture = texture;
     this->rect = rect;
     this->position = position;
@@ -52,7 +52,7 @@ void Display::NCursesSprite::setTexture(Display::ITexture &src_texture)
     Display::NCursesTexture ncursesTexture =
             dynamic_cast<Display::NCursesTexture &>(src_texture);
 
-    this->c = ncursesTexture.getNCursesTexture();
+    this->c = ncursesTexture.getTexture();
     this->texture = std::move(src_texture);
 }
 

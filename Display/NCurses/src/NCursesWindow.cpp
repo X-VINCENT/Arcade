@@ -22,7 +22,7 @@ void init_colors()
 }
 
 Display::NCursesWindow::NCursesWindow(
-    std::string const &title,
+    const std::string &title,
     int framerateLimit,
     int width,
     int height
@@ -142,7 +142,7 @@ Display::Event Display::NCursesWindow::getEvent()
     return Display::Event::Unknown;
 }
 
-void Display::NCursesWindow::setTitle(std::string const &title)
+void Display::NCursesWindow::setTitle(const std::string &title)
 {
     if (this->window != nullptr)
         wattron(this->window, COLOR_PAIR(7));
@@ -165,7 +165,7 @@ void Display::NCursesWindow::draw(Display::ISprite &sprite)
         return;
 
     Display::NCursesTexture &ncursesTexture = dynamic_cast<Display::NCursesTexture &>(sprite);
-    char c = ncursesTexture.getNCursesTexture();
+    char c = ncursesTexture.getTexture();
 
     mvwprintw(this->window, sprite.getPosition().y, sprite.getPosition().x, "%c", c);
 }

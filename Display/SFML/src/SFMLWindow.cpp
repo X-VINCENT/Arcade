@@ -9,7 +9,7 @@
 #include "SFMLSprite.hpp"
 
 Display::SFMLWindow::SFMLWindow(
-    std::string const &title,
+    const std::string &title,
     int framerateLimit,
     int width,
     int height
@@ -131,7 +131,7 @@ Display::Event Display::SFMLWindow::getEvent()
     return Display::Event::Unknown;
 }
 
-void Display::SFMLWindow::setTitle(std::string const &title)
+void Display::SFMLWindow::setTitle(const std::string &title)
 {
     this->window.setTitle(title);
 }

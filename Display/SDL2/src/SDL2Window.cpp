@@ -11,13 +11,14 @@
 #include <iostream>
 
 Display::SDL2Window::SDL2Window(
-    std::string const &title,
+    const std::string &title,
     int framerateLimit,
     int width,
     int height
 )
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
         exit(84);
     }
     this->window = SDL_CreateWindow(
@@ -28,11 +29,24 @@ Display::SDL2Window::SDL2Window(
         height * 10,
         SDL_WINDOW_SHOWN
     );
-    if (this->window == nullptr) {
+    if (!this->window) {
         SDL_Log("Unable to create window: %s", SDL_GetError());
         SDL_Quit();
         exit(84);
     }
+    this->renderer = SDL_CreateRenderer(
+        this->window,
+        -1,
+        SDL_RENDERER_ACCELERATED
+    );
+    if (!this->renderer) {
+        SDL_Log("Unable to create renderer: %s", SDL_GetError());
+        SDL_DestroyWindow(this->window);
+        SDL_Quit();
+        exit(84);
+    }
+    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_RenderClear(this->renderer);
 }
 
 Display::SDL2Window::~SDL2Window()
@@ -178,24 +192,26 @@ void Display::SDL2Window::draw(Display::ISprite &sprite)
 {
     Display::SDL2Sprite &sdlSprite = dynamic_cast<Display::SDL2Sprite &>(sprite);
 
-    SDL_Texture *texture = &sdlSprite.getSDLSprite();
+    SDL_Texture *texture = &sdlSprite.getTexture();
 
-    int w, h;
-    SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
-    SDL_Rect texr;
-    texr.x = 1000/2; texr.y = 1000/2; texr.w = w; texr.h = h;
+    SDL_Rect dest;
+	dest.x = sprite.getPosition().x;
+	dest.y = sprite.getPosition().y;
+	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
-    SDL_RenderCopy(this->renderer, texture, nullptr, &texr);
+    SDL_RenderCopy(this->renderer, texture, nullptr, &dest);
 }
 
 void Display::SDL2Window::close()
 {
-    SDL_DestroyRenderer(this->renderer);
-    SDL_DestroyWindow(this->window);
+    if (this->renderer != nullptr)
+        SDL_DestroyRenderer(this->renderer);
+    if (this->window != nullptr)
+        SDL_DestroyWindow(this->window);
     SDL_Quit();
 }
 
-SDL_Window *Display::SDL2Window::getSDL2Window() const
+SDL_Window *Display::SDL2Window::getWindow() const
 {
     return this->window;
 }

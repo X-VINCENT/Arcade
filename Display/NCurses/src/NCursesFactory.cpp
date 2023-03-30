@@ -19,7 +19,7 @@ Display::NCursesFactory::~NCursesFactory()
 }
 
 std::unique_ptr<Display::IWindow> Display::NCursesFactory::createWindow(
-    std::string const &title,
+    const std::string &title,
     int framerate,
     int width,
     int height

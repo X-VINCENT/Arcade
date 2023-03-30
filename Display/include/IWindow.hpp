@@ -15,7 +15,7 @@ namespace Display {
         public:
             virtual ~IWindow() = default;
             virtual Display::Event getEvent() = 0;
-            virtual void setTitle(std::string const &title) = 0;
+            virtual void setTitle(const std::string &title) = 0;
             virtual bool isOpen() = 0;
             virtual void clear() = 0;
             virtual void draw(Display::ISprite &sprite) = 0;

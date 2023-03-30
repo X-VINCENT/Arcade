@@ -18,7 +18,7 @@ namespace Display {
             SDL2Factory() = default;
             ~SDL2Factory() override;
             std::unique_ptr<Display::IWindow> createWindow(
-                std::string const &title,
+                const std::string &title,
                 int framerate,
                 int width,
                 int height
@@ -32,7 +32,8 @@ namespace Display {
                 char c,
                 std::string const &fpath
             ) override;
+
         private:
-            Display::SDL2Window window = Display::SDL2Window();
+            Display::SDL2Window* window{nullptr};
     };
 }

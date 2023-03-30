@@ -55,10 +55,8 @@ set(SRC_DISPLAY_NCURSES
 set(SFML_DIRECTORY SFML/)
 set(SRC_DISPLAY_SFML
         src/SFMLFactory.cpp
-        src/SFMLIntRect.cpp
         src/SFMLSprite.cpp
         src/SFMLTexture.cpp
-        src/SFMLVector2f.cpp
         src/SFMLWindow.cpp
 )
 
@@ -66,10 +64,8 @@ set(SRC_DISPLAY_SFML
 set(SDL2_DIRECTORY SDL2/)
 set(SRC_DISPLAY_SDL2
         src/SDL2Factory.cpp
-        src/SDL2IntRect.cpp
         src/SDL2Sprite.cpp
         src/SDL2Texture.cpp
-        src/SDL2Vector2f.cpp
         src/SDL2Window.cpp
 )
 
@@ -115,4 +111,3 @@ target_link_libraries(ncurses ${CURSES_LIBRARIES})
 target_link_libraries(sfml sfml-graphics)
 target_link_libraries(sdl2 ${SDL2_LIBRARIES} SDL2_image)
 target_link_libraries(arcade ${CMAKE_DL_LIBS})
-

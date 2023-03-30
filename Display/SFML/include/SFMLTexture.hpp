@@ -15,7 +15,7 @@ namespace Display {
         public:
             SFMLTexture(char c, std::string const &fpath);
             ~SFMLTexture() override;
-            sf::Texture &getSFMLTexture();
+            sf::Texture &getTexture();
 
         private:
             sf::Texture texture;

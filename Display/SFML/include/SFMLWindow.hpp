@@ -13,13 +13,13 @@ namespace Display {
     class SFMLWindow : public IWindow {
         public:
             SFMLWindow(
-                std::string const &title,
+                const std::string &title,
                 int framerateLimit,
                 int width,
                 int height);
             ~SFMLWindow();
             Display::Event getEvent() override;
-            void setTitle(std::string const &title) override;
+            void setTitle(const std::string &title) override;
             bool isOpen() override;
             void clear() override;
             void draw(Display::ISprite &sprite) override;
@@ -29,6 +29,5 @@ namespace Display {
         protected:
         private:
             sf::RenderWindow window;
-            std::string title;
     };
 };

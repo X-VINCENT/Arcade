@@ -13,7 +13,7 @@ namespace Display {
     class NCursesWindow : public IWindow {
         public:
             NCursesWindow(
-                std::string const &title,
+                const std::string &title,
                 int framerateLimit,
                 int width,
                 int height);

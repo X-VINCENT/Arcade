@@ -14,15 +14,18 @@ Display::SDL2Factory::~SDL2Factory()
 }
 
 std::unique_ptr<Display::IWindow> Display::SDL2Factory::createWindow(
-    std::string const &title,
+    const std::string &title,
     int framerate,
     int width,
     int height
 )
 {
-    Display::SDL2Window window(title, framerate, width, height);
-    this->window = window;
-    return std::make_unique<Display::SDL2Window>(window);
+    if (this->window != nullptr)
+        throw 1;
+
+    auto winptr = std::make_unique<Display::SDL2Window>(title, framerate, width, height);
+    this->window = winptr.get();
+    return winptr;
 }
 
 std::unique_ptr<Display::ISprite> Display::SDL2Factory::createSprite(
@@ -39,7 +42,7 @@ std::unique_ptr<Display::ITexture> Display::SDL2Factory::createTexture(
     std::string const &fpath
 )
 {
-    return std::make_unique<Display::SDL2Texture>(c, fpath, this->window.getRenderer());
+    return std::make_unique<Display::SDL2Texture>(c, fpath, this->window->getRenderer());
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

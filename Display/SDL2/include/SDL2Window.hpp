@@ -14,23 +14,26 @@ namespace Display {
         public:
             SDL2Window() = default;
             SDL2Window(
-                std::string const &title,
+                const std::string &title,
                 int framerateLimit,
                 int width,
                 int height);
             ~SDL2Window();
+            SDL2Window(const Display::SDL2Window &other) = delete;
+            SDL2Window(Display::SDL2Window &&other) = delete;
+            Display::SDL2Window &operator=(const Display::SDL2Window &other) = delete;
+            Display::SDL2Window &operator=(Display::SDL2Window &&other) = delete;
             Display::Event getEvent() override;
-            void setTitle(std::string const &title) override;
+            void setTitle(const std::string &title) override;
             bool isOpen() override;
             void clear() override;
             void draw(Display::ISprite &sprite) override;
             void display() override;
             void close() override;
-            SDL_Window *getSDL2Window() const;
+            SDL_Window *getWindow() const;
             SDL_Renderer *getRenderer() const;
 
         private:
-            std::string title;
             SDL_Window *window;
             SDL_Renderer *renderer;
     };

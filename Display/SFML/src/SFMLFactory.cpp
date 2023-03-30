@@ -14,7 +14,7 @@ Display::SFMLFactory::~SFMLFactory()
 }
 
 std::unique_ptr<Display::IWindow> Display::SFMLFactory::createWindow(
-    std::string const &title,
+    const std::string &title,
     int framerate,
     int width,
     int height
