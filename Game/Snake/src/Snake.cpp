@@ -132,8 +132,6 @@ void Game::Snake::handleCollision()
         for (size_t i = 2; i < this->snake.size(); i++) {
             headPos = this->snake[0]->getPosition();
             bodyPos = this->snake[i]->getPosition();
-            std::cout << headPos.x << " head " << headPos.y << std::endl;
-            std::cout << bodyPos.x << " body " << bodyPos.y << std::endl;
             if (headPos.x == bodyPos.x && headPos.y == bodyPos.y)
                 this->setState(Game::State::END);
         }

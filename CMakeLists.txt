@@ -25,6 +25,7 @@ include_directories(
         Display/SDL2/include
         Game/include
         Game/Snake/include
+        Game/Centipede/include
 )
 
 set(EXECUTABLE_NAME "arcade")
@@ -75,6 +76,12 @@ set(SRC_GAME_SNAKE
         src/Snake.cpp
 )
 
+# Centipede Sources
+set(CENTIPEDE_DIRECTORY Centipede/)
+set(SRC_GAME_CENTIPEDE
+        src/Centipede.cpp
+)
+
 # Tests Sources
 set(TESTS_DIRECTORY tests/)
 set(SRC_TESTS
@@ -88,12 +95,14 @@ list(TRANSFORM SRC_DISPLAY_NCURSES PREPEND ${DISPLAY_DIRECTORY}/${NCURSES_DIRECT
 list(TRANSFORM SRC_DISPLAY_SFML PREPEND ${DISPLAY_DIRECTORY}/${SFML_DIRECTORY})
 list(TRANSFORM SRC_DISPLAY_SDL2 PREPEND ${DISPLAY_DIRECTORY}/${SDL2_DIRECTORY})
 list(TRANSFORM SRC_GAME_SNAKE PREPEND ${GAME_DIRECTORY}/${SNAKE_DIRECTORY})
+list(TRANSFORM SRC_GAME_CENTIPEDE PREPEND ${GAME_DIRECTORY}/${CENTIPEDE_DIRECTORY})
 list(TRANSFORM SRC_TESTS PREPEND ${TESTS_DIRECTORY})
 
 add_library(ncurses SHARED ${SRC_DISPLAY_NCURSES})
 add_library(sfml SHARED ${SRC_DISPLAY_SFML})
 add_library(sdl2 SHARED ${SRC_DISPLAY_SDL2})
 add_library(snake SHARED ${SRC_GAME_SNAKE})
+add_library(centipede SHARED ${SRC_GAME_CENTIPEDE})
 
 set_target_properties(ncurses PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
@@ -102,6 +111,8 @@ set_target_properties(sfml PROPERTIES
 set_target_properties(sdl2 PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
 set_target_properties(snake PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
+set_target_properties(centipede PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY})
 
