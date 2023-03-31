@@ -29,6 +29,7 @@ namespace Display {
             bool isOpen() override;
             void clear() override;
             void draw(Display::ISprite &sprite) override;
+            void draw(Display::IText &text) override;
             void display() override;
             void close() override;
             SDL_Window *getWindow() const;

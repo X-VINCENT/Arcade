@@ -20,11 +20,12 @@ Game::Snake::Snake(Display::IFactory &factory)
     this->window = factory.createWindow("Snake", 60, WINDOW_WIDTH, WINDOW_HEIGHT);
     this->snakeTexture = factory.createTexture('#', "assets/snake/body.png");
     this->foodTexture = factory.createTexture('o', "assets/snake/food.png");
+    this->arialFont = factory.createFont("assets/snake/arial.ttf");
 
     this->food = factory.createSprite(
         *this->foodTexture,
         {0, 0, 1, 1},
-        {(float)(rand() % WINDOW_WIDTH) * 1, 
+        {(float)(rand() % WINDOW_WIDTH) * 1,
         (float)(rand() % WINDOW_HEIGHT) * 1}
     );
 
@@ -36,8 +37,16 @@ Game::Snake::Snake(Display::IFactory &factory)
         ));
     }
 
+    this->scoreText = factory.createText(
+        "Score: 0",
+        *this->arialFont,
+        Display::Color::WHITE,
+        {0, 0}
+    );
+
     this->direction = Game::Direction::RIGHT;
     this->setState(Game::State::GAME);
+    this->score = 0;
 }
 
 Game::Snake::~Snake()
@@ -120,6 +129,8 @@ void Game::Snake::handleEat(Display::IFactory &factory)
             (float)(rand() % WINDOW_WIDTH) * 1,
             (float)(rand() % WINDOW_HEIGHT) * 1
         });
+        this->score++;
+        this->scoreText->setText("Score: " + std::to_string(this->score));
     }
 }
 
@@ -156,6 +167,7 @@ void Game::Snake::updateWindow()
     for (auto &sprite : this->snake)
         this->window->draw(*sprite);
     this->window->draw(*this->food);
+    this->window->draw(*this->scoreText);
 
     this->window->display();
 }

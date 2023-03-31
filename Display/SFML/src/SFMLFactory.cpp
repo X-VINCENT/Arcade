@@ -6,6 +6,7 @@
 */
 
 #include "SFMLFactory.hpp"
+#include "SFMLText.hpp"
 #include <memory>
 #include <iostream>
 
@@ -34,10 +35,27 @@ std::unique_ptr<Display::ISprite> Display::SFMLFactory::createSprite(
 
 std::unique_ptr<Display::ITexture> Display::SFMLFactory::createTexture(
     char c,
-    std::string const &fpath
+    std::string const &texturePath
     )
 {
-    return std::make_unique<Display::SFMLTexture>(c, fpath);
+    return std::make_unique<Display::SFMLTexture>(texturePath);
+}
+
+std::unique_ptr<Display::IFont> Display::SFMLFactory::createFont(
+    std::string const &fontPath
+)
+{
+    return std::make_unique<Display::SFMLFont>(fontPath);
+}
+
+std::unique_ptr<Display::IText> Display::SFMLFactory::createText(
+    const std::string &text,
+    const Display::IFont &font,
+    const Display::Color &color,
+    const Display::Vector2f &position
+)
+{
+    return std::make_unique<Display::SFMLText>(text, font, color, position);
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

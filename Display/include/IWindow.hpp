@@ -8,6 +8,7 @@
 #pragma once
 #include "Event.hpp"
 #include "ISprite.hpp"
+#include "IText.hpp"
 #include <memory>
 
 namespace Display {
@@ -19,6 +20,7 @@ namespace Display {
             virtual bool isOpen() = 0;
             virtual void clear() = 0;
             virtual void draw(Display::ISprite &sprite) = 0;
+            virtual void draw(Display::IText &text) = 0;
             virtual void display() = 0;
             virtual void close() = 0;
     };

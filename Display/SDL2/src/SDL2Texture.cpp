@@ -9,7 +9,11 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 
-Display::SDL2Texture::SDL2Texture(char c, std::string const &fpath, SDL_Renderer *renderer)
+Display::SDL2Texture::SDL2Texture(
+    char c,
+    std::string const &texturePath,
+    SDL_Renderer *renderer
+)
 {
     if (!renderer) {
         SDL_Log("Invalid renderer: %s", SDL_GetError());
@@ -17,7 +21,7 @@ Display::SDL2Texture::SDL2Texture(char c, std::string const &fpath, SDL_Renderer
         exit(84);
     }
 
-    this->texture = IMG_LoadTexture(renderer, fpath.c_str());
+    this->texture = IMG_LoadTexture(renderer, texturePath.c_str());
     if (!this->texture) {
         SDL_Log("Unable to create texture: %s", SDL_GetError());
         SDL_Quit();

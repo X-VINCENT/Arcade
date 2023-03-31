@@ -40,9 +40,12 @@ namespace Game {
             std::unique_ptr<Display::IWindow> window;
             std::unique_ptr<Display::ITexture> snakeTexture;
             std::unique_ptr<Display::ITexture> foodTexture;
+            std::unique_ptr<Display::IFont> arialFont;
             std::vector<std::unique_ptr<Display::ISprite>> snake;
             std::unique_ptr<Display::ISprite> food;
+            std::unique_ptr<Display::IText> scoreText;
             Direction direction = Direction::RIGHT;
+            int score;
             void handleEvents();
             void moveSnake();
             void handleEat(Display::IFactory &factory);

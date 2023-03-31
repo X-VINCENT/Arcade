@@ -6,23 +6,23 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
+# Find the SDL2 library
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
 # Find the SFML library
 find_package(SFML 2.5
         COMPONENTS
         system window graphics audio REQUIRED)
 include_directories(${SFML_INCLUDE_DIR})
 
-# Find the SDL2 library
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
-
 include_directories(
         Core/include
         Core/DLLoader/include
         Display/include
-        Display/SFML/include
         Display/NCurses/include
         Display/SDL2/include
+        Display/SFML/include
         Game/include
         Game/Snake/include
         Game/Centipede/include
@@ -46,28 +46,37 @@ set(SRC_CORE
 # NCurses Sources
 set(NCURSES_DIRECTORY NCurses/)
 set(SRC_DISPLAY_NCURSES
+        src/NCursesException.cpp
         src/NCursesFactory.cpp
+        src/NCursesFont.cpp
         src/NCursesSprite.cpp
+        src/NCursesText.cpp
         src/NCursesTexture.cpp
         src/NCursesWindow.cpp
-)
-
-# SFML Sources
-set(SFML_DIRECTORY SFML/)
-set(SRC_DISPLAY_SFML
-        src/SFMLFactory.cpp
-        src/SFMLSprite.cpp
-        src/SFMLTexture.cpp
-        src/SFMLWindow.cpp
 )
 
 # SDL2 Sources
 set(SDL2_DIRECTORY SDL2/)
 set(SRC_DISPLAY_SDL2
+        src/SDL2Exception.cpp
         src/SDL2Factory.cpp
+        src/SDL2Font.cpp
         src/SDL2Sprite.cpp
+        src/SDL2Text.cpp
         src/SDL2Texture.cpp
         src/SDL2Window.cpp
+)
+
+# SFML Sources
+set(SFML_DIRECTORY SFML/)
+set(SRC_DISPLAY_SFML
+        src/SFMLException.cpp
+        src/SFMLFactory.cpp
+        src/SFMLFont.cpp
+        src/SFMLSprite.cpp
+        src/SFMLText.cpp
+        src/SFMLTexture.cpp
+        src/SFMLWindow.cpp
 )
 
 # Snake Sources
@@ -120,5 +129,5 @@ add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_CORE})
 
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
 target_link_libraries(sfml sfml-graphics)
-target_link_libraries(sdl2 ${SDL2_LIBRARIES} SDL2_image)
+target_link_libraries(sdl2 ${SDL2_LIBRARIES} SDL2_image SDL2_ttf)
 target_link_libraries(arcade ${CMAKE_DL_LIBS})

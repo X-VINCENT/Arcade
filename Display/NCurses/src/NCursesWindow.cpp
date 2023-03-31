@@ -8,6 +8,7 @@
 #include "NCursesWindow.hpp"
 #include "NCursesTexture.hpp"
 #include "NCursesSprite.hpp"
+#include "NCursesText.hpp"
 
 void init_colors()
 {
@@ -169,6 +170,18 @@ void Display::NCursesWindow::draw(Display::ISprite &sprite)
     Vector2f pos = sprite.getPosition();
 
     mvwprintw(this->window, pos.y, pos.x, "%c", c);
+}
+
+void Display::NCursesWindow::draw(Display::IText &text)
+{
+    if (!this->window)
+        return;
+
+    Display::NCursesText &ncursesText = dynamic_cast<Display::NCursesText &>(text);
+    std::string str = ncursesText.getText();
+    Vector2f pos = text.getPosition();
+
+    mvwprintw(this->window, pos.y, pos.x, "%s", str.c_str());
 }
 
 void Display::NCursesWindow::display()
