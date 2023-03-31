@@ -56,18 +56,26 @@ void Game::Snake::handleEvents()
             break;
         case Display::Event::Q:
         case Display::Event::Left:
+            if (this->direction == Game::Direction::RIGHT)
+                this->setState(Game::State::END);
             this->direction = Game::Direction::LEFT;
             break;
         case Display::Event::D:
         case Display::Event::Right:
+            if (this->direction == Game::Direction::LEFT)
+                this->setState(Game::State::END);
             this->direction = Game::Direction::RIGHT;
             break;
         case Display::Event::Z:
         case Display::Event::Up:
+            if (this->direction == Game::Direction::DOWN)
+                this->setState(Game::State::END);
             this->direction = Game::Direction::UP;
             break;
         case Display::Event::S:
         case Display::Event::Down:
+            if (this->direction == Game::Direction::UP)
+                this->setState(Game::State::END);
             this->direction = Game::Direction::DOWN;
             break;
         default:
@@ -116,13 +124,21 @@ void Game::Snake::handleEat(Display::IFactory &factory)
 
 void Game::Snake::handleCollision()
 {
-    Display::Vector2f headPos = this->snake[0]->getPosition();
+    Display::Vector2f headPos;
+    Display::Vector2f bodyPos;
 
-    /* for (size_t i = 1; i < this->snake.size(); i++) {
-        if (headPos.x == this->snake[i]->getPosition().x &&
-            headPos.y == this->snake[i]->getPosition().y)
-            this->setState(Game::State::END);
-    } */
+    if (this->snake.size() > 4) {
+        for (size_t i = 2; i < this->snake.size(); i++) {
+            headPos = this->snake[0]->getPosition();
+            bodyPos = this->snake[i]->getPosition();
+            std::cout << headPos.x << " head " << headPos.y << std::endl;
+            std::cout << bodyPos.x << " body " << bodyPos.y << std::endl;
+            if (headPos.x == bodyPos.x && headPos.y == bodyPos.y)
+                this->setState(Game::State::END);
+        }
+    }
+    
+    headPos = this->snake[0]->getPosition();
     if (headPos.x < 0)
         this->snake[0]->setPosition({(float)WINDOW_WIDTH - 1, headPos.y});
     if (headPos.x >= WINDOW_WIDTH)
