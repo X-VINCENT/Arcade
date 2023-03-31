@@ -24,14 +24,15 @@ Game::Snake::Snake(Display::IFactory &factory)
     this->food = factory.createSprite(
         *this->foodTexture,
         {0, 0, 1, 1},
-        {3, 4}
+        {(float)(rand() % WINDOW_WIDTH) * 1, 
+        (float)(rand() % WINDOW_HEIGHT) * 1}
     );
 
-    for (size_t i = 0; i < 3; i++) {
+    for (size_t i = 0; i < 4; i++) {
         this->snake.push_back(factory.createSprite(
             *this->snakeTexture,
             {0, 0, 1, 1},
-            {(float)i, 0}
+            {(float)WINDOW_WIDTH / 2 + i, WINDOW_HEIGHT / 2}
         ));
     }
 
@@ -137,7 +138,8 @@ void Game::Snake::handleCollision()
                 this->setState(Game::State::END);
         }
     }
-    
+    if (this->snake.size() >= WINDOW_WIDTH * WINDOW_HEIGHT)
+        this->setState(Game::State::END);
     headPos = this->snake[0]->getPosition();
     if (headPos.x < 0)
         this->snake[0]->setPosition({(float)WINDOW_WIDTH - 1, headPos.y});
