@@ -10,6 +10,7 @@
 #include "SDL2Window.hpp"
 #include "SDL2Sprite.hpp"
 #include "SDL2Texture.hpp"
+#include "SDL2Font.hpp"
 #include <memory>
 
 namespace Display {
@@ -30,7 +31,10 @@ namespace Display {
             ) override;
             std::unique_ptr<Display::ITexture> createTexture(
                 char c,
-                std::string const &fpath
+                std::string const &texturePath
+            ) override;
+            std::unique_ptr<Display::IFont> createFont(
+                std::string const &fontPath
             ) override;
 
         private:

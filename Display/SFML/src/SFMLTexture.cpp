@@ -7,13 +7,9 @@
 
 #include "SFMLTexture.hpp"
 
-Display::SFMLTexture::SFMLTexture(
-    char c,
-    std::string const &fpath
-)
+Display::SFMLTexture::SFMLTexture(std::string const &texturePath)
 {
-    (void)c;
-    this->texture.loadFromFile(fpath);
+    this->texture.loadFromFile(texturePath);
 }
 
 Display::SFMLTexture::~SFMLTexture()

@@ -7,6 +7,7 @@
 
 #include "NCursesFactory.hpp"
 #include "NCursesWindow.hpp"
+#include "NCursesFont.hpp"
 #include <memory>
 #include <iostream>
 
@@ -35,10 +36,17 @@ std::unique_ptr<Display::ISprite> Display::NCursesFactory::createSprite(
 
 std::unique_ptr<Display::ITexture> Display::NCursesFactory::createTexture(
     char c,
-    std::string const &fpath
+    std::string const &texturePath
 )
 {
     return std::make_unique<Display::NCursesTexture>(c);
+}
+
+std::unique_ptr<Display::IFont> Display::NCursesFactory::createFont(
+    std::string const &fontPath
+)
+{
+    return std::make_unique<Display::NCursesFont>();
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

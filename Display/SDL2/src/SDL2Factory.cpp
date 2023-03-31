@@ -6,6 +6,7 @@
 */
 
 #include "SDL2Factory.hpp"
+#include "SDL2Exception.hpp"
 #include <memory>
 #include <iostream>
 
@@ -20,8 +21,13 @@ std::unique_ptr<Display::IWindow> Display::SDL2Factory::createWindow(
     int height
 )
 {
-    if (this->window != nullptr)
-        throw 1;
+    try {
+        if (this->window != nullptr)
+            throw SDL2Exception("Window already created");
+    } catch (SDL2Exception &e) {
+        std::cerr << e.what() << std::endl;
+        exit(84);
+    }
 
     auto winptr = std::make_unique<Display::SDL2Window>(title, framerate, width, height);
     this->window = winptr.get();
@@ -39,10 +45,17 @@ std::unique_ptr<Display::ISprite> Display::SDL2Factory::createSprite(
 
 std::unique_ptr<Display::ITexture> Display::SDL2Factory::createTexture(
     char c,
-    std::string const &fpath
+    std::string const &texturePath
 )
 {
-    return std::make_unique<Display::SDL2Texture>(c, fpath, this->window->getRenderer());
+    return std::make_unique<Display::SDL2Texture>(c, texturePath, this->window->getRenderer());
+}
+
+std::unique_ptr<Display::IFont> Display::SDL2Factory::createFont(
+    std::string const &fontPath
+)
+{
+    return std::make_unique<Display::SDL2Font>(fontPath);
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

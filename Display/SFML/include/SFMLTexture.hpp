@@ -13,7 +13,7 @@
 namespace Display {
     class SFMLTexture : public ITexture {
         public:
-            SFMLTexture(char c, std::string const &fpath);
+            SFMLTexture(std::string const &texturePath);
             ~SFMLTexture() override;
             sf::Texture &getSFTexture();
 

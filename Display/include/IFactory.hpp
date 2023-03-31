@@ -13,6 +13,7 @@
 #include "IWindow.hpp"
 #include "ISprite.hpp"
 #include "ITexture.hpp"
+#include "IFont.hpp"
 
 namespace Display {
     class IFactory {
@@ -31,7 +32,10 @@ namespace Display {
             ) = 0;
             virtual std::unique_ptr<Display::ITexture> createTexture(
                 char c,
-                std::string const &fpath
+                std::string const &texturePath
+            ) = 0;
+            virtual std::unique_ptr<Display::IFont> createFont(
+                std::string const &fontPath
             ) = 0;
     };
 };
