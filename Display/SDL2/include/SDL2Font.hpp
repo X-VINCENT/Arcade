@@ -13,7 +13,7 @@ namespace Display {
     class SDL2Font : public IFont {
         public:
             SDL2Font(const std::string &fontPath);
-            ~SDL2Font();
+            ~SDL2Font() override;
             void setFont(const std::string &fontPath) override;
             TTF_Font *getSDLFont() const;
 

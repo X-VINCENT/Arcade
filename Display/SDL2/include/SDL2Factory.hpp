@@ -36,8 +36,14 @@ namespace Display {
             std::unique_ptr<Display::IFont> createFont(
                 std::string const &fontPath
             ) override;
+            std::unique_ptr<Display::IText> createText(
+                const std::string &text,
+                const Display::IFont &font,
+                const Display::Color &color,
+                const Display::Vector2f &position
+            ) override;
 
         private:
-            Display::SDL2Window* window{nullptr};
+            Display::SDL2Window *window{nullptr};
     };
 }

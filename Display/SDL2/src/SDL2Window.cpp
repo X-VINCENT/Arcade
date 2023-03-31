@@ -5,9 +5,11 @@
 ** SDL2Window
 */
 
+#include <SDL2/SDL_ttf.h>
 #include "SDL2Window.hpp"
 #include "SDL2Texture.hpp"
 #include "SDL2Sprite.hpp"
+#include "SDL2Text.hpp"
 #include <iostream>
 
 #define SDL2_RATIO 10
@@ -19,8 +21,13 @@ Display::SDL2Window::SDL2Window(
     int height
 )
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
+        exit(84);
+    }
+    if (TTF_Init() < 0) {
+        SDL_Log("Unable to initialize SDL_ttf: %s", SDL_GetError());
+        SDL_Quit();
         exit(84);
     }
     this->window = SDL_CreateWindow(
@@ -44,6 +51,7 @@ Display::SDL2Window::SDL2Window(
     if (!this->renderer) {
         SDL_Log("Unable to create renderer: %s", SDL_GetError());
         SDL_DestroyWindow(this->window);
+        TTF_Quit();
         SDL_Quit();
         exit(84);
     }
@@ -199,6 +207,25 @@ void Display::SDL2Window::draw(Display::ISprite &sprite)
 	dest.x = sprite.getPosition().x * SDL2_RATIO;
 	dest.y = sprite.getPosition().y * SDL2_RATIO;
 	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+
+    SDL_RenderCopy(this->renderer, texture, nullptr, &dest);
+}
+
+void Display::SDL2Window::draw(Display::IText &text)
+{
+    if (this->renderer == nullptr) {
+        SDL_Log("Unable to draw text: %s", SDL_GetError());
+        SDL_DestroyWindow(this->window);
+        SDL_Quit();
+    }
+
+    Display::SDL2Text &sdlText = dynamic_cast<Display::SDL2Text &>(text);
+    SDL_Texture *texture = &sdlText.getSDLText();
+
+    SDL_Rect dest;
+    dest.x = text.getPosition().x * SDL2_RATIO;
+    dest.y = text.getPosition().y * SDL2_RATIO;
+    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
     SDL_RenderCopy(this->renderer, texture, nullptr, &dest);
 }

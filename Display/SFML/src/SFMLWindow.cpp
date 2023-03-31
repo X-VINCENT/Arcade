@@ -7,6 +7,7 @@
 
 #include "SFMLWindow.hpp"
 #include "SFMLSprite.hpp"
+#include "SFMLText.hpp"
 
 #define SFML_RATIO 10
 
@@ -159,7 +160,7 @@ void Display::SFMLWindow::draw(Display::ISprite &sprite)
         return;
 
     Display::SFMLSprite &sfmlSprite = dynamic_cast<Display::SFMLSprite &>(sprite);
-    sf::Sprite sfSprite = sfmlSprite.getSfSprite();
+    sf::Sprite sfSprite = sfmlSprite.getSFSprite();
     Display::Vector2f pos = sfmlSprite.getPosition();
 
     sfSprite.setPosition(
@@ -167,6 +168,22 @@ void Display::SFMLWindow::draw(Display::ISprite &sprite)
         pos.y * SFML_RATIO
     );
     this->window.draw(sfSprite);
+}
+
+void Display::SFMLWindow::draw(Display::IText &text)
+{
+    if (!this->isOpen())
+        return;
+
+    Display::SFMLText &sfmlText = dynamic_cast<Display::SFMLText &>(text);
+    sf::Text sfText = sfmlText.getSFText();
+    Display::Vector2f pos = sfmlText.getPosition();
+
+    sfText.setPosition(
+        pos.x * SFML_RATIO,
+        pos.y * SFML_RATIO
+    );
+    this->window.draw(sfText);
 }
 
 void Display::SFMLWindow::display()

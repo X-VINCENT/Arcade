@@ -7,6 +7,7 @@
 
 #include "SDL2Factory.hpp"
 #include "SDL2Exception.hpp"
+#include "SDL2Text.hpp"
 #include <memory>
 #include <iostream>
 
@@ -56,6 +57,16 @@ std::unique_ptr<Display::IFont> Display::SDL2Factory::createFont(
 )
 {
     return std::make_unique<Display::SDL2Font>(fontPath);
+}
+
+std::unique_ptr<Display::IText> Display::SDL2Factory::createText(
+    const std::string &text,
+    const Display::IFont &font,
+    const Display::Color &color,
+    const Display::Vector2f &position
+)
+{
+    return std::make_unique<Display::SDL2Text>(text, font, color, position, this->window->getRenderer());
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

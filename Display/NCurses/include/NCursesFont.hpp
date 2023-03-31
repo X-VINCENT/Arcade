@@ -12,7 +12,7 @@ namespace Display {
     class NCursesFont : public IFont {
         public:
             NCursesFont();
-            ~NCursesFont();
+            ~NCursesFont() override;
             void setFont(const std::string &fontPath) override;
     };
 };

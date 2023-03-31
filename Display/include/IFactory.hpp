@@ -14,6 +14,7 @@
 #include "ISprite.hpp"
 #include "ITexture.hpp"
 #include "IFont.hpp"
+#include "IText.hpp"
 
 namespace Display {
     class IFactory {
@@ -36,6 +37,12 @@ namespace Display {
             ) = 0;
             virtual std::unique_ptr<Display::IFont> createFont(
                 std::string const &fontPath
+            ) = 0;
+            virtual std::unique_ptr<Display::IText> createText(
+                const std::string &text,
+                const Display::IFont &font,
+                const Display::Color &color,
+                const Display::Vector2f &position
             ) = 0;
     };
 };

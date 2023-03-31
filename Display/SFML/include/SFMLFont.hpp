@@ -13,7 +13,7 @@ namespace Display {
     class SFMLFont : public IFont {
         public:
             SFMLFont(const std::string &fontPath);
-            ~SFMLFont();
+            ~SFMLFont() override;
             void setFont(const std::string &fontPath) override;
             sf::Font &getSFFont();
 

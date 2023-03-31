@@ -18,6 +18,7 @@ namespace Display {
             virtual void setFont(const Display::IFont &font) = 0;
             virtual void setColor(const Display::Color &color) = 0;
             virtual void setPosition(const Display::Vector2f &position) = 0;
+            virtual Display::Vector2f getPosition() const = 0;
             virtual void move(const Display::Vector2f &offset) = 0;
     };
 };

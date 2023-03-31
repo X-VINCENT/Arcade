@@ -9,7 +9,11 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 
-Display::SDL2Texture::SDL2Texture(char c, std::string const &texturePath, SDL_Renderer *renderer)
+Display::SDL2Texture::SDL2Texture(
+    char c,
+    std::string const &texturePath,
+    SDL_Renderer *renderer
+)
 {
     if (!renderer) {
         SDL_Log("Invalid renderer: %s", SDL_GetError());

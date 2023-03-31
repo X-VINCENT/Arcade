@@ -89,7 +89,7 @@ void Display::SFMLSprite::move(const Display::Vector2f &offset)
     });
 }
 
-sf::Sprite &Display::SFMLSprite::getSfSprite()
+sf::Sprite &Display::SFMLSprite::getSFSprite()
 {
     return this->sprite;
 }
