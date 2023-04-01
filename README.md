@@ -64,6 +64,7 @@ The full and technical documentation is available [here](https://arcade-4.gitboo
 - Snake 🐍
 <img src="https://art.pixilart.com/16c3630a9147a08.gif" alt="Snake" width="100%">
 <br />
+
 - Centipede 🪱
 <img src="https://1.bp.blogspot.com/-VgBXjKlVJds/XzB6hr2qfKI/AAAAAAAAZmI/XzzPcgEnl0Imw70Rn0xKA7ojnxBt7FHEQCLcBGAsYHQ/d/centipede_path_size2.gif" alt="Centipede" width="100%">
 
