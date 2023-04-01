@@ -20,8 +20,8 @@ The graphical libraries are the different graphical interfaces that can be used 
 - [🚀 Usage](#-usage)
 - [📚 Documentation](#-documentation)
 - [📔 Libraries](#-libraries)
-    - [🖥️ Graphic libs](#️-graphic-libs)
-    - [🎮 Games](#-games)
+  - [🖥️ Graphic libs](#️-graphic-libs)
+  - [🎮 Games](#-games)
 - [😎 Contributors 😎](#-contributors-)
   - [🤠 In collaboration with 🤠](#-in-collaboration-with-)
 
@@ -53,13 +53,13 @@ The full and technical documentation is available [here](https://arcade-4.gitboo
 
 ## 📔 Libraries
 
-#### 🖥️ Graphic libs
+### 🖥️ Graphic libs
 
 - [nCurses](https://linux.die.net/man/3/ncurses)
 - [SDL2](https://wiki.libsdl.org/APIByCategory)
 - [SFML](https://www.sfml-dev.org/documentation/2.5.1/)
 
-#### 🎮 Games
+### 🎮 Games
 
 - Snake 🐍
 <img src="https://art.pixilart.com/16c3630a9147a08.gif" alt="Snake" width="100%">
