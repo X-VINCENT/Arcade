@@ -6,9 +6,6 @@
 */
 
 #include "SFMLFactory.hpp"
-#include "SFMLText.hpp"
-#include <memory>
-#include <iostream>
 
 Display::SFMLFactory::~SFMLFactory()
 {
@@ -56,6 +53,11 @@ std::unique_ptr<Display::IText> Display::SFMLFactory::createText(
 )
 {
     return std::make_unique<Display::SFMLText>(text, font, color, position);
+}
+
+std::unique_ptr<Display::IClock> Display::SFMLFactory::createClock()
+{
+    return std::make_unique<Display::SFMLClock>();
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

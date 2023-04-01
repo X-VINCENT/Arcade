@@ -15,6 +15,7 @@
 #include "ITexture.hpp"
 #include "IFont.hpp"
 #include "IText.hpp"
+#include "IClock.hpp"
 
 namespace Display {
     class IFactory {
@@ -44,5 +45,6 @@ namespace Display {
                 const Display::Color &color,
                 const Display::Vector2f &position
             ) = 0;
+            virtual std::unique_ptr<Display::IClock> createClock() = 0;
     };
 };

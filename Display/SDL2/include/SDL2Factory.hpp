@@ -7,10 +7,13 @@
 
 #pragma once
 #include "IFactory.hpp"
+#include "SDL2Exception.hpp"
 #include "SDL2Window.hpp"
 #include "SDL2Sprite.hpp"
 #include "SDL2Texture.hpp"
 #include "SDL2Font.hpp"
+#include "SDL2Text.hpp"
+#include "SDL2Clock.hpp"
 #include <memory>
 
 namespace Display {
@@ -42,6 +45,7 @@ namespace Display {
                 const Display::Color &color,
                 const Display::Vector2f &position
             ) override;
+            std::unique_ptr<Display::IClock> createClock() override;
 
         private:
             Display::SDL2Window *window{nullptr};

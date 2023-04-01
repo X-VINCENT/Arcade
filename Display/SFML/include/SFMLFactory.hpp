@@ -11,6 +11,8 @@
 #include "SFMLSprite.hpp"
 #include "SFMLTexture.hpp"
 #include "SFMLFont.hpp"
+#include "SFMLText.hpp"
+#include "SFMLClock.hpp"
 #include <memory>
 
 namespace Display {
@@ -42,5 +44,6 @@ namespace Display {
                 const Display::Color &color,
                 const Display::Vector2f &position
             ) override;
+            std::unique_ptr<Display::IClock> createClock() override;
     };
 }
