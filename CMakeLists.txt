@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(arcade)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 # Find the NCurses library
 find_package(Curses REQUIRED)
@@ -94,43 +95,48 @@ set(SRC_GAME_CENTIPEDE
         src/Centipede.cpp
 )
 
-# Tests Sources
-set(TESTS_DIRECTORY tests/)
-set(SRC_TESTS
-)
 
 set(CMAKE_CPP_FLAGS "-Wall -Wextra -Werror -fno-gnu-unique")
 
+# Transform all paths to absolute paths
 list(TRANSFORM SRC_MAIN PREPEND ${CORE_DIRECTORY})
 list(TRANSFORM SRC_CORE PREPEND ${CORE_DIRECTORY})
 list(TRANSFORM SRC_DISPLAY_NCURSES PREPEND ${DISPLAY_DIRECTORY}/${NCURSES_DIRECTORY})
-list(TRANSFORM SRC_DISPLAY_SFML PREPEND ${DISPLAY_DIRECTORY}/${SFML_DIRECTORY})
 list(TRANSFORM SRC_DISPLAY_SDL2 PREPEND ${DISPLAY_DIRECTORY}/${SDL2_DIRECTORY})
+list(TRANSFORM SRC_DISPLAY_SFML PREPEND ${DISPLAY_DIRECTORY}/${SFML_DIRECTORY})
 list(TRANSFORM SRC_GAME_SNAKE PREPEND ${GAME_DIRECTORY}/${SNAKE_DIRECTORY})
 list(TRANSFORM SRC_GAME_CENTIPEDE PREPEND ${GAME_DIRECTORY}/${CENTIPEDE_DIRECTORY})
-list(TRANSFORM SRC_TESTS PREPEND ${TESTS_DIRECTORY})
 
-add_library(ncurses SHARED ${SRC_DISPLAY_NCURSES})
-add_library(sfml SHARED ${SRC_DISPLAY_SFML})
-add_library(sdl2 SHARED ${SRC_DISPLAY_SDL2})
-add_library(snake SHARED ${SRC_GAME_SNAKE})
-add_library(centipede SHARED ${SRC_GAME_CENTIPEDE})
+# Display libraries
+set(NCURSES_LIB arcade_ncurses)
+set(SDL2_LIB arcade_sdl2)
+set(SFML_LIB arcade_sfml)
 
-set_target_properties(ncurses PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
-set_target_properties(sfml PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
-set_target_properties(sdl2 PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
-set_target_properties(snake PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
-set_target_properties(centipede PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
+add_library(${NCURSES_LIB} SHARED ${SRC_DISPLAY_NCURSES})
+add_library(${SDL2_LIB} SHARED ${SRC_DISPLAY_SDL2})
+add_library(${SFML_LIB} SHARED ${SRC_DISPLAY_SFML})
+
+set_target_properties(${NCURSES_LIB} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
+set_target_properties(${SDL2_LIB} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
+set_target_properties(${SFML_LIB} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
+
+
+# Games libraries
+set (SNAKE_LIB arcade_snake)
+set (CENTIPEDE_LIB arcade_centipede)
+
+add_library(${SNAKE_LIB} SHARED ${SRC_GAME_SNAKE})
+add_library(${CENTIPEDE_LIB} SHARED ${SRC_GAME_CENTIPEDE})
+
+set_target_properties(${SNAKE_LIB} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
+set_target_properties(${CENTIPEDE_LIB} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib/)
+
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY})
 
 add_executable(${EXECUTABLE_NAME} ${SRC_MAIN} ${SRC_CORE})
 
-target_link_libraries(ncurses ${CURSES_LIBRARIES})
-target_link_libraries(sfml sfml-graphics)
-target_link_libraries(sdl2 ${SDL2_LIBRARIES} SDL2_image SDL2_ttf)
-target_link_libraries(arcade ${CMAKE_DL_LIBS})
+target_link_libraries(${NCURSES_LIB} ${CURSES_LIBRARIES})
+target_link_libraries(${SDL2_LIB} ${SDL2_LIBRARIES} SDL2_image SDL2_ttf)
+target_link_libraries(${SFML_LIB} sfml-graphics)
+target_link_libraries(${EXECUTABLE_NAME} ${CMAKE_DL_LIBS})
