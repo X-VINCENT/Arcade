@@ -20,7 +20,7 @@ Display::NCursesClock::~NCursesClock()
 
 int Display::NCursesClock::getElapsedTime()
 {
-    return static_cast<int>(clock() - this->startClock);
+    return static_cast<int>(clock() - this->startClock) / 1000;
 }
 
 void Display::NCursesClock::restart()

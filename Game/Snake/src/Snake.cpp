@@ -14,6 +14,7 @@
 
 #define WINDOW_WIDTH 100
 #define WINDOW_HEIGHT 50
+#define FPS 60
 
 Game::Snake::Snake(Display::IFactory &factory)
 {
@@ -21,6 +22,8 @@ Game::Snake::Snake(Display::IFactory &factory)
     this->snakeTexture = factory.createTexture('#', "assets/snake/body.png");
     this->foodTexture = factory.createTexture('o', "assets/snake/food.png");
     this->arialFont = factory.createFont("assets/snake/arial.ttf");
+    this->renderClock = factory.createClock();
+    this->snakeClock = factory.createClock();
 
     this->food = factory.createSprite(
         *this->foodTexture,
@@ -95,6 +98,8 @@ void Game::Snake::handleEvents()
 
 void Game::Snake::moveSnake()
 {
+    if (this->snakeClock->getElapsedTime() < 100)
+        return;
     switch (this->direction) {
         case Game::Direction::LEFT:
             this->snake[0]->move({-1, 0});
@@ -114,6 +119,7 @@ void Game::Snake::moveSnake()
 
     for (size_t i = this->snake.size() - 1; i > 0; i--)
         this->snake[i]->setPosition(this->snake[i - 1]->getPosition());
+    this->snakeClock->restart();
 }
 
 void Game::Snake::handleEat(Display::IFactory &factory)
@@ -162,6 +168,8 @@ void Game::Snake::handleCollision()
 
 void Game::Snake::updateWindow()
 {
+    if (this->renderClock->getElapsedTime() < 1000 / 60)
+        return;
     this->window->clear();
 
     for (auto &sprite : this->snake)
@@ -170,6 +178,7 @@ void Game::Snake::updateWindow()
     this->window->draw(*this->scoreText);
 
     this->window->display();
+    this->renderClock->restart();
 }
 
 void Game::Snake::update(Display::IFactory &factory)
@@ -204,10 +213,8 @@ Game::State Game::Snake::getState() const
 
 void Game::Snake::run(Display::IFactory &factory)
 {
-    while (this->getState() != Game::State::END) {
+    while (this->getState() != Game::State::END)
         this->update(factory);
-        usleep(100000);
-    }
     this->stop();
 }
 
