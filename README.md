@@ -1,5 +1,7 @@
 <h1 align="center"> 🎮 Arcade 🎮 </h1>
 
+<img src="https://media.istockphoto.com/id/1300036832/fr/photo/machines-darcade-r%C3%A9tro-de-n%C3%A9on-dans-une-salle-de-jeux.jpg?s=612x612&w=0&k=20&c=WUYjyGXCqRnVUf2z4wzcmgkYwj72slJKwIbZzg8aWYg=" alt="Arcade" width="100%">
+
 ## 📖 About
 
 Arcade is a project that consists of creating a game library in C++ with the possibility of adding new games and libraries. The project is divided into two parts: the core and the graphical libraries.
@@ -8,7 +10,7 @@ The **core** is the main program that manages the graphical libraries and the ga
 
 The graphical libraries are the different graphical interfaces that can be used to display the games. The **graphical libraries** are in charge of displaying the games and managing the user's inputs. The games are the different **games** that can be played in the graphical libraries.
 
-<img href="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FT7pkAjugDROldGUY6PFT%2Fuploads%2F49uiz8024xAitdDSBrec%2Fimage.png?alt=media&token=8eeb5e37-7e55-4cfc-a6c9-5d226ca3ed5e">
+<img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FT7pkAjugDROldGUY6PFT%2Fuploads%2F49uiz8024xAitdDSBrec%2Fimage.png?alt=media&token=8eeb5e37-7e55-4cfc-a6c9-5d226ca3ed5e">
 
 ## 📚 Table of Contents
 
@@ -60,7 +62,10 @@ The full and technical documentation is available [here](https://arcade-4.gitboo
 #### 🎮 Games
 
 - Snake 🐍
+<img src="https://art.pixilart.com/16c3630a9147a08.gif" alt="Snake" width="100%">
+<br />
 - Centipede 🪱
+<img src="https://1.bp.blogspot.com/-VgBXjKlVJds/XzB6hr2qfKI/AAAAAAAAZmI/XzzPcgEnl0Imw70Rn0xKA7ojnxBt7FHEQCLcBGAsYHQ/d/centipede_path_size2.gif" alt="Centipede" width="100%">
 
 <div align="center">
 
