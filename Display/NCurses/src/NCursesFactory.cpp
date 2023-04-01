@@ -6,11 +6,6 @@
 */
 
 #include "NCursesFactory.hpp"
-#include "NCursesWindow.hpp"
-#include "NCursesFont.hpp"
-#include "NCursesText.hpp"
-#include <memory>
-#include <iostream>
 
 Display::NCursesFactory::~NCursesFactory()
 {
@@ -58,6 +53,11 @@ std::unique_ptr<Display::IText> Display::NCursesFactory::createText(
 )
 {
     return std::make_unique<Display::NCursesText>(text, color, position);
+}
+
+std::unique_ptr<Display::IClock> Display::NCursesFactory::createClock()
+{
+    return std::make_unique<Display::NCursesClock>();
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

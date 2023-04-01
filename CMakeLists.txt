@@ -46,6 +46,7 @@ set(SRC_CORE
 # NCurses Sources
 set(NCURSES_DIRECTORY NCurses/)
 set(SRC_DISPLAY_NCURSES
+        src/NCursesClock.cpp
         src/NCursesException.cpp
         src/NCursesFactory.cpp
         src/NCursesFont.cpp
@@ -58,6 +59,7 @@ set(SRC_DISPLAY_NCURSES
 # SDL2 Sources
 set(SDL2_DIRECTORY SDL2/)
 set(SRC_DISPLAY_SDL2
+        src/SDL2Clock.cpp
         src/SDL2Exception.cpp
         src/SDL2Factory.cpp
         src/SDL2Font.cpp
@@ -70,6 +72,7 @@ set(SRC_DISPLAY_SDL2
 # SFML Sources
 set(SFML_DIRECTORY SFML/)
 set(SRC_DISPLAY_SFML
+        src/SFMLClock.cpp
         src/SFMLException.cpp
         src/SFMLFactory.cpp
         src/SFMLFont.cpp

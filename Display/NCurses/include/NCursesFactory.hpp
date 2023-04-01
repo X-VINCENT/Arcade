@@ -10,6 +10,9 @@
 #include "NCursesWindow.hpp"
 #include "NCursesSprite.hpp"
 #include "NCursesTexture.hpp"
+#include "NCursesFont.hpp"
+#include "NCursesText.hpp"
+#include "NCursesClock.hpp"
 #include <memory>
 
 namespace Display {
@@ -41,5 +44,6 @@ namespace Display {
                 const Display::Color &color,
                 const Display::Vector2f &position
             ) override;
+            std::unique_ptr<Display::IClock> createClock() override;
     };
 }

@@ -6,9 +6,6 @@
 */
 
 #include "SDL2Factory.hpp"
-#include "SDL2Exception.hpp"
-#include "SDL2Text.hpp"
-#include <memory>
 #include <iostream>
 
 Display::SDL2Factory::~SDL2Factory()
@@ -67,6 +64,11 @@ std::unique_ptr<Display::IText> Display::SDL2Factory::createText(
 )
 {
     return std::make_unique<Display::SDL2Text>(text, font, color, position, this->window->getRenderer());
+}
+
+std::unique_ptr<Display::IClock> Display::SDL2Factory::createClock()
+{
+    return std::make_unique<Display::SDL2Clock>();
 }
 
 extern "C" std::unique_ptr<Display::IFactory> createFactory()

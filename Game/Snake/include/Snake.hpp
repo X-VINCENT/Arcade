@@ -41,6 +41,8 @@ namespace Game {
             std::unique_ptr<Display::ITexture> snakeTexture;
             std::unique_ptr<Display::ITexture> foodTexture;
             std::unique_ptr<Display::IFont> arialFont;
+            std::unique_ptr<Display::IClock> renderClock;
+            std::unique_ptr<Display::IClock> snakeClock;
             std::vector<std::unique_ptr<Display::ISprite>> snake;
             std::unique_ptr<Display::ISprite> food;
             std::unique_ptr<Display::IText> scoreText;
