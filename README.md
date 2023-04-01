@@ -70,42 +70,39 @@ The full and technical documentation is available [here](https://arcade-4.gitboo
 <table>
     <td align="center">
         <a href="https://github.com/X-VINCENT">
-        <img src="https://avatars.githubusercontent.com/X-VINCENT" width="150px;" alt="Xavier VINCENT profile picture"/>
-        <br />
-        <sub>
+            <img src="https://avatars.githubusercontent.com/X-VINCENT" width="150px;" alt="Xavier VINCENT profile picture"/>
+            <br />
             <b>Xavier VINCENT</b>
-        </sub>
         </a>
         <br />
-        <a href="https://github.com/EpitechPromo2026/B-OOP-400-BDX-4-1-arcade-max.peixoto/commits?author=X-VINCENT" title="Code">
-        💻
-        </a>
+        <div>
+            <a href="https://github.com/EpitechPromo2026/B-OOP-400-BDX-4-1-arcade-max.peixoto/commits?author=X-VINCENT" title="Code">💻</a>
+            <a href="mailto:xavier.vincent@epitech.eu">📧</a>
+        </div>
     </td>
     <td align="center">
         <a href="https://github.com/MaxPeix">
-        <img src="https://avatars.githubusercontent.com/MaxPeix" width="150px;" alt="Max PEIXOTO profile picture"/>
-        <br />
-        <sub>
+            <img src="https://avatars.githubusercontent.com/MaxPeix" width="150px;" alt="Max PEIXOTO profile picture"/>
+            <br />
             <b>Max PEIXOTO</b>
-        </sub>
         </a>
         <br />
-        <a href="https://github.com/EpitechPromo2026/B-OOP-400-BDX-4-1-arcade-max.peixoto/commits?author=MaxPeix" title="Code">
-        💻
-        </a>
+        <div>
+            <a href="https://github.com/EpitechPromo2026/B-OOP-400-BDX-4-1-arcade-max.peixoto/commits?author=MaxPeix" title="Code">💻</a>
+            <a href="mailto:max.peixoto.chhang@epitech.eu">📧</a>
+        </div>
     </td>
     <td align="center">
         <a href="https://github.com/EpiDoubleHaxe">
-        <img src="https://avatars.githubusercontent.com/EpiDoubleHaxe" width="150px;" alt="Edouard CHHANG profile picture"/>
-        <br />
-        <sub>
+            <img src="https://avatars.githubusercontent.com/EpiDoubleHaxe" width="150px;" alt="Edouard CHHANG profile picture"/>
+            <br />
             <b>Edouard CHHANG</b>
-        </sub>
         </a>
         <br />
-        <a href="https://github.com/EpitechPromo2026/B-OOP-400-BDX-4-1-arcade-max.peixoto/commits?author=EpiDoubleHaxe" title="Code">
-        💻
-        </a>
+        <div>
+            <a href="https://github.com/EpitechPromo2026/B-OOP-400-BDX-4-1-arcade-max.peixoto/commits?author=EpiDoubleHaxe" title="Code">💻</a>
+            <a href="mailto:edouard.chhang@epitech.eu">📧</a>
+        </div>
     </td>
 </table>
 
@@ -117,21 +114,21 @@ The full and technical documentation is available [here](https://arcade-4.gitboo
 <table>
     <td align="center">
         <a href="https://github.com/Hugo-code-dev">
-        <img src="https://avatars.githubusercontent.com/Hugo-code-dev" width="100px;" alt="Hugo DUBOIS profile picture"/>
-        <br />
-        <sub>
+            <img src="https://avatars.githubusercontent.com/Hugo-code-dev" width="100px;" alt="Hugo DUBOIS profile picture"/>
+            <br />
             <b>Hugo DUBOIS</b>
-        </sub>
         </a>
+        <br />
+        <a href="mailto:hugo.dubois@epitech.eu">📧</a>
     </td>
     <td align="center">
         <a href="https://github.com/gautier337">
-        <img src="https://avatars.githubusercontent.com/gautier337" width="100px;" alt="Gautier BONHUR profile picture"/>
-        <br />
-        <sub>
+            <img src="https://avatars.githubusercontent.com/gautier337" width="100px;" alt="Gautier BONHUR profile picture"/>
+            <br />
             <b>Gautier BONHUR</b>
-        </sub>
         </a>
+        <br />
+        <a href="mailto:hugo.dubois@epitech.eu">📧</a>
     </td>
 </table>
 
