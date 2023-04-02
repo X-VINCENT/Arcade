@@ -9,7 +9,7 @@
 #include "SDL2Exception.hpp"
 #include <iostream>
 
-#define DEFAULT_SDL2_FONT_SIZE 24
+#define DEFAULT_SDL2_FONT_SIZE 32
 
 Display::SDL2Font::SDL2Font(std::string const &fontPath)
 {
@@ -38,4 +38,9 @@ void Display::SDL2Font::setFont(const std::string &fontPath)
 TTF_Font *Display::SDL2Font::getSDLFont() const
 {
     return this->font;
+}
+
+int Display::SDL2Font::getFontSize() const
+{
+    return DEFAULT_SDL2_FONT_SIZE;
 }

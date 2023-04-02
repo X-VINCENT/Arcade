@@ -9,7 +9,7 @@
 #include "SFMLSprite.hpp"
 #include "SFMLText.hpp"
 
-#define SFML_RATIO 10
+#define SFML_RATIO 32
 
 Display::SFMLWindow::SFMLWindow(
     const std::string &title,
@@ -178,10 +178,11 @@ void Display::SFMLWindow::draw(Display::IText &text)
     Display::SFMLText &sfmlText = dynamic_cast<Display::SFMLText &>(text);
     sf::Text sfText = sfmlText.getSFText();
     Display::Vector2f pos = sfmlText.getPosition();
+    int fontSize = sfmlText.getFontSize();
 
     sfText.setPosition(
-        pos.x * SFML_RATIO,
-        pos.y * SFML_RATIO
+        pos.x * fontSize,
+        pos.y * fontSize
     );
     this->window.draw(sfText);
 }

@@ -2,36 +2,33 @@
 ** EPITECH PROJECT, 2023
 ** Arcade
 ** File description:
-** NCurses.hpp
+** DLLoader.hpp
 */
 
 #pragma once
-
 #include <string>
 #include <dlfcn.h>
 #include <memory>
 #include <functional>
 
-class DLLoader {
-public:
-    DLLoader() = delete;
+namespace Core {
+    class DLLoader {
+        public:
+            DLLoader() = delete;
+            DLLoader(std::string const &path);
+            ~DLLoader();
 
-    explicit DLLoader(std::string const &path);
+            template<class T>
+            T getInstance(const std::string &path) const
+            {
+                void *gptr = dlsym(this->_handle, path.c_str());
 
-    ~DLLoader();
+                if (gptr == nullptr)
+                    return T();
+                return std::move(reinterpret_cast<T>(gptr));
+            }
 
-    static int test()
-    { return 1; };
-
-    template<class T>
-    T getInstance(const std::string &path) const
-    {
-        void *gptr = dlsym(this->_handle, path.c_str());
-        if (gptr == nullptr)
-            return T();
-        return std::move(reinterpret_cast<T>(gptr));
-    }
-
-    void *_handle;
-protected:
-};
+        protected:
+            void *_handle;
+    };
+}

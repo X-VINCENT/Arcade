@@ -57,3 +57,8 @@ std::string &Display::NCursesText::getText()
 {
     return this->text;
 }
+
+Display::Color Display::NCursesText::getColor() const
+{
+    return this->color;
+}

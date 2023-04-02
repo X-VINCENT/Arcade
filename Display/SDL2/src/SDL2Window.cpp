@@ -12,7 +12,7 @@
 #include "SDL2Text.hpp"
 #include <iostream>
 
-#define SDL2_RATIO 10
+#define SDL2_RATIO 32
 
 Display::SDL2Window::SDL2Window(
     const std::string &title,
@@ -221,10 +221,11 @@ void Display::SDL2Window::draw(Display::IText &text)
 
     Display::SDL2Text &sdlText = dynamic_cast<Display::SDL2Text &>(text);
     SDL_Texture *texture = &sdlText.getSDLText();
+    int fontSize = sdlText.getFontSize();
 
     SDL_Rect dest;
-    dest.x = text.getPosition().x * SDL2_RATIO;
-    dest.y = text.getPosition().y * SDL2_RATIO;
+    dest.x = text.getPosition().x * fontSize;
+    dest.y = text.getPosition().y * fontSize;
     SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
     SDL_RenderCopy(this->renderer, texture, nullptr, &dest);

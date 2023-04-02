@@ -32,10 +32,8 @@ namespace Game {
             Game::State getState() const override;
             void run(Display::IFactory &factory) override;
             void stop() override;
-            const std::string &getName() const override;
 
         private:
-            std::string name;
             Game::State state;
             std::unique_ptr<Display::IWindow> window;
             std::unique_ptr<Display::ISprite> player;

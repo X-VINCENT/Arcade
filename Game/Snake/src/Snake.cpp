@@ -18,7 +18,7 @@
 
 Game::Snake::Snake(Display::IFactory &factory)
 {
-    this->window = factory.createWindow("Snake", 60, WINDOW_WIDTH, WINDOW_HEIGHT);
+    this->window = factory.createWindow("Snake", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
     this->snakeTexture = factory.createTexture('#', "assets/snake/body.png");
     this->foodTexture = factory.createTexture('o', "assets/snake/food.png");
     this->arialFont = factory.createFont("assets/snake/arial.ttf");
@@ -168,7 +168,7 @@ void Game::Snake::handleCollision()
 
 void Game::Snake::updateWindow()
 {
-    if (this->renderClock->getElapsedTime() < 1000 / 60)
+    if (this->renderClock->getElapsedTime() < 1000 / FPS)
         return;
     this->window->clear();
 
@@ -221,11 +221,6 @@ void Game::Snake::run(Display::IFactory &factory)
 void Game::Snake::stop()
 {
     this->window->close();
-}
-
-const std::string &Game::Snake::getName() const
-{
-    return this->name;
 }
 
 extern "C" std::unique_ptr<Game::IGameModule> createGame(Display::IFactory &factory)

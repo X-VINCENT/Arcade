@@ -16,6 +16,7 @@ namespace Display {
             ~SFMLFont() override;
             void setFont(const std::string &fontPath) override;
             sf::Font &getSFFont();
+            int getFontSize() const;
 
         private:
             sf::Font font;

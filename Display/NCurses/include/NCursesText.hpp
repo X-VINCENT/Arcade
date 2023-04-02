@@ -27,6 +27,7 @@ namespace Display {
             Display::Vector2f getPosition() const override;
             void move(const Display::Vector2f &offset) override;
             std::string &getText();
+            Display::Color getColor() const;
 
         private:
             std::string text;

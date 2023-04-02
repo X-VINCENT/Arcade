@@ -16,6 +16,7 @@ namespace Display {
             ~SDL2Font() override;
             void setFont(const std::string &fontPath) override;
             TTF_Font *getSDLFont() const;
+            int getFontSize() const;
 
         private:
             TTF_Font *font;

@@ -13,10 +13,11 @@
 
 #define WINDOW_WIDTH 100
 #define WINDOW_HEIGHT 50
+#define FPS 60
 
 Game::Centipede::Centipede(Display::IFactory &factory)
 {
-    this->window = factory.createWindow("Centipede", 60, WINDOW_WIDTH, WINDOW_HEIGHT);
+    this->window = factory.createWindow("Centipede", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
     this->playerTexture = factory.createTexture('O', "assets/centipede/player.png");
     this->player = factory.createSprite(
         *this->playerTexture,
@@ -147,11 +148,6 @@ void Game::Centipede::setState(Game::State state)
 void Game::Centipede::stop()
 {
     this->window->close();
-}
-
-const std::string &Game::Centipede::getName() const
-{
-    return this->name;
 }
 
 extern "C" std::unique_ptr<Game::IGameModule> createGame(Display::IFactory &factory)

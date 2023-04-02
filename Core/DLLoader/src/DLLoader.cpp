@@ -7,15 +7,16 @@
 
 #include "DLLoader.hpp"
 
-DLLoader::DLLoader(std::string const &path)
+Core::DLLoader::DLLoader(std::string const &path)
 {
     this->_handle = dlopen(path.c_str(), RTLD_LAZY);
     if (this->_handle == nullptr) {
         printf(dlerror());
+        exit(84);
     }
 }
 
-DLLoader::~DLLoader()
+Core::DLLoader::~DLLoader()
 {
     dlclose(this->_handle);
 }
