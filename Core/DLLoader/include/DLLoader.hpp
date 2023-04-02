@@ -28,6 +28,8 @@ namespace Core {
                 return std::move(reinterpret_cast<T>(gptr));
             }
 
+            void changeLib(std::string const &path);
+
         protected:
             void *_handle;
     };

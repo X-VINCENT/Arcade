@@ -20,6 +20,10 @@ int arcade(std::string const &displayLibPath)
     factoryFnPtr createFactory = displayLoader.template getInstance<factoryFnPtr>(createFactoryFn);
     std::unique_ptr<Display::IFactory> factory = createFactory();
 
+    std::string const &createGameFn = "createGame";
+    using gameFnPtr = std::unique_ptr<Game::IGameModule> (*)(Display::IFactory &);
+    gameFnPtr createGame = nullptr;
+
     std::vector<std::map <std::string, std::string>> games = {
         {
             {"name", "Snake"},
@@ -63,7 +67,11 @@ int arcade(std::string const &displayLibPath)
     int selectedGame = 0;
     int selectedGraphic = 0;
 
+    std::string gamePath = games[selectedGame]["path"];
+    std::unique_ptr<Game::IGameModule> game = nullptr;
+
     while (isRunning) {
+        // When we change lib, there is a segfault HERE
         Display::Event event = menu.getEvent();
 
         switch (event) {
@@ -82,6 +90,22 @@ int arcade(std::string const &displayLibPath)
                 break;
             case Display::Event::Down:
                 selectedGraphic += 1;
+                break;
+            case Display::Event::Enter:
+                std::cout << "Enter" << std::endl;
+                menu.stop();
+                menu.~Menu();
+                gamePath = games[selectedGame]["path"];
+                gameLoader.changeLib(gamePath);
+                createGame = gameLoader.template getInstance<gameFnPtr>(createGameFn);
+                game = createGame(*factory);
+                game->run(*factory);
+                break;
+            case Display::Event::Space:
+                displayLoader.changeLib(graphics[selectedGraphic]["path"]);
+                createFactory = displayLoader.template getInstance<factoryFnPtr>(createFactoryFn);
+                factory = createFactory();
+                menu.updateFactory(*factory);
                 break;
             default:
                 break;

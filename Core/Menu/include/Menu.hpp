@@ -25,8 +25,12 @@ namespace Core {
             Display::Event getEvent() const;
             void render();
             void stop();
+            void updateFactory(Display::IFactory &factory);
 
         private:
+            void init(Display::IFactory &factory);
+            std::vector<std::string> games;
+            std::vector<std::string> graphics;
             std::unique_ptr<Display::IWindow> window;
             std::unique_ptr<Display::IClock> renderClock;
             std::unique_ptr<Display::IFont> arialFont;

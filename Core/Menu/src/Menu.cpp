@@ -17,6 +17,17 @@ Core::Menu::Menu(
     std::vector<std::string> const &graphics
 )
 {
+    this->games = games;
+    this->graphics = graphics;
+    this->init(factory);
+}
+
+Core::Menu::~Menu()
+{
+}
+
+void Core::Menu::init(Display::IFactory &factory)
+{
     std::string const &titleStr = "Arcade";
     std::string const &gamesTitleStr = "Games";
     std::string const &graphicsTitleStr = "Graphics";
@@ -43,7 +54,7 @@ Core::Menu::Menu(
         Display::Color::WHITE,
         {(float)WINDOW_WIDTH / 2 + 30 + graphicsTitleStr.size() / 2, 5}
     );
-    for (int i = 0; i < games.size(); i++) {
+    for (int i = 0; i < this->games.size(); i++) {
         this->gamesKeys.push_back(factory.createText(
             "[" + std::to_string(i + 1) + "]",
             *this->arialFont,
@@ -57,7 +68,7 @@ Core::Menu::Menu(
             {(float)WINDOW_WIDTH / 2 - 30 - 5, (float)7 + 2 * i}
         ));
     }
-    for (int i = 0; i < graphics.size(); i++) {
+    for (int i = 0; i < this->graphics.size(); i++) {
         this->graphicsKeys.push_back(factory.createText(
             "[" + std::string(1, (char)('A' + i)) + "]",
             *this->arialFont,
@@ -77,10 +88,6 @@ Core::Menu::Menu(
         Display::Color::WHITE,
         {(float)WINDOW_WIDTH / 2 - keyInfosStr.size() / 2, WINDOW_HEIGHT - 2}
     );
-}
-
-Core::Menu::~Menu()
-{
 }
 
 
@@ -129,4 +136,13 @@ void Core::Menu::render()
 void Core::Menu::stop()
 {
     this->window->close();
+}
+#include <unistd.h>
+void Core::Menu::updateFactory(Display::IFactory &factory)
+{
+    gamesKeys.clear();
+    gamesTexts.clear();
+    graphicsKeys.clear();
+    graphicsTexts.clear();
+    this->init(factory);
 }

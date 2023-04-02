@@ -20,3 +20,14 @@ Core::DLLoader::~DLLoader()
 {
     dlclose(this->_handle);
 }
+
+void Core::DLLoader::changeLib(std::string const &path)
+{
+    if (this->_handle != nullptr)
+        dlclose(this->_handle);
+    this->_handle = dlopen(path.c_str(), RTLD_LAZY);
+    if (this->_handle == nullptr) {
+        printf(dlerror());
+        exit(84);
+    }
+}
