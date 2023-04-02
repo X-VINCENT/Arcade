@@ -75,6 +75,7 @@ void Display::SFMLText::setFont(const Display::IFont &src)
 void Display::SFMLText::setColor(const Display::Color &src)
 {
     this->color = colorToSFColor(src);
+    this->text.setFillColor(this->color);
 }
 
 void Display::SFMLText::setPosition(const Display::Vector2f &src)
