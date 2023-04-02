@@ -7,16 +7,18 @@
 
 #include "Centipede.hpp"
 #include <iostream>
-#include "SDL2Window.hpp"
-#include <SDL2/SDL.h>
 #include <unistd.h>
 
 #define WINDOW_WIDTH 100
 #define WINDOW_HEIGHT 50
+#define FPS 60
 
 Game::Centipede::Centipede(Display::IFactory &factory)
 {
-    this->window = factory.createWindow("Centipede", 60, WINDOW_WIDTH, WINDOW_HEIGHT);
+    this->window = factory.createWindow("Centipede", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
+    this->renderClock = factory.createClock();
+    this->playerClock = factory.createClock();
+    this->centipedeClock = factory.createClock();
     this->playerTexture = factory.createTexture('O', "assets/centipede/player.png");
     this->player = factory.createSprite(
         *this->playerTexture,
@@ -92,16 +94,17 @@ void Game::Centipede::handleEvents()
 
 void Game::Centipede::updateWindow()
 {
+    if (this->renderClock->getElapsedTime() < 1000 / FPS)
+        return;
     this->window->clear();
-    for (auto &sprite : this->obstacles) {
+    for (auto &sprite : this->obstacles)
         this->window->draw(*sprite);
-    }
     this->window->draw(*this->player);
     this->window->draw(*this->projectile);
-    for (auto &sprite : this->centipede) {
+    for (auto &sprite : this->centipede)
         this->window->draw(*sprite);
-    }
     this->window->display();
+    this->renderClock->restart();
 }
 
 void Game::Centipede::update(Display::IFactory &factory)
@@ -126,6 +129,8 @@ void Game::Centipede::update(Display::IFactory &factory)
 
 void Game::Centipede::movePlayer(Game::Direction direction)
 {
+    if (this->playerClock->getElapsedTime() < 100)
+        return;
     switch (direction) {
         case Game::Direction::LEFT:
             if (this->player->getPosition().x > 1)
@@ -146,10 +151,13 @@ void Game::Centipede::movePlayer(Game::Direction direction)
         default:
             break;
     }
+    this->playerClock->restart();
 }
 
 void Game::Centipede::moveCentipede()
 {
+    if (this->centipedeClock->getElapsedTime() < 100)
+        return;
     if (this->centipedeDirection == Game::Direction::LEFT) {
         if (this->centipede[0]->getPosition().x > 0)
             this->centipede[0]->move({-1, 0});
@@ -173,6 +181,7 @@ void Game::Centipede::moveCentipede()
 
     if (this->centipede[0]->getPosition().y > WINDOW_HEIGHT)
         this->setState(Game::State::END);
+    this->centipedeClock->restart();
 }
 
 void Game::Centipede::handleCollision()
@@ -220,10 +229,8 @@ Game::State Game::Centipede::getState() const
 
 void Game::Centipede::run(Display::IFactory &factory)
 {
-    while (this->getState() != Game::State::END) {
+    while (this->getState() != Game::State::END)
         this->update(factory);
-        usleep(100000);
-    }
     this->stop();
 }
 

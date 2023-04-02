@@ -38,6 +38,9 @@ namespace Game {
             std::string name;
             Game::State state;
             std::unique_ptr<Display::IWindow> window;
+            std::unique_ptr<Display::IClock> renderClock;
+            std::unique_ptr<Display::IClock> playerClock;
+            std::unique_ptr<Display::IClock> centipedeClock;
             std::unique_ptr<Display::ISprite> player;
             std::unique_ptr<Display::ITexture> playerTexture;
             std::unique_ptr<Display::ISprite> projectile;
