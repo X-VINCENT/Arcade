@@ -12,7 +12,10 @@
 #define WINDOW_WIDTH 40
 #define WINDOW_HEIGHT 20
 #define FPS 60
-#define CENTIPEDE_SIZE 11
+#define CENTIPEDE_SIZE 10
+#define CENTIPEDE_SPEED 1
+#define PLAYER_SPEED 50
+#define SHOOT_SPEED 20
 #define OBSTACLES 25
 #define OBSTACLE_LIFE 5
 
@@ -41,21 +44,20 @@ Game::Centipede::Centipede(Display::IFactory &factory)
     this->centipede.push_back(factory.createSprite(
         *this->centipedeHeadTexture,
         {0, 0, 1, 1},
-        {(float)WINDOW_WIDTH / 2 - 5, 0}
+        {(float)WINDOW_WIDTH / 2 - 5, -1}
     ));
     this->centipede.push_back(factory.createSprite(
         *this->centipedeHeadTexture,
         {0, 0, 1, 1},
-        {(float)WINDOW_WIDTH / 2 - 5, 0}
+        {(float)WINDOW_WIDTH / 2 - 5, -1}
     ));
     for (size_t i = 1; i < CENTIPEDE_SIZE; i++) {
         this->centipede.push_back(factory.createSprite(
             *this->centipedeTexture,
             {0, 0, 1, 1},
-            {(float)WINDOW_WIDTH / 2 + i - 5, 0}
+            {(float)WINDOW_WIDTH / 2 + i - 5, -1}
         ));
     }
-
     this->obstacleTexture = factory.createTexture('X', "assets/centipede/obstacle.png");
     for (size_t i = 0; i < OBSTACLES; i++) {
         this->obstacles.push_back(factory.createSprite(
@@ -165,7 +167,7 @@ void Game::Centipede::update(Display::IFactory &factory)
 
 void Game::Centipede::movePlayer(Game::Direction direction)
 {
-    if (this->playerClock->getElapsedTime() < 10)
+    if (this->playerClock->getElapsedTime() < PLAYER_SPEED)
         return;
 
     Display::Vector2f new_pos = this->player->getPosition();
@@ -204,7 +206,7 @@ void Game::Centipede::movePlayer(Game::Direction direction)
 
 void Game::Centipede::moveCentipede(Display::IFactory &factory)
 {
-    if (this->centipedeClock->getElapsedTime() < 100)
+    if (this->centipedeClock->getElapsedTime() < 100 / CENTIPEDE_SPEED)
         return;
 
     if (this->centipedeDirection == Game::Direction::LEFT) {
@@ -232,7 +234,17 @@ void Game::Centipede::moveCentipede(Display::IFactory &factory)
         for (float i = 0; i < this->centipede.size(); i++) {
             this->centipede[i]->setPosition({i, 0});
         }
-        while (this->centipede.size() < CENTIPEDE_SIZE) {
+        this->centipede.push_back(factory.createSprite(
+            *this->centipedeHeadTexture,
+            {0, 0, 1, 1},
+            {0, 0}
+        ));
+        this->centipede.push_back(factory.createSprite(
+            *this->centipedeHeadTexture,
+            {0, 0, 1, 1},
+            {0, 0}
+        ));
+        while (this->centipede.size() <= CENTIPEDE_SIZE) {
             this->centipede.push_back(factory.createSprite(*this->centipedeTexture, {0, 0, 1 , 1}, this->centipede[0]->getPosition()));
         }
         this->score -= 500;
@@ -274,9 +286,19 @@ void Game::Centipede::handleCollision(Display::IFactory &factory)
             this->centipede.erase(this->centipede.begin() + i);
             this->score += 150;
         }
-        if (this->centipede.size() == 0) {
-            this->centipede.push_back(factory.createSprite(*this->centipedeTexture, {0, 0, 1 , 1}, {0, 0}));
-            while (this->centipede.size() < CENTIPEDE_SIZE) {
+        if (this->centipede.size() == 1) {
+            this->centipede.pop_back();
+            this->centipede.push_back(factory.createSprite(
+                *this->centipedeHeadTexture,
+                {0, 0, 1, 1},
+                {0, 0}
+            ));
+            this->centipede.push_back(factory.createSprite(
+                *this->centipedeHeadTexture,
+                {0, 0, 1, 1},
+                {0, 0}
+            ));
+            while (this->centipede.size() <= CENTIPEDE_SIZE) {
                 this->centipede.push_back(factory.createSprite(*this->centipedeTexture, {0, 0, 1 , 1}, this->centipede[0]->getPosition()));
             }
             this->centipedeNumber += 1;
@@ -307,7 +329,7 @@ void Game::Centipede::shoot()
 
 void Game::Centipede::updateShoot()
 {
-    if (this->shootClock->getElapsedTime() < 50)
+    if (this->shootClock->getElapsedTime() < SHOOT_SPEED)
         return;
     if (this->projectile->getPosition().y > -1)
         this->projectile->move({0, -1});
