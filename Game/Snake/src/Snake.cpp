@@ -211,16 +211,24 @@ Game::State Game::Snake::getState() const
     return this->state;
 }
 
-void Game::Snake::run(Display::IFactory &factory)
+Display::Event Game::Snake::getEvent() const
 {
-    while (this->getState() != Game::State::END)
-        this->update(factory);
-    this->stop();
+    return this->window->getEvent();
 }
 
 void Game::Snake::stop()
 {
+    this->snakeTexture.reset();
+    this->foodTexture.reset();
+    this->arialFont.reset();
+    this->renderClock.reset();
+    this->snakeClock.reset();
+    for (auto &sprite : this->snake)
+        sprite.reset();
+    this->food.reset();
+    this->scoreText.reset();
     this->window->close();
+    this->window.reset();
 }
 
 extern "C" std::unique_ptr<Game::IGameModule> createGame(Display::IFactory &factory)

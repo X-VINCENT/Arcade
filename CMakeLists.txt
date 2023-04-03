@@ -44,6 +44,7 @@ set(SRC_CORE
         DLLoader/src/DLLoader.cpp
         Menu/src/Menu.cpp
         src/Arcade.cpp
+        src/Handler.cpp
 )
 
 # NCurses Sources

@@ -37,6 +37,19 @@ Display::Event Display::SFMLWindow::getEvent()
     bool isKeyPressed = false;
 
     this->window.pollEvent(event);
+    switch (event.type) {
+        case sf::Event::Closed:
+            return Display::Event::Close;
+        case sf::Event::KeyPressed:
+            isKeyPressed = true;
+            break;
+        default:
+            break;
+    }
+
+    if (!isKeyPressed)
+        return Display::Event::Unknown;
+
     switch (event.key.code) {
         case sf::Keyboard::Key::A:
             return Display::Event::A;
@@ -124,13 +137,6 @@ Display::Event Display::SFMLWindow::getEvent()
             return Display::Event::Enter;
         case sf::Keyboard::Key::Space:
             return Display::Event::Space;
-        default:
-            break;
-    }
-
-    switch (event.type) {
-        case sf::Event::Closed:
-            return Display::Event::Close;
         default:
             break;
     }

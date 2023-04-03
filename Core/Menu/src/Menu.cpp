@@ -135,9 +135,24 @@ void Core::Menu::render()
 
 void Core::Menu::stop()
 {
+    this->renderClock.reset();
+    this->arialFont.reset();
+    this->title.reset();
+    this->gamesTitle.reset();
+    this->graphicsTitle.reset();
+    for (auto &gameKey : this->gamesKeys)
+        gameKey.reset();
+    for (auto &gameText : this->gamesTexts)
+        gameText.reset();
+    for (auto &graphicKey : this->graphicsKeys)
+        graphicKey.reset();
+    for (auto &graphicText : this->graphicsTexts)
+        graphicText.reset();
+    this->keyInfos.reset();
     this->window->close();
+    this->window.reset();
 }
-#include <unistd.h>
+
 void Core::Menu::updateFactory(Display::IFactory &factory)
 {
     gamesKeys.clear();

@@ -131,13 +131,9 @@ Game::State Game::Centipede::getState() const
     return this->state;
 }
 
-void Game::Centipede::run(Display::IFactory &factory)
+Display::Event Game::Centipede::getEvent() const
 {
-    while (this->getState() != Game::State::END) {
-        this->update(factory);
-        usleep(100000);
-    }
-    this->stop();
+    return this->window->getEvent();
 }
 
 void Game::Centipede::setState(Game::State state)

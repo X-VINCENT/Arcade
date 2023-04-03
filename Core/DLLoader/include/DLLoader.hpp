@@ -10,6 +10,7 @@
 #include <dlfcn.h>
 #include <memory>
 #include <functional>
+#include <iostream>
 
 namespace Core {
     class DLLoader {
@@ -23,8 +24,10 @@ namespace Core {
             {
                 void *gptr = dlsym(this->_handle, path.c_str());
 
-                if (gptr == nullptr)
-                    return T();
+                if (gptr == nullptr) {
+                    throw std::exception();
+                    exit(84);
+                }
                 return std::move(reinterpret_cast<T>(gptr));
             }
 

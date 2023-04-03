@@ -30,7 +30,7 @@ namespace Game {
             void update(Display::IFactory &factory) override;
             void setState(Game::State state) override;
             Game::State getState() const override;
-            void run(Display::IFactory &factory) override;
+            Display::Event getEvent() const override;
             void stop() override;
 
         private:

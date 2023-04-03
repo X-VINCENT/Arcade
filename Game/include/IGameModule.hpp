@@ -20,7 +20,7 @@ namespace Game {
             virtual void update(Display::IFactory &factory) = 0;
             virtual void setState(Game::State state) = 0;
             virtual Game::State getState() const = 0;
-            virtual void run(Display::IFactory &factory) = 0;
+            virtual Display::Event getEvent() const = 0;
             virtual void stop() = 0;
     };
 }
