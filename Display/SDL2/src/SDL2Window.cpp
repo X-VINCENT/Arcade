@@ -12,7 +12,7 @@
 #include "SDL2Text.hpp"
 #include <iostream>
 
-#define SDL2_RATIO 10
+#define SDL2_RATIO 32
 
 Display::SDL2Window::SDL2Window(
     const std::string &title,

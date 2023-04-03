@@ -9,7 +9,7 @@
 #include "SFMLSprite.hpp"
 #include "SFMLText.hpp"
 
-#define SFML_RATIO 10
+#define SFML_RATIO 32
 
 Display::SFMLWindow::SFMLWindow(
     const std::string &title,

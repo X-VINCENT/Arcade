@@ -41,6 +41,7 @@ namespace Game {
             std::unique_ptr<Display::IClock> renderClock;
             std::unique_ptr<Display::IClock> playerClock;
             std::unique_ptr<Display::IClock> centipedeClock;
+            std::unique_ptr<Display::IClock> shootClock;
             std::unique_ptr<Display::ISprite> player;
             std::unique_ptr<Display::ITexture> playerTexture;
             std::unique_ptr<Display::ISprite> projectile;
@@ -49,6 +50,7 @@ namespace Game {
             std::unique_ptr<Display::ITexture> centipedeTexture;
             std::unique_ptr<Display::ITexture> obstacleTexture;
             std::vector<std::unique_ptr<Display::ISprite>> obstacles;
+            std::vector<int> obstaclesLife;
             Direction centipedeDirection = Direction::RIGHT;
             bool canShoot = true;
             void shoot();
@@ -56,7 +58,7 @@ namespace Game {
             void handleEvents();
             void movePlayer(Direction direction);
             void moveCentipede();
-            void handleCollision();
+            void handleCollision(Display::IFactory &factory);
             void updateWindow();
     };
 }

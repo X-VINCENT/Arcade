@@ -9,9 +9,12 @@
 #include <iostream>
 #include <unistd.h>
 
-#define WINDOW_WIDTH 100
-#define WINDOW_HEIGHT 50
+#define WINDOW_WIDTH 40
+#define WINDOW_HEIGHT 20
 #define FPS 60
+#define CENTIPEDE_SIZE 10
+#define OBSTACLES 30
+#define OBSTACLE_LIFE 5
 
 Game::Centipede::Centipede(Display::IFactory &factory)
 {
@@ -19,21 +22,22 @@ Game::Centipede::Centipede(Display::IFactory &factory)
     this->renderClock = factory.createClock();
     this->playerClock = factory.createClock();
     this->centipedeClock = factory.createClock();
+    this->shootClock = factory.createClock();
     this->playerTexture = factory.createTexture('O', "assets/centipede/player.png");
     this->player = factory.createSprite(
         *this->playerTexture,
         {0, 0, 1, 1},
         {(float)WINDOW_WIDTH / 2, WINDOW_HEIGHT - 5}
     );
-    this->projectileTexture = factory.createTexture('o', "assets/centipede/body.png");
+    this->projectileTexture = factory.createTexture('o', "assets/centipede/shoot.png");
     this->projectile = factory.createSprite(
         *this->projectileTexture,
         {0, 0, 1, 1},
-        {(float)WINDOW_WIDTH / 2, WINDOW_HEIGHT - 3}
+        {(-10, -10)}
     );
     this->centipedeTexture = factory.createTexture('#', "assets/centipede/body.png");
 
-    for (size_t i = 0; i < 10; i++) {
+    for (size_t i = 0; i < CENTIPEDE_SIZE; i++) {
         this->centipede.push_back(factory.createSprite(
             *this->centipedeTexture,
             {0, 0, 1, 1},
@@ -41,13 +45,16 @@ Game::Centipede::Centipede(Display::IFactory &factory)
         ));
     }
 
-    this->obstacleTexture = factory.createTexture('X', "assets/centipede/body.png");
-    for (size_t i = 0; i < 10; i++) {
+    this->obstacleTexture = factory.createTexture('X', "assets/centipede/obstacle.png");
+    for (size_t i = 0; i < OBSTACLES; i++) {
         this->obstacles.push_back(factory.createSprite(
             *this->obstacleTexture,
             {0, 0, 1, 1},
             {(float)(rand() % (WINDOW_WIDTH - 2) + 1), (float)(rand() % (WINDOW_HEIGHT - 2) + 1)}
         ));
+    }
+    for (size_t i = 0; i < OBSTACLES; i++) {
+        this->obstaclesLife.push_back(OBSTACLE_LIFE);
     }
     this->setState(Game::State::GAME);
 }
@@ -114,9 +121,9 @@ void Game::Centipede::update(Display::IFactory &factory)
         case Game::State::MENU:
             this->window->close();
         case Game::State::GAME:
-            this->handleCollision();
-            this->moveCentipede();
             this->updateShoot();
+            this->handleCollision(factory);
+            this->moveCentipede();
             this->updateWindow();
             break;
         case Game::State::END:
@@ -158,6 +165,7 @@ void Game::Centipede::moveCentipede()
 {
     if (this->centipedeClock->getElapsedTime() < 100)
         return;
+
     if (this->centipedeDirection == Game::Direction::LEFT) {
         if (this->centipede[0]->getPosition().x > 0)
             this->centipede[0]->move({-1, 0});
@@ -179,12 +187,12 @@ void Game::Centipede::moveCentipede()
         this->centipede[i]->setPosition(pos);
     }
 
-    if (this->centipede[0]->getPosition().y > WINDOW_HEIGHT)
+    if (this->centipede[0]->getPosition().y > WINDOW_HEIGHT - 2)
         this->setState(Game::State::END);
     this->centipedeClock->restart();
 }
 
-void Game::Centipede::handleCollision()
+void Game::Centipede::handleCollision(Display::IFactory &factory)
 {
     for (auto &sprite : this->centipede) {
         if (this->player->getPosition().x == sprite->getPosition().x &&
@@ -193,33 +201,71 @@ void Game::Centipede::handleCollision()
         }
     }
     for (auto &obstacle : this->obstacles) {
-        if (this->centipede[0]->getPosition().x == obstacle->getPosition().x &&
-            this->centipede[0]->getPosition().y == obstacle->getPosition().y) {
-            if (this->centipedeDirection == Game::Direction::LEFT)
+        for (int i = 0; i < this->centipede.size(); i++) {
+            if (this->centipedeDirection == Game::Direction::LEFT &&
+                this->centipede[0]->getPosition().x - 1 == obstacle->getPosition().x &&
+                this->centipede[0]->getPosition().y == obstacle->getPosition().y) {
                 this->centipedeDirection = Game::Direction::RIGHT;
-            else
+                this->centipede[0]->move({0, 1});
+            } else if (this->centipedeDirection == Game::Direction::RIGHT &&
+                this->centipede[0]->getPosition().x + 1 == obstacle->getPosition().x &&
+                this->centipede[0]->getPosition().y == obstacle->getPosition().y) {
                 this->centipedeDirection = Game::Direction::LEFT;
-            this->centipede[0]->move({0, 1});
+                this->centipede[0]->move({1, 1});
+            }
         }
     }
+    if (this->projectile->getPosition().x == this->centipede[0]->getPosition().x &&
+        this->projectile->getPosition().y == this->centipede[0]->getPosition().y) {
+        this->projectile->setPosition({-1, -1});
+        this->canShoot = true;
+        this->centipede.erase(this->centipede.begin());
+    } else if (this->projectile->getPosition().x == this->centipede[this->centipede.size() - 1]->getPosition().x &&
+        this->projectile->getPosition().y == this->centipede[this->centipede.size() - 1]->getPosition().y) {
+        this->projectile->setPosition({-1, -1});
+        this->canShoot = true;
+        this->centipede.pop_back();
+    }
+    for (size_t i = 1; i < this->centipede.size() - 1; i++) {
+        if (this->projectile->getPosition().x == this->centipede[i]->getPosition().x &&
+            this->projectile->getPosition().y == this->centipede[i]->getPosition().y) {
+            this->projectile->setPosition({-1, -1});
+            this->canShoot = true;
+            this->obstacles.push_back(factory.createSprite(*obstacleTexture, {0, 0, 1, 1}, this->centipede[i]->getPosition()));
+            this->obstaclesLife.push_back(5);
+            this->centipede.erase(this->centipede.begin() + i);
+        }
+    }
+    for (size_t i = 0; i < this->obstacles.size(); i++) {
+        if (this->projectile->getPosition().x == this->obstacles[i]->getPosition().x &&
+            this->projectile->getPosition().y == this->obstacles[i]->getPosition().y) {
+            this->projectile->setPosition({-1, -1});
+            this->canShoot = true;
+            this->obstaclesLife[i]--;
+            if (this->obstaclesLife[i] == 0) {
+                this->obstacles.erase(this->obstacles.begin() + i);
+                this->obstaclesLife.erase(this->obstaclesLife.begin() + i);
+            }
+        }
+    }
+
 }
 
 void Game::Centipede::shoot()
 {
-    this->canShoot = false;
     this->projectile->setPosition(this->player->getPosition());
+    this->canShoot = false;
 }
 
 void Game::Centipede::updateShoot()
 {
-    if (this->canShoot == false)
+    if (this->shootClock->getElapsedTime() < 100)
         return;
-    if (this->projectile->getPosition().y == 0) {
+    if (this->projectile->getPosition().y > -1)
+        this->projectile->move({0, -1});
+    else
         this->canShoot = true;
-        return;
-    }
-
-    this->projectile->move({0, -1});
+    this->shootClock->restart();
 }
 
 Game::State Game::Centipede::getState() const

@@ -9,7 +9,7 @@
 #include "ITexture.hpp"
 #include "SFMLTexture.hpp"
 
-#define SFML_RATIO 10
+#define SFML_RATIO 32
 
 Display::SFMLSprite::SFMLSprite(
     Display::ITexture &src_texture,
