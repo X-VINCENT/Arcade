@@ -7,33 +7,12 @@
 
 #include "Handler.hpp"
 
-Core::Handler::Handler(std::string const &displayLibPath)
-    : displayLoader(displayLibPath), gameLoader("lib/arcade_snake.so")
+Core::Handler::Handler(
+    std::string const &displayLibPath,
+    std::vector<std::map <std::string, std::string>> existingGames,
+    std::vector<std::map <std::string, std::string>> existingGraphics
+) : games(existingGames), graphics(existingGraphics), displayLoader(displayLibPath), gameLoader(existingGames[0]["path"])
 {
-    this->games = {
-        {
-            {"name", "Snake"},
-            {"path", "lib/arcade_snake.so"}
-        },
-        {
-            {"name", "Centipede"},
-            {"path", "lib/arcade_centipede.so"}
-        }
-    };
-    this->graphics = {
-        {
-            {"name", "Ncurses"},
-            {"path", "lib/arcade_ncurses.so"}
-        },
-        {
-            {"name", "SDL2"},
-            {"path", "lib/arcade_sdl2.so"}
-        },
-        {
-            {"name", "SFML"},
-            {"path", "lib/arcade_sfml.so"}
-        }
-    };
     for (auto &game : games)
         this->gameNames.push_back(game["name"]);
 

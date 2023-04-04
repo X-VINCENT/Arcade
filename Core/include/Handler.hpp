@@ -21,7 +21,11 @@ namespace Core {
     };
     class Handler {
         public:
-            Handler(std::string const &displayLibPath);
+            Handler(
+                std::string const &displayLibPath,
+                std::vector<std::map <std::string, std::string>> existingGames,
+                std::vector<std::map <std::string, std::string>> existingGraphics
+            );
             ~Handler();
             void createFactory();
             void createGame();

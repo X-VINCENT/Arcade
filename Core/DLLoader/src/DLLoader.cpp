@@ -13,11 +13,23 @@
 Core::DLLoader::DLLoader(std::string const &path)
     : _handle(nullptr)
 {
+    FILE *file = fopen(path.c_str(), "r");
+    try {
+        if (file == nullptr)
+            throw std::runtime_error("Failed to load library: " + path + " does not exist");
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        exit(84);
+    }
+    fclose(file);
+
     this->_handle = dlopen(path.c_str(), RTLD_LAZY);
-    if (this->_handle == nullptr) {
-        std::ostringstream err_stream;
-        err_stream << "Failed to load library: " << dlerror();
-        throw std::runtime_error(err_stream.str());
+    try {
+        if (this->_handle == nullptr)
+            throw std::runtime_error("Failed to load library: " + std::string(dlerror()));
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        exit(84);
     }
 }
 
@@ -30,10 +42,23 @@ void Core::DLLoader::changeLib(std::string const &path)
 {
     if (this->_handle != nullptr)
         dlclose(this->_handle);
+
+    FILE *file = fopen(path.c_str(), "r");
+    try {
+        if (file == nullptr)
+            throw std::runtime_error("Failed to load library: " + path + " does not exist");
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        exit(84);
+    }
+    fclose(file);
+
     this->_handle = dlopen(path.c_str(), RTLD_LAZY);
-    if (this->_handle == nullptr) {
-        std::ostringstream err_stream;
-        err_stream << "Failed to load library: " << dlerror();
-        throw std::runtime_error(err_stream.str());
+    try {
+        if (this->_handle == nullptr)
+            throw std::runtime_error("Failed to load library: " + std::string(dlerror()));
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        exit(84);
     }
 }
