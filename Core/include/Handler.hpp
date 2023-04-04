@@ -49,5 +49,6 @@ namespace Core {
             bool isRunning;
             std::unique_ptr<Core::Menu> menu;
             enum HandlerState current_state;
+            std::string username;
     };
 }

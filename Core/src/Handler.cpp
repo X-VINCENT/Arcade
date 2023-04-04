@@ -11,7 +11,11 @@ Core::Handler::Handler(
     std::string const &displayLibPath,
     std::vector<std::map <std::string, std::string>> existingGames,
     std::vector<std::map <std::string, std::string>> existingGraphics
-) : games(existingGames), graphics(existingGraphics), displayLoader(displayLibPath), gameLoader(existingGames[0]["path"])
+) : games(existingGames),
+    graphics(existingGraphics),
+    displayLoader(displayLibPath),
+    gameLoader(existingGames[0]["path"]),
+    username("Player")
 {
     for (auto &game : games)
         this->gameNames.push_back(game["name"]);
@@ -23,7 +27,7 @@ Core::Handler::Handler(
     this->createFactory();
     this->isRunning = true;
     this->current_state = MENU;
-    this->menu = std::make_unique<Core::Menu>(*this->factory, this->gameNames, this->graphicNames);
+    this->menu = std::make_unique<Core::Menu>(*this->factory, this->gameNames, this->graphicNames, this->username);
 }
 
 Core::Handler::~Handler()
@@ -161,7 +165,7 @@ void Core::Handler::handleGameEvents()
             this->game.reset();
             this->factory.reset();
             this->createFactory();
-            this->menu = std::make_unique<Core::Menu>(*this->factory, this->gameNames, this->graphicNames);
+            this->menu = std::make_unique<Core::Menu>(*this->factory, this->gameNames, this->graphicNames, this->username);
             this->current_state = MENU;
             break;
         default:
@@ -208,7 +212,6 @@ void Core::Handler::handleMenuEvents()
         case Display::Event::Close:
         case Display::Event::Escape:
             this->isRunning = false;
-            break;
         default:
             break;
     }
