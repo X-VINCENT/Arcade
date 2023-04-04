@@ -160,6 +160,7 @@ void Core::Handler::handleGameEvents()
             this->createGame();
             break;
         case Display::Event::Close:
+        case Display::Event::Num9:
             this->isRunning = false;
             break;
         case Display::Event::Escape:
