@@ -49,7 +49,7 @@ In addition to these technical details, this documentation also includes a class
 
 So let's dive in and explore the exciting world of Arcade!
 
-The full and technical documentation is available [here](https://arcade-4.gitbook.io/arcade-documentation/).
+The full and technical documentation is available [here](https://arcade-4.gitbook.io/documentation/).
 
 ## 📔 Libraries
 
