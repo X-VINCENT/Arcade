@@ -30,6 +30,7 @@ namespace Core {
             void createFactory();
             void createGame();
             void loop();
+            void handleUsernameEvents(Display::Event event);
             void handleGameEvents();
             void handleMenuEvents();
 
@@ -49,5 +50,6 @@ namespace Core {
             bool isRunning;
             std::unique_ptr<Core::Menu> menu;
             enum HandlerState current_state;
+            std::string username;
     };
 }

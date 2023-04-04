@@ -137,6 +137,8 @@ Display::Event Display::SFMLWindow::getEvent()
             return Display::Event::Enter;
         case sf::Keyboard::Key::Space:
             return Display::Event::Space;
+        case sf::Keyboard::Key::BackSpace:
+            return Display::Event::Backspace;
         default:
             break;
     }

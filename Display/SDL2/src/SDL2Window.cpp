@@ -156,6 +156,8 @@ Display::Event Display::SDL2Window::getEvent()
             return Display::Event::Enter;
         case SDLK_SPACE:
             return Display::Event::Space;
+        case SDLK_BACKSPACE:
+            return Display::Event::Backspace;
         default:
             break;
     }
