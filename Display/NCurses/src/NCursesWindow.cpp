@@ -52,76 +52,122 @@ Display::Event Display::NCursesWindow::getEvent()
 
     switch (key) {
         case 'a':
+        case 'A':
             return Display::Event::A;
         case 'b':
+        case 'B':
             return Display::Event::B;
         case 'c':
+        case 'C':
             return Display::Event::C;
         case 'd':
+        case 'D':
             return Display::Event::D;
         case 'e':
+        case 'E':
             return Display::Event::E;
         case 'f':
+        case 'F':
             return Display::Event::F;
         case 'g':
+        case 'G':
             return Display::Event::G;
         case 'h':
+        case 'H':
             return Display::Event::H;
         case 'i':
+        case 'I':
             return Display::Event::I;
         case 'j':
+        case 'J':
             return Display::Event::J;
         case 'k':
+        case 'K':
             return Display::Event::K;
         case 'l':
+        case 'L':
             return Display::Event::L;
         case 'm':
+        case 'M':
             return Display::Event::M;
         case 'n':
+        case 'N':
             return Display::Event::N;
         case 'o':
+        case 'O':
             return Display::Event::O;
         case 'p':
+        case 'P':
             return Display::Event::P;
         case 'q':
+        case 'Q':
             return Display::Event::Q;
         case 'r':
+        case 'R':
             return Display::Event::R;
         case 's':
+        case 'S':
             return Display::Event::S;
         case 't':
+        case 'T':
             return Display::Event::T;
         case 'u':
+        case 'U':
             return Display::Event::U;
         case 'v':
+        case 'V':
             return Display::Event::V;
         case 'w':
+        case 'W':
             return Display::Event::W;
         case 'x':
+        case 'X':
             return Display::Event::X;
         case 'y':
+        case 'Y':
             return Display::Event::Y;
         case 'z':
+        case 'Z':
             return Display::Event::Z;
+        case 'à':
         case '0':
+        case KEY_F(10):
             return Display::Event::Num0;
+        case '&':
         case '1':
+        case KEY_F(1):
             return Display::Event::Num1;
+        case 'é':
         case '2':
+        case KEY_F(2):
             return Display::Event::Num2;
+        case '"':
         case '3':
+        case KEY_F(3):
             return Display::Event::Num3;
+        case '\'':
         case '4':
+        case KEY_F(4):
             return Display::Event::Num4;
+        case '(':
         case '5':
+        case KEY_F(5):
             return Display::Event::Num5;
+        case '-':
         case '6':
+        case KEY_F(6):
             return Display::Event::Num6;
+        case 'è':
         case '7':
+        case KEY_F(7):
             return Display::Event::Num7;
+        case '_':
         case '8':
+        case KEY_F(8):
             return Display::Event::Num8;
+        case 'ç':
         case '9':
+        case KEY_F(9):
             return Display::Event::Num9;
         case KEY_LEFT:
             return Display::Event::Left;
@@ -133,7 +179,9 @@ Display::Event Display::NCursesWindow::getEvent()
             return Display::Event::Down;
         case 27:
             return Display::Event::Escape;
+        case 10:
         case 13:
+        case KEY_ENTER:
             return Display::Event::Enter;
         case 32:
             return Display::Event::Space;
