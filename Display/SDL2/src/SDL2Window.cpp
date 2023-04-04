@@ -61,9 +61,7 @@ Display::SDL2Window::SDL2Window(
 
 Display::SDL2Window::~SDL2Window()
 {
-    SDL_DestroyRenderer(this->renderer);
-    SDL_DestroyWindow(this->window);
-    SDL_Quit();
+    this->close();
 }
 
 Display::Event Display::SDL2Window::getEvent()
@@ -247,6 +245,8 @@ void Display::SDL2Window::close()
         SDL_DestroyRenderer(this->renderer);
     if (this->window != nullptr)
         SDL_DestroyWindow(this->window);
+    this->window = nullptr;
+    this->renderer = nullptr;
     SDL_Quit();
 }
 

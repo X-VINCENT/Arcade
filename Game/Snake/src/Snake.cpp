@@ -47,6 +47,20 @@ Game::Snake::Snake(Display::IFactory &factory)
         {0, 0}
     );
 
+    this->gameOverText = factory.createText(
+        "GAME OVER",
+        *this->arialFont,
+        Display::Color::RED,
+        {WINDOW_WIDTH / 2 - 5, WINDOW_HEIGHT / 2 - 5}
+    );
+
+    this->restartText = factory.createText(
+        "Press R to restart",
+        *this->arialFont,
+        Display::Color::WHITE,
+        {WINDOW_WIDTH / 2 - 10, WINDOW_HEIGHT / 2 + 5}
+    );
+
     this->direction = Game::Direction::RIGHT;
     this->setState(Game::State::GAME);
     this->score = 0;
@@ -58,7 +72,9 @@ Game::Snake::~Snake()
 
 void Game::Snake::handleEvents()
 {
-    Display::Event event = this->window->getEvent();
+    if (!this->window)
+        return;
+    this->event = this->window->getEvent();
 
     switch (event) {
         case Display::Event::Close:
@@ -181,6 +197,19 @@ void Game::Snake::updateWindow()
     this->renderClock->restart();
 }
 
+void Game::Snake::updateWindowEnd()
+{
+    if (this->renderClock->getElapsedTime() < 1000 / FPS)
+        return;
+    this->window->clear();
+
+    this->window->draw(*this->gameOverText);
+    this->window->draw(*this->restartText);
+
+    this->window->display();
+    this->renderClock->restart();
+}
+
 void Game::Snake::update(Display::IFactory &factory)
 {
     this->handleEvents();
@@ -194,7 +223,7 @@ void Game::Snake::update(Display::IFactory &factory)
             this->updateWindow();
             break;
         case Game::State::END:
-            this->stop();
+            this->updateWindowEnd();
             break;
         default:
             break;
@@ -213,7 +242,7 @@ Game::State Game::Snake::getState() const
 
 Display::Event Game::Snake::getEvent() const
 {
-    return this->window->getEvent();
+    return this->event;
 }
 
 void Game::Snake::stop()

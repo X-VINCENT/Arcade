@@ -127,6 +127,7 @@ void Core::Handler::handleGameEvents()
                 this->selectedGraphic = 0;
             this->game->stop();
             this->game.reset();
+            this->factory.reset();
             this->displayLoader.changeLib(this->graphics[this->selectedGraphic]["path"]);
             this->createFactory();
             this->createGame();
@@ -137,6 +138,7 @@ void Core::Handler::handleGameEvents()
                 this->selectedGraphic = this->graphicNames.size() - 1;
             this->game->stop();
             this->game.reset();
+            this->factory.reset();
             this->displayLoader.changeLib(this->graphics[this->selectedGraphic]["path"]);
             this->createFactory();
             this->createGame();
@@ -147,7 +149,9 @@ void Core::Handler::handleGameEvents()
                 this->selectedGame = 0;
             this->game->stop();
             this->game.reset();
+            this->factory.reset();
             this->gameLoader.changeLib(this->games[this->selectedGame]["path"]);
+            this->createFactory();
             this->createGame();
             break;
         case Display::Event::K:
@@ -156,10 +160,16 @@ void Core::Handler::handleGameEvents()
                 this->selectedGame = this->gameNames.size() - 1;
             this->game->stop();
             this->game.reset();
+            this->factory.reset();
             this->gameLoader.changeLib(this->games[this->selectedGame]["path"]);
+            this->createFactory();
             this->createGame();
             break;
         case Display::Event::R:
+            this->game->stop();
+            this->game.reset();
+            this->factory.reset();
+            this->createFactory();
             this->createGame();
             break;
         case Display::Event::Close:
@@ -169,6 +179,8 @@ void Core::Handler::handleGameEvents()
         case Display::Event::Escape:
             this->game->stop();
             this->game.reset();
+            this->factory.reset();
+            this->createFactory();
             this->menu = std::make_unique<Core::Menu>(*this->factory, this->gameNames, this->graphicNames);
             this->current_state = MENU;
             break;
@@ -200,7 +212,9 @@ void Core::Handler::handleMenuEvents()
                 this->game->stop();
                 this->game.reset();
             }
+            this->factory.reset();
             this->gameLoader.changeLib(this->games[this->selectedGame]["path"]);
+            this->createFactory();
             this->createGame();
             this->current_state = GAME;
             return;

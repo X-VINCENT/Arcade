@@ -142,12 +142,16 @@ void Core::Menu::stop()
     this->graphicsTitle.reset();
     for (auto &gameKey : this->gamesKeys)
         gameKey.reset();
+    gamesKeys.clear();
     for (auto &gameText : this->gamesTexts)
         gameText.reset();
+    gamesTexts.clear();
     for (auto &graphicKey : this->graphicsKeys)
         graphicKey.reset();
+    graphicsKeys.clear();
     for (auto &graphicText : this->graphicsTexts)
         graphicText.reset();
+    graphicsTexts.clear();
     this->keyInfos.reset();
     this->window->close();
     this->window.reset();
