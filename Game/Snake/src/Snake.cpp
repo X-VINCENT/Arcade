@@ -141,9 +141,6 @@ void Game::Snake::handleEvents()
     this->isBoosting = false;
 
     switch (event) {
-        case Display::Event::Close:
-            this->setState(Game::State::LOSE);
-            break;
         case Display::Event::Escape:
             this->setState(Game::State::MENU);
             break;

@@ -102,6 +102,8 @@ void Core::Handler::loop()
                 this->handleGameEvents();
                 if (this->current_state == MENU)
                     break;
+                if (this->isRunning == false)
+                    break;
                 this->game->update(*this->factory);
                 break;
         }
@@ -173,7 +175,6 @@ void Core::Handler::handleGameEvents()
             this->createGame();
             break;
         case Display::Event::Close:
-            this->game->stop();
             this->isRunning = false;
             break;
         case Display::Event::Escape:

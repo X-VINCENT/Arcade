@@ -27,18 +27,21 @@ Game::Centipede::Centipede(Display::IFactory &factory)
     this->centipedeClock = factory.createClock();
     this->shootClock = factory.createClock();
     this->scoreClock = factory.createClock();
+
     this->playerTexture = factory.createTexture('O', "assets/centipede/player.png");
     this->player = factory.createSprite(
         *this->playerTexture,
         {0, 0, 1, 1},
         {(float)WINDOW_WIDTH / 2, WINDOW_HEIGHT - 2}
     );
+
     this->projectileTexture = factory.createTexture('^', "assets/centipede/shoot.png");
     this->projectile = factory.createSprite(
         *this->projectileTexture,
         {0, 0, 1, 1},
         {(-10, -10)}
     );
+
     this->centipedeTexture = factory.createTexture('#', "assets/centipede/body.png");
     this->centipedeHeadTexture = factory.createTexture('@', "assets/centipede/head.png");
     this->centipede.push_back(factory.createSprite(
@@ -69,25 +72,44 @@ Game::Centipede::Centipede(Display::IFactory &factory)
     for (size_t i = 0; i < OBSTACLES; i++) {
         this->obstaclesLife.push_back(OBSTACLE_LIFE);
     }
+
     this->arialFont = factory.createFont("assets/centipede/arial.ttf");
+
     this->scoreText = factory.createText(
         "Score: 0",
         *this->arialFont,
         Display::Color::WHITE,
         {0, 0}
     );
+
     this->gameOverText = factory.createText(
-        "GAME OVER",
+        "GAME OVER ! You're a loser !",
         *this->arialFont,
         Display::Color::RED,
-        {WINDOW_WIDTH / 2 - 5, WINDOW_HEIGHT / 2 - 5}
+        {WINDOW_WIDTH / 2 - 14, WINDOW_HEIGHT / 2 - 5}
     );
-    this->restartText = factory.createText(
-        "Press R to restart",
+
+    this->restartTextLose = factory.createText(
+        "Press R to try again",
         *this->arialFont,
         Display::Color::WHITE,
         {WINDOW_WIDTH / 2 - 10, WINDOW_HEIGHT / 2 + 5}
     );
+
+    this->winText = factory.createText(
+        "WELL PLAYED! You've won!",
+        *this->arialFont,
+        Display::Color::YELLOW,
+        {WINDOW_WIDTH / 2 - 12, WINDOW_HEIGHT / 2 - 5}
+    );
+
+    this->restartTextWin = factory.createText(
+        "Press R to play again",
+        *this->arialFont,
+        Display::Color::WHITE,
+        {WINDOW_WIDTH / 2 - 10, WINDOW_HEIGHT / 2 + 5}
+    );
+
     this->setState(Game::State::GAME);
 }
 
@@ -102,9 +124,6 @@ void Game::Centipede::handleEvents()
     this->event = this->window->getEvent();
 
     switch (event) {
-        case Display::Event::Close:
-            this->setState(Game::State::END);
-            break;
         case Display::Event::Escape:
             this->setState(Game::State::MENU);
             break;
@@ -150,13 +169,28 @@ void Game::Centipede::updateWindow()
     this->renderClock->restart();
 }
 
-void Game::Centipede::updateWindowEnd()
+void Game::Centipede::updateWindowWin()
 {
     if (this->renderClock->getElapsedTime() < 1000 / FPS)
         return;
     this->window->clear();
+
+    this->window->draw(*this->winText);
+    this->window->draw(*this->restartTextWin);
+
+    this->window->display();
+    this->renderClock->restart();
+}
+
+void Game::Centipede::updateWindowLose()
+{
+    if (this->renderClock->getElapsedTime() < 1000 / FPS)
+        return;
+    this->window->clear();
+
     this->window->draw(*this->gameOverText);
-    this->window->draw(*this->restartText);
+    this->window->draw(*this->restartTextLose);
+
     this->window->display();
     this->renderClock->restart();
 }
@@ -173,17 +207,19 @@ void Game::Centipede::update(Display::IFactory &factory)
             this->moveCentipede(factory);
             this->updateWindow();
             if (this->centipedeNumber == 20) {
-                this->setState(Game::State::END);
+                this->setState(Game::State::WIN);
                 this->score += 10000;
             }
             if (this->scoreClock->getElapsedTime() > 1000) {
                 this->scoreClock->restart();
                 this->score += 10;
-                std::cout << "Score: " << this->score << std::endl;
             }
             break;
-        case Game::State::END:
-            this->updateWindowEnd();
+        case Game::State::WIN:
+            this->updateWindowWin();
+            break;
+        case Game::State::LOSE:
+            this->updateWindowLose();
             break;
         default:
             break;
@@ -283,7 +319,7 @@ void Game::Centipede::handleCollision(Display::IFactory &factory)
     for (auto &sprite : this->centipede) {
         if (this->player->getPosition().x == sprite->getPosition().x &&
             this->player->getPosition().y == sprite->getPosition().y) {
-            this->setState(Game::State::END);
+            this->setState(Game::State::LOSE);
         }
     }
     for (auto &obstacle : this->obstacles) {
@@ -402,7 +438,9 @@ void Game::Centipede::stop()
     this->scoreText.reset();
     this->arialFont.reset();
     this->gameOverText.reset();
-    this->restartText.reset();
+    this->restartTextLose.reset();
+    this->winText.reset();
+    this->restartTextWin.reset();
     this->window->close();
     this->window.reset();
 }
