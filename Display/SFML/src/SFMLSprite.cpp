@@ -80,8 +80,8 @@ void Display::SFMLSprite::setTexture(Display::ITexture &src)
 void Display::SFMLSprite::move(const Display::Vector2f &offset)
 {
     this->sprite.move({
-        offset.x,
-        offset.y
+        offset.x * SFML_RATIO,
+        offset.y * SFML_RATIO
     });
     this->setPosition({
         this->position.x + offset.x,

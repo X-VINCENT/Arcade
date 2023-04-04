@@ -201,12 +201,23 @@ void Display::SDL2Window::draw(Display::ISprite &sprite)
     Display::SDL2Sprite &sdlSprite = dynamic_cast<Display::SDL2Sprite &>(sprite);
     SDL_Texture *texture = &sdlSprite.getSDLTexture();
 
+    Display::IntRect srcRect = sprite.getRect();
+    SDL_Rect src;
+    src.x = srcRect.left * SDL2_RATIO;
+    src.y = srcRect.top * SDL2_RATIO;
+    src.w = srcRect.width * SDL2_RATIO;
+    src.h = srcRect.height * SDL2_RATIO;
+    Display::Vector2f pos = sprite.getPosition();
     SDL_Rect dest;
-	dest.x = sprite.getPosition().x * SDL2_RATIO;
-	dest.y = sprite.getPosition().y * SDL2_RATIO;
-	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+	dest.x = pos.x * SDL2_RATIO;
+	dest.y = pos.y * SDL2_RATIO;
+    dest.w = srcRect.width * SDL2_RATIO;
+    dest.h = srcRect.height * SDL2_RATIO;
+    int w = srcRect.width * SDL2_RATIO / 2;
+    int h = srcRect.height * SDL2_RATIO / 2;
+	SDL_QueryTexture(texture, NULL, NULL, &w, &h);
 
-    SDL_RenderCopy(this->renderer, texture, nullptr, &dest);
+    SDL_RenderCopy(this->renderer, texture, &src, &dest);
 }
 
 void Display::SDL2Window::draw(Display::IText &text)

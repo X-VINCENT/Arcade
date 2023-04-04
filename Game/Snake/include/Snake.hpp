@@ -36,11 +36,12 @@ namespace Game {
         private:
             Game::State state;
             std::unique_ptr<Display::IWindow> window;
-            std::unique_ptr<Display::ITexture> snakeTexture;
-            std::unique_ptr<Display::ITexture> foodTexture;
+            std::unique_ptr<Display::ITexture> mapTexture;
+            std::unique_ptr<Display::ITexture> mainTexture;
             std::unique_ptr<Display::IFont> arialFont;
             std::unique_ptr<Display::IClock> renderClock;
             std::unique_ptr<Display::IClock> snakeClock;
+            std::unique_ptr<Display::ISprite> map;
             std::vector<std::unique_ptr<Display::ISprite>> snake;
             std::unique_ptr<Display::ISprite> food;
             std::unique_ptr<Display::IText> scoreText;
@@ -48,6 +49,7 @@ namespace Game {
             std::unique_ptr<Display::IText> restartText;
             Direction direction = Direction::RIGHT;
             int score;
+            int snakeSpeed;
             Display::Event event = Display::Event::Unknown;
             void handleEvents();
             void moveSnake();

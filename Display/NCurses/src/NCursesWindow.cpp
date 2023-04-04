@@ -225,7 +225,6 @@ void Display::NCursesWindow::display()
 
 void Display::NCursesWindow::close()
 {
-    wclear(this->window);
     if (!this->window)
         return;
     delwin(this->window);
