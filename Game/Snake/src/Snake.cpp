@@ -40,6 +40,12 @@
 #define MAP_POS {0, 0}
 #define SCORE_POS {0, 0}
 
+// Speeds
+#define DEFAULT_SPEED 1
+#define BOOST_SPEED_MULTIPLICATOR 2
+#define UPDATE_SPEED_TIME_IN_MS 5000
+#define UPDATE_SPEED_ADD 0.1
+
 Game::Snake::Snake(Display::IFactory &factory)
 {
     this->window = factory.createWindow("Snake", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -48,6 +54,7 @@ Game::Snake::Snake(Display::IFactory &factory)
     this->arialFont = factory.createFont("assets/snake/arial.ttf");
     this->renderClock = factory.createClock();
     this->snakeClock = factory.createClock();
+    this->speedMultiplicatorClock = factory.createClock();
 
     this->map = factory.createSprite(
         *this->mapTexture,
@@ -104,7 +111,8 @@ Game::Snake::Snake(Display::IFactory &factory)
     this->direction = Game::Direction::RIGHT;
     this->setState(Game::State::GAME);
     this->score = 0;
-    this->snakeSpeed = 1;
+    this->snakeSpeed = DEFAULT_SPEED;
+    this->isBoosting = false;
 }
 
 Game::Snake::~Snake()
@@ -116,7 +124,7 @@ void Game::Snake::handleEvents()
     if (!this->window)
         return;
     this->event = this->window->getEvent();
-    this->snakeSpeed = 1;
+    this->isBoosting = false;
 
     switch (event) {
         case Display::Event::Close:
@@ -150,7 +158,7 @@ void Game::Snake::handleEvents()
             this->direction = Game::Direction::DOWN;
             break;
         case Display::Event::Space:
-            this->snakeSpeed = 10;
+            this->isBoosting = true;
             break;
         default:
             break;
@@ -159,34 +167,40 @@ void Game::Snake::handleEvents()
 
 void Game::Snake::moveSnake()
 {
+    Display::Vector2f moveOffset = {0, 0};
     Display::Vector2f prevPos = this->snake[0]->getPosition();
     Display::Vector2f currentPos = {0, 0};
     Display::Vector2f nextPos = {0, 0};
     Display::Vector2f offsetPrev = {0, 0};
     Display::Vector2f offsetNext = {0, 0};
 
-    if (this->snakeClock->getElapsedTime() < 100 / this->snakeSpeed)
+    if (this->snakeClock->getElapsedTime() < (
+        this->isBoosting
+        ? 100 / this->snakeSpeed / BOOST_SPEED_MULTIPLICATOR
+        : 100 / this->snakeSpeed)
+    )
         return;
     switch (this->direction) {
         case Game::Direction::LEFT:
             this->snake[0]->setRect(SNAKE_RECT_HEAD_LEFT);
-            this->snake[0]->move({-1, 0});
+            moveOffset = {-1, 0};
             break;
         case Game::Direction::RIGHT:
             this->snake[0]->setRect(SNAKE_RECT_HEAD_RIGHT);
-            this->snake[0]->move({1, 0});
+            moveOffset = {1, 0};
             break;
         case Game::Direction::UP:
             this->snake[0]->setRect(SNAKE_RECT_HEAD_UP);
-            this->snake[0]->move({0, -1});
+            moveOffset = {0, -1};
             break;
         case Game::Direction::DOWN:
             this->snake[0]->setRect(SNAKE_RECT_HEAD_DOWN);
-            this->snake[0]->move({0, 1});
+            moveOffset = {0, 1};
             break;
         default:
             break;
     }
+    this->snake[0]->move(moveOffset);
 
     for (size_t i = 1; i < this->snake.size(); i++) {
         currentPos = this->snake[i]->getPosition();
@@ -292,6 +306,14 @@ void Game::Snake::handleCollision()
         this->snake[0]->setPosition({headPos.x, 0});
 }
 
+void Game::Snake::updateSpeed()
+{
+    if (this->speedMultiplicatorClock->getElapsedTime() < UPDATE_SPEED_TIME_IN_MS)
+        return;
+    this->snakeSpeed += UPDATE_SPEED_ADD;
+    this->speedMultiplicatorClock->restart();
+}
+
 void Game::Snake::updateWindow()
 {
     if (this->renderClock->getElapsedTime() < 1000 / FPS)
@@ -332,6 +354,7 @@ void Game::Snake::update(Display::IFactory &factory)
             this->handleEat(factory);
             this->moveSnake();
             this->handleCollision();
+            this->updateSpeed();
             this->updateWindow();
             break;
         case Game::State::END:
@@ -364,6 +387,7 @@ void Game::Snake::stop()
     this->arialFont.reset();
     this->renderClock.reset();
     this->snakeClock.reset();
+    this->speedMultiplicatorClock.reset();
     this->map.reset();
     for (auto &sprite : this->snake)
         sprite.reset();

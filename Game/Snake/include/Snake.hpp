@@ -41,6 +41,7 @@ namespace Game {
             std::unique_ptr<Display::IFont> arialFont;
             std::unique_ptr<Display::IClock> renderClock;
             std::unique_ptr<Display::IClock> snakeClock;
+            std::unique_ptr<Display::IClock> speedMultiplicatorClock;
             std::unique_ptr<Display::ISprite> map;
             std::vector<std::unique_ptr<Display::ISprite>> snake;
             std::unique_ptr<Display::ISprite> food;
@@ -49,12 +50,14 @@ namespace Game {
             std::unique_ptr<Display::IText> restartText;
             Direction direction = Direction::RIGHT;
             int score;
-            int snakeSpeed;
+            float snakeSpeed;
+            int isBoosting;
             Display::Event event = Display::Event::Unknown;
             void handleEvents();
             void moveSnake();
             void handleEat(Display::IFactory &factory);
             void handleCollision();
+            void updateSpeed();
             void updateWindow();
             void updateWindowEnd();
     };
