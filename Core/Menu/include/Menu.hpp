@@ -24,6 +24,8 @@ namespace Core {
             void setSelectedGame(int selectedGame);
             void setSelectedGraphic(int selectedGraphic);
             void setUsername(std::string const &username);
+            void setWarning(std::string const &warning);
+            void setIsWarning(bool isWarning);
             Display::Event getEvent() const;
             void render();
             void stop();
@@ -47,5 +49,7 @@ namespace Core {
             std::string username;
             std::unique_ptr<Display::IText> usernameTitle;
             std::unique_ptr<Display::IText> usernameText;
+            std::unique_ptr<Display::IText> warningText;
+            bool isWarning;
     };
 }

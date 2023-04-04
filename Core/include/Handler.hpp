@@ -30,6 +30,7 @@ namespace Core {
             void createFactory();
             void createGame();
             void loop();
+            void handleUsernameEvents(Display::Event event);
             void handleGameEvents();
             void handleMenuEvents();
 

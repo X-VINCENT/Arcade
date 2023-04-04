@@ -21,6 +21,7 @@ Core::Menu::Menu(
     this->games = games;
     this->graphics = graphics;
     this->username = username;
+    this->isWarning = false;
     this->init(factory);
 }
 
@@ -33,7 +34,7 @@ void Core::Menu::init(Display::IFactory &factory)
     std::string const &titleStr = "Arcade";
     std::string const &gamesTitleStr = "Games";
     std::string const &graphicsTitleStr = "Graphics";
-    std::string const &keyInfosStr = "Left/Right: Change game  |  Up/Down: Change graphic  |  Enter: Select game  |  Space: Select graphic  |  Escape: Quit";
+    std::string const &keyInfosStr = "Left/Right: Change game  |  Up/Down: Change graphic  |  Enter: Select game  |  Num0: Select graphic  |  Escape: Quit";
     std::string const &usernameTitleStr = "Username";
 
     this->window = factory.createWindow("Menu", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -105,6 +106,13 @@ void Core::Menu::init(Display::IFactory &factory)
         Display::Color::WHITE,
         {(float)WINDOW_WIDTH / 2 - 3, WINDOW_HEIGHT / 2}
     );
+
+    this->warningText = factory.createText(
+        "No warning",
+        *this->arialFont,
+        Display::Color::RED,
+        {0, 0}
+    );
 }
 
 void Core::Menu::setSelectedGame(int selectedGame)
@@ -129,6 +137,16 @@ void Core::Menu::setUsername(std::string const &username)
     });
 }
 
+void Core::Menu::setWarning(std::string const &warning)
+{
+    this->warningText->setText(warning);
+}
+
+void Core::Menu::setIsWarning(bool isWarning)
+{
+    this->isWarning = isWarning;
+}
+
 Display::Event Core::Menu::getEvent() const
 {
     return this->window->getEvent();
@@ -151,6 +169,8 @@ void Core::Menu::render()
     this->window->draw(*this->keyInfos);
     this->window->draw(*this->usernameTitle);
     this->window->draw(*this->usernameText);
+    if (this->isWarning)
+        this->window->draw(*this->warningText);
 
     this->window->display();
     this->renderClock->restart();
@@ -172,6 +192,9 @@ void Core::Menu::stop()
         graphicText.reset();
     graphicsTexts.clear();
     this->keyInfos.reset();
+    this->usernameTitle.reset();
+    this->usernameText.reset();
+    this->warningText.reset();
     this->window->close();
     this->window.reset();
 }
