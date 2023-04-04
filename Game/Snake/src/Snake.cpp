@@ -95,14 +95,28 @@ Game::Snake::Snake(Display::IFactory &factory)
     );
 
     this->gameOverText = factory.createText(
-        "GAME OVER",
+        "GAME OVER ! You're a loser !",
         *this->arialFont,
         Display::Color::RED,
-        {WINDOW_WIDTH / 2 - 5, WINDOW_HEIGHT / 2 - 5}
+        {WINDOW_WIDTH / 2 - 14, WINDOW_HEIGHT / 2 - 5}
     );
 
-    this->restartText = factory.createText(
-        "Press R to restart",
+    this->restartTextLose = factory.createText(
+        "Press R to try again",
+        *this->arialFont,
+        Display::Color::WHITE,
+        {WINDOW_WIDTH / 2 - 10, WINDOW_HEIGHT / 2 + 5}
+    );
+
+    this->winText = factory.createText(
+        "WELL PLAYED! You've won!",
+        *this->arialFont,
+        Display::Color::YELLOW,
+        {WINDOW_WIDTH / 2 - 12, WINDOW_HEIGHT / 2 - 5}
+    );
+
+    this->restartTextWin = factory.createText(
+        "Press R to play again",
         *this->arialFont,
         Display::Color::WHITE,
         {WINDOW_WIDTH / 2 - 10, WINDOW_HEIGHT / 2 + 5}
@@ -128,7 +142,7 @@ void Game::Snake::handleEvents()
 
     switch (event) {
         case Display::Event::Close:
-            this->setState(Game::State::END);
+            this->setState(Game::State::LOSE);
             break;
         case Display::Event::Escape:
             this->setState(Game::State::MENU);
@@ -290,11 +304,11 @@ void Game::Snake::handleCollision()
             headPos = this->snake[0]->getPosition();
             bodyPos = this->snake[i]->getPosition();
             if (headPos.x == bodyPos.x && headPos.y == bodyPos.y)
-                this->setState(Game::State::END);
+                this->setState(Game::State::LOSE);
         }
     }
     if (this->snake.size() >= WINDOW_WIDTH * WINDOW_HEIGHT)
-        this->setState(Game::State::END);
+        this->setState(Game::State::WIN);
     headPos = this->snake[0]->getPosition();
     if (headPos.x < 0)
         this->snake[0]->setPosition({(float)WINDOW_WIDTH - 1, headPos.y});
@@ -330,7 +344,21 @@ void Game::Snake::updateWindow()
     this->renderClock->restart();
 }
 
-void Game::Snake::updateWindowEnd()
+void Game::Snake::updateWindowWin()
+{
+    if (this->renderClock->getElapsedTime() < 1000 / FPS)
+        return;
+    this->window->clear();
+
+    this->window->draw(*this->map);
+    this->window->draw(*this->winText);
+    this->window->draw(*this->restartTextWin);
+
+    this->window->display();
+    this->renderClock->restart();
+}
+
+void Game::Snake::updateWindowLose()
 {
     if (this->renderClock->getElapsedTime() < 1000 / FPS)
         return;
@@ -338,7 +366,7 @@ void Game::Snake::updateWindowEnd()
 
     this->window->draw(*this->map);
     this->window->draw(*this->gameOverText);
-    this->window->draw(*this->restartText);
+    this->window->draw(*this->restartTextLose);
 
     this->window->display();
     this->renderClock->restart();
@@ -357,8 +385,11 @@ void Game::Snake::update(Display::IFactory &factory)
             this->updateSpeed();
             this->updateWindow();
             break;
-        case Game::State::END:
-            this->updateWindowEnd();
+        case Game::State::WIN:
+            this->updateWindowWin();
+            break;
+        case Game::State::LOSE:
+            this->updateWindowLose();
             break;
         default:
             break;
@@ -393,6 +424,10 @@ void Game::Snake::stop()
         sprite.reset();
     this->food.reset();
     this->scoreText.reset();
+    this->gameOverText.reset();
+    this->restartTextLose.reset();
+    this->winText.reset();
+    this->restartTextWin.reset();
     this->window->close();
     this->window.reset();
 }

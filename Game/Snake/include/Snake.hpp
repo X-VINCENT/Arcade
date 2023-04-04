@@ -47,7 +47,9 @@ namespace Game {
             std::unique_ptr<Display::ISprite> food;
             std::unique_ptr<Display::IText> scoreText;
             std::unique_ptr<Display::IText> gameOverText;
-            std::unique_ptr<Display::IText> restartText;
+            std::unique_ptr<Display::IText> restartTextLose;
+            std::unique_ptr<Display::IText> winText;
+            std::unique_ptr<Display::IText> restartTextWin;
             Direction direction = Direction::RIGHT;
             int score;
             float snakeSpeed;
@@ -59,6 +61,7 @@ namespace Game {
             void handleCollision();
             void updateSpeed();
             void updateWindow();
-            void updateWindowEnd();
+            void updateWindowWin();
+            void updateWindowLose();
     };
 }

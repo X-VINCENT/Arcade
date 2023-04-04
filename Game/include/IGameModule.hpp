@@ -12,7 +12,8 @@ namespace Game {
     enum State {
         MENU,
         GAME,
-        END
+        WIN,
+        LOSE
     };
     class IGameModule {
         public:
