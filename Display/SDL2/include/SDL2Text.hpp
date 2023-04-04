@@ -31,6 +31,7 @@ namespace Display {
             Display::Vector2f getPosition() const override;
             void move(const Display::Vector2f &offset) override;
             SDL_Texture &getSDLText();
+            int getFontSize() const;
 
         private:
             SDL_Renderer *renderer;
@@ -40,5 +41,6 @@ namespace Display {
             std::string text;
             SDL_Color color;
             Display::Vector2f position;
+            int fontSize;
     };
 };

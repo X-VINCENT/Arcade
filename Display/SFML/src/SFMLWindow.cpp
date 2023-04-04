@@ -37,6 +37,19 @@ Display::Event Display::SFMLWindow::getEvent()
     bool isKeyPressed = false;
 
     this->window.pollEvent(event);
+    switch (event.type) {
+        case sf::Event::Closed:
+            return Display::Event::Close;
+        case sf::Event::KeyPressed:
+            isKeyPressed = true;
+            break;
+        default:
+            break;
+    }
+
+    if (!isKeyPressed)
+        return Display::Event::Unknown;
+
     switch (event.key.code) {
         case sf::Keyboard::Key::A:
             return Display::Event::A;
@@ -128,13 +141,6 @@ Display::Event Display::SFMLWindow::getEvent()
             break;
     }
 
-    switch (event.type) {
-        case sf::Event::Closed:
-            return Display::Event::Close;
-        default:
-            break;
-    }
-
     return Display::Event::Unknown;
 }
 
@@ -178,10 +184,11 @@ void Display::SFMLWindow::draw(Display::IText &text)
     Display::SFMLText &sfmlText = dynamic_cast<Display::SFMLText &>(text);
     sf::Text sfText = sfmlText.getSFText();
     Display::Vector2f pos = sfmlText.getPosition();
+    int fontSize = sfmlText.getFontSize();
 
     sfText.setPosition(
-        pos.x * SFML_RATIO,
-        pos.y * SFML_RATIO
+        pos.x * fontSize,
+        pos.y * fontSize
     );
     this->window.draw(sfText);
 }

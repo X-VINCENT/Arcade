@@ -30,12 +30,10 @@ namespace Game {
             void update(Display::IFactory &factory) override;
             void setState(Game::State state) override;
             Game::State getState() const override;
-            void run(Display::IFactory &factory) override;
+            Display::Event getEvent() const override;
             void stop() override;
-            const std::string &getName() const override;
 
         private:
-            std::string name;
             Game::State state;
             std::unique_ptr<Display::IWindow> window;
             std::unique_ptr<Display::ITexture> snakeTexture;
@@ -46,12 +44,16 @@ namespace Game {
             std::vector<std::unique_ptr<Display::ISprite>> snake;
             std::unique_ptr<Display::ISprite> food;
             std::unique_ptr<Display::IText> scoreText;
+            std::unique_ptr<Display::IText> gameOverText;
+            std::unique_ptr<Display::IText> restartText;
             Direction direction = Direction::RIGHT;
             int score;
+            Display::Event event = Display::Event::Unknown;
             void handleEvents();
             void moveSnake();
             void handleEat(Display::IFactory &factory);
             void handleCollision();
             void updateWindow();
+            void updateWindowEnd();
     };
 }

@@ -55,6 +55,7 @@ Display::SDL2Text::SDL2Text(
         SDL_Quit();
         exit(84);
     }
+    this->fontSize = sdlFont.getFontSize();
 
     this->color = colorToSDLColor(color);
 
@@ -74,6 +75,7 @@ Display::SDL2Text::SDL2Text(
     }
 
     this->text = text;
+    this->position = position;
 }
 
 Display::SDL2Text::~SDL2Text()
@@ -182,4 +184,9 @@ void Display::SDL2Text::move(const Display::Vector2f &offset)
 SDL_Texture &Display::SDL2Text::getSDLText()
 {
     return *this->texture;
+}
+
+int Display::SDL2Text::getFontSize() const
+{
+    return this->fontSize;
 }

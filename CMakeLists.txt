@@ -18,15 +18,16 @@ find_package(SFML 2.5
 include_directories(${SFML_INCLUDE_DIR})
 
 include_directories(
-        Core/include
         Core/DLLoader/include
+        Core/include
+        Core/Menu/include
         Display/include
         Display/NCurses/include
         Display/SDL2/include
         Display/SFML/include
+        Game/Centipede/include
         Game/include
         Game/Snake/include
-        Game/Centipede/include
 )
 
 set(EXECUTABLE_NAME "arcade")
@@ -41,7 +42,9 @@ set(SRC_MAIN
 set(CORE_DIRECTORY Core/)
 set(SRC_CORE
         DLLoader/src/DLLoader.cpp
+        Menu/src/Menu.cpp
         src/Arcade.cpp
+        src/Handler.cpp
 )
 
 # NCurses Sources
@@ -104,6 +107,7 @@ list(TRANSFORM SRC_CORE PREPEND ${CORE_DIRECTORY})
 list(TRANSFORM SRC_DISPLAY_NCURSES PREPEND ${DISPLAY_DIRECTORY}/${NCURSES_DIRECTORY})
 list(TRANSFORM SRC_DISPLAY_SDL2 PREPEND ${DISPLAY_DIRECTORY}/${SDL2_DIRECTORY})
 list(TRANSFORM SRC_DISPLAY_SFML PREPEND ${DISPLAY_DIRECTORY}/${SFML_DIRECTORY})
+list(TRANSFORM SRC_GAME_MENU PREPEND ${GAME_DIRECTORY}/${MENU_DIRECTORY})
 list(TRANSFORM SRC_GAME_SNAKE PREPEND ${GAME_DIRECTORY}/${SNAKE_DIRECTORY})
 list(TRANSFORM SRC_GAME_CENTIPEDE PREPEND ${GAME_DIRECTORY}/${CENTIPEDE_DIRECTORY})
 

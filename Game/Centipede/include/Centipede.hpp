@@ -30,12 +30,10 @@ namespace Game {
             void update(Display::IFactory &factory) override;
             void setState(Game::State state) override;
             Game::State getState() const override;
-            void run(Display::IFactory &factory) override;
+            Display::Event getEvent() const override;
             void stop() override;
-            const std::string &getName() const override;
 
         private:
-            std::string name;
             Game::State state;
             std::unique_ptr<Display::IWindow> window;
             std::unique_ptr<Display::IClock> renderClock;
@@ -55,10 +53,13 @@ namespace Game {
             std::vector<int> obstaclesLife;
             std::unique_ptr<Display::IText> scoreText;
             std::unique_ptr<Display::IFont> arialFont;
+            std::unique_ptr<Display::IText> gameOverText;
+            std::unique_ptr<Display::IText> restartText;
             Direction centipedeDirection = Direction::RIGHT;
             bool canShoot = true;
             int score = 0;
             int centipedeNumber = 1;
+            Display::Event event = Display::Event::Unknown;
             void shoot();
             void updateShoot();
             void handleEvents();
@@ -66,5 +67,6 @@ namespace Game {
             void moveCentipede(Display::IFactory &factory);
             void handleCollision(Display::IFactory &factory);
             void updateWindow();
+            void updateWindowEnd();
     };
 }

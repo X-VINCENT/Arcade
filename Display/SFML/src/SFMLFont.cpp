@@ -9,6 +9,8 @@
 #include "SFMLException.hpp"
 #include <iostream>
 
+#define DEFAULT_SFML_FONT_SIZE 32
+
 Display::SFMLFont::SFMLFont(std::string const &fontPath)
 {
     try {
@@ -38,4 +40,9 @@ void Display::SFMLFont::setFont(const std::string &fontPath)
 sf::Font &Display::SFMLFont::getSFFont()
 {
     return this->font;
+}
+
+int Display::SFMLFont::getFontSize() const
+{
+    return DEFAULT_SFML_FONT_SIZE;
 }

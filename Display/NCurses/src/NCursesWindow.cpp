@@ -51,77 +51,77 @@ Display::Event Display::NCursesWindow::getEvent()
     int key = getch();
 
     switch (key) {
-        case 97:
+        case 'A':
             return Display::Event::A;
-        case 98:
+        case 'B':
             return Display::Event::B;
-        case 99:
+        case 'C':
             return Display::Event::C;
-        case 100:
+        case 'D':
             return Display::Event::D;
-        case 101:
+        case 'E':
             return Display::Event::E;
-        case 102:
+        case 'F':
             return Display::Event::F;
-        case 103:
+        case 'G':
             return Display::Event::G;
-        case 104:
+        case 'H':
             return Display::Event::H;
-        case 105:
+        case 'I':
             return Display::Event::I;
-        case 106:
+        case 'J':
             return Display::Event::J;
-        case 107:
+        case 'K':
             return Display::Event::K;
-        case 108:
+        case 'L':
             return Display::Event::L;
-        case 109:
+        case 'M':
             return Display::Event::M;
-        case 110:
+        case 'N':
             return Display::Event::N;
-        case 111:
+        case 'O':
             return Display::Event::O;
-        case 112:
+        case 'P':
             return Display::Event::P;
-        case 113:
+        case 'Q':
             return Display::Event::Q;
-        case 114:
+        case 'R':
             return Display::Event::R;
-        case 115:
+        case 'S':
             return Display::Event::S;
-        case 116:
+        case 'T':
             return Display::Event::T;
-        case 117:
+        case 'U':
             return Display::Event::U;
-        case 118:
+        case 'V':
             return Display::Event::V;
-        case 119:
+        case 'W':
             return Display::Event::W;
-        case 120:
+        case 'X':
             return Display::Event::X;
-        case 121:
+        case 'Y':
             return Display::Event::Y;
-        case 122:
+        case 'Z':
             return Display::Event::Z;
-        case 48:
+        case '0':
             return Display::Event::Num0;
-        case 49:
+        case '1':
             return Display::Event::Num1;
-        case 50:
+        case '2':
             return Display::Event::Num2;
-        case 51:
+        case '3':
             return Display::Event::Num3;
-        case 52:
+        case '4':
             return Display::Event::Num4;
-        case 53:
+        case '5':
             return Display::Event::Num5;
-        case 54:
+        case '6':
             return Display::Event::Num6;
-        case 55:
+        case '7':
             return Display::Event::Num7;
-        case 56:
+        case '8':
             return Display::Event::Num8;
-        case 57:
+        case '9':
             return Display::Event::Num9;
         case KEY_LEFT:
             return Display::Event::Left;
@@ -179,9 +179,41 @@ void Display::NCursesWindow::draw(Display::IText &text)
 
     Display::NCursesText &ncursesText = dynamic_cast<Display::NCursesText &>(text);
     std::string str = ncursesText.getText();
+    Display::Color color = ncursesText.getColor();
     Vector2f pos = text.getPosition();
 
+    switch (color) {
+        case Display::Color::BLACK:
+            wattron(this->window, COLOR_PAIR(0));
+            break;
+        case Display::Color::WHITE:
+            wattron(this->window, COLOR_PAIR(7));
+            break;
+        case Display::Color::RED:
+            wattron(this->window, COLOR_PAIR(1));
+            break;
+        case Display::Color::GREEN:
+            wattron(this->window, COLOR_PAIR(2));
+            break;
+        case Display::Color::YELLOW:
+            wattron(this->window, COLOR_PAIR(3));
+            break;
+        case Display::Color::BLUE:
+            wattron(this->window, COLOR_PAIR(4));
+            break;
+        case Display::Color::MAGENTA:
+            wattron(this->window, COLOR_PAIR(5));
+            break;
+        case Display::Color::CYAN:
+            wattron(this->window, COLOR_PAIR(6));
+            break;
+        default:
+            break;
+    }
+
     mvwprintw(this->window, pos.y, pos.x, "%s", str.c_str());
+
+    wattr_off(this->window, A_COLOR, NULL);
 }
 
 void Display::NCursesWindow::display()
@@ -193,6 +225,7 @@ void Display::NCursesWindow::display()
 
 void Display::NCursesWindow::close()
 {
+    wclear(this->window);
     if (!this->window)
         return;
     delwin(this->window);

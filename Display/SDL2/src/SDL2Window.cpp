@@ -61,9 +61,7 @@ Display::SDL2Window::SDL2Window(
 
 Display::SDL2Window::~SDL2Window()
 {
-    SDL_DestroyRenderer(this->renderer);
-    SDL_DestroyWindow(this->window);
-    SDL_Quit();
+    this->close();
 }
 
 Display::Event Display::SDL2Window::getEvent()
@@ -221,10 +219,11 @@ void Display::SDL2Window::draw(Display::IText &text)
 
     Display::SDL2Text &sdlText = dynamic_cast<Display::SDL2Text &>(text);
     SDL_Texture *texture = &sdlText.getSDLText();
+    int fontSize = sdlText.getFontSize();
 
     SDL_Rect dest;
-    dest.x = text.getPosition().x * SDL2_RATIO;
-    dest.y = text.getPosition().y * SDL2_RATIO;
+    dest.x = text.getPosition().x * fontSize;
+    dest.y = text.getPosition().y * fontSize;
     SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
     SDL_RenderCopy(this->renderer, texture, nullptr, &dest);
@@ -246,6 +245,8 @@ void Display::SDL2Window::close()
         SDL_DestroyRenderer(this->renderer);
     if (this->window != nullptr)
         SDL_DestroyWindow(this->window);
+    this->window = nullptr;
+    this->renderer = nullptr;
     SDL_Quit();
 }
 

@@ -76,6 +76,18 @@ Game::Centipede::Centipede(Display::IFactory &factory)
         Display::Color::WHITE,
         {0, 0}
     );
+    this->gameOverText = factory.createText(
+        "GAME OVER",
+        *this->arialFont,
+        Display::Color::RED,
+        {WINDOW_WIDTH / 2 - 5, WINDOW_HEIGHT / 2 - 5}
+    );
+    this->restartText = factory.createText(
+        "Press R to restart",
+        *this->arialFont,
+        Display::Color::WHITE,
+        {WINDOW_WIDTH / 2 - 10, WINDOW_HEIGHT / 2 + 5}
+    );
     this->setState(Game::State::GAME);
 }
 
@@ -85,7 +97,9 @@ Game::Centipede::~Centipede()
 
 void Game::Centipede::handleEvents()
 {
-    Display::Event event = this->window->getEvent();
+    if (!this->window)
+        return;
+    this->event = this->window->getEvent();
 
     switch (event) {
         case Display::Event::Close:
@@ -136,6 +150,17 @@ void Game::Centipede::updateWindow()
     this->renderClock->restart();
 }
 
+void Game::Centipede::updateWindowEnd()
+{
+    if (this->renderClock->getElapsedTime() < 1000 / FPS)
+        return;
+    this->window->clear();
+    this->window->draw(*this->gameOverText);
+    this->window->draw(*this->restartText);
+    this->window->display();
+    this->renderClock->restart();
+}
+
 void Game::Centipede::update(Display::IFactory &factory)
 {
     this->handleEvents();
@@ -158,7 +183,7 @@ void Game::Centipede::update(Display::IFactory &factory)
             }
             break;
         case Game::State::END:
-            this->stop();
+            this->updateWindowEnd();
             break;
         default:
             break;
@@ -343,11 +368,9 @@ Game::State Game::Centipede::getState() const
     return this->state;
 }
 
-void Game::Centipede::run(Display::IFactory &factory)
+Display::Event Game::Centipede::getEvent() const
 {
-    while (this->getState() != Game::State::END)
-        this->update(factory);
-    this->stop();
+    return this->event;
 }
 
 void Game::Centipede::setState(Game::State state)
@@ -357,12 +380,31 @@ void Game::Centipede::setState(Game::State state)
 
 void Game::Centipede::stop()
 {
+    this->renderClock.reset();
+    this->playerClock.reset();
+    this->centipedeClock.reset();
+    this->shootClock.reset();
+    this->scoreClock.reset();
+    this->player.reset();
+    this->playerTexture.reset();
+    this->projectile.reset();
+    this->projectileTexture.reset();
+    for (auto &sprite : this->centipede)
+        sprite.reset();
+    this->centipede.clear();
+    this->centipedeHeadTexture.reset();
+    this->centipedeTexture.reset();
+    this->obstacleTexture.reset();
+    for (auto &sprite : this->obstacles)
+        sprite.reset();
+    this->obstacles.clear();
+    this->obstaclesLife.clear();
+    this->scoreText.reset();
+    this->arialFont.reset();
+    this->gameOverText.reset();
+    this->restartText.reset();
     this->window->close();
-}
-
-const std::string &Game::Centipede::getName() const
-{
-    return this->name;
+    this->window.reset();
 }
 
 extern "C" std::unique_ptr<Game::IGameModule> createGame(Display::IFactory &factory)

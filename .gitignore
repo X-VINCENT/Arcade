@@ -11,3 +11,5 @@ build
 ncurses
 sfml
 sdl
+vgcore.*
+valgrind.log

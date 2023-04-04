@@ -43,11 +43,14 @@ Display::SFMLText::SFMLText(
     Display::SFMLFont sfmlFont = dynamic_cast<const Display::SFMLFont &>(font);
 
     this->font = sfmlFont.getSFFont();
+    this->fontSize = sfmlFont.getFontSize();
     this->color = colorToSFColor(color);
     this->text.setFont(this->font);
+    this->text.setCharacterSize(this->fontSize);
     this->text.setString(text);
     this->text.setFillColor(colorToSFColor(color));
     this->text.setPosition(position.x, position.y);
+    this->position = position;
 }
 
 Display::SFMLText::~SFMLText()
@@ -64,12 +67,15 @@ void Display::SFMLText::setFont(const Display::IFont &src)
     Display::SFMLFont sfmlFont = dynamic_cast<const Display::SFMLFont &>(src);
 
     this->font = sfmlFont.getSFFont();
+    this->fontSize = sfmlFont.getFontSize();
     this->text.setFont(this->font);
+    this->text.setCharacterSize(this->fontSize);
 }
 
 void Display::SFMLText::setColor(const Display::Color &src)
 {
     this->color = colorToSFColor(src);
+    this->text.setFillColor(this->color);
 }
 
 void Display::SFMLText::setPosition(const Display::Vector2f &src)
@@ -91,4 +97,9 @@ void Display::SFMLText::move(const Display::Vector2f &offset)
 sf::Text &Display::SFMLText::getSFText()
 {
     return this->text;
+}
+
+int Display::SFMLText::getFontSize() const
+{
+    return this->fontSize;
 }

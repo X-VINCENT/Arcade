@@ -29,11 +29,13 @@ namespace Display {
             Display::Vector2f getPosition() const override;
             void move(const Display::Vector2f &offset) override;
             sf::Text &getSFText();
+            int getFontSize() const;
 
         private:
             sf::Text text;
             sf::Font font;
             sf::Color color;
             Display::Vector2f position;
+            int fontSize;
     };
 };
