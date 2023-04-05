@@ -36,7 +36,7 @@ void Core::Menu::init(Display::IFactory &factory)
     std::string const &titleStr = "Arcade";
     std::string const &gamesTitleStr = "Games";
     std::string const &graphicsTitleStr = "Graphics";
-    std::string const &keyInfosStr = "Left/Right: Change game  |  Up/Down: Change graphic  |  Enter: Select game  |  Num0: Select graphic  |  Escape: Quit";
+    std::string const &keyInfosStr = "Left/Right: Change game  |  Up/Down: Change graphic  |  Enter: Select game  |  Comma: Select graphic  |  Escape: Quit";
     std::string const &usernameTitleStr = "Username";
 
     this->window = factory.createWindow("Menu", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);

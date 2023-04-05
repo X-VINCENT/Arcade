@@ -163,6 +163,8 @@ Display::Event Display::SDL2Window::getEvent()
             return Display::Event::Space;
         case SDLK_BACKSPACE:
             return Display::Event::Backspace;
+        case SDLK_COMMA:
+            return Display::Event::Comma;
         default:
             break;
     }

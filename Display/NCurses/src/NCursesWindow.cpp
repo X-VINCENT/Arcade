@@ -179,6 +179,11 @@ Display::Event Display::NCursesWindow::getEvent()
             return Display::Event::Backspace;
         case KEY_BACKSPACE:
             return Display::Event::Backspace;
+        case KEY_BTAB:
+        case KEY_CTAB:
+        case KEY_STAB:
+        case ',':
+            return Display::Event::Comma;
         default:
             break;
     }
@@ -270,4 +275,5 @@ void Display::NCursesWindow::close()
     if (!this->window)
         return;
     delwin(this->window);
+    endwin();
 }
