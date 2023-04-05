@@ -47,7 +47,9 @@
 Game::Snake::Snake(Display::IFactory &factory, std::string username)
 {
     this->window = factory.createWindow("Snake", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
-    this->mainTexture = factory.createTexture('#', "assets/snake/snake.png");
+    this->bodyTexture = factory.createTexture('#', "assets/snake/snake.png");
+    this->headTexture = factory.createTexture('O', "assets/snake/snake.png");
+    this->foodTexture = factory.createTexture('o', "assets/snake/snake.png");
     this->mapTexture = factory.createTexture(' ', "assets/snake/map.png");
     this->arialFont = factory.createFont("assets/snake/arial.ttf");
     this->renderClock = factory.createClock();
@@ -61,25 +63,25 @@ Game::Snake::Snake(Display::IFactory &factory, std::string username)
     );
 
     this->snake.push_back(factory.createSprite(
-        *this->mainTexture,
+        *this->headTexture,
         SNAKE_RECT_HEAD_RIGHT,
         {(float)WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2}
     ));
     for (size_t i = 0; i < 2; i++) {
         this->snake.push_back(factory.createSprite(
-            *this->mainTexture,
+            *this->bodyTexture,
             SNAKE_RECT_HORIZONTAL,
             {(float)WINDOW_WIDTH / 2 - i - 1, WINDOW_HEIGHT / 2}
         ));
     }
     this->snake.push_back(factory.createSprite(
-        *this->mainTexture,
+        *this->bodyTexture,
         SNAKE_RECT_TAIL_RIGHT,
         {(float)WINDOW_WIDTH / 2 - 3, WINDOW_HEIGHT / 2}
     ));
 
     this->food = factory.createSprite(
-        *this->mainTexture,
+        *this->foodTexture,
         FOOD_RECT,
         {(float)(rand() % WINDOW_WIDTH) * 1,
         (float)(rand() % WINDOW_HEIGHT) * 1}
@@ -277,7 +279,7 @@ void Game::Snake::handleEat(Display::IFactory &factory)
     if (this->snake[0]->getPosition().x == this->food->getPosition().x &&
         this->snake[0]->getPosition().y == this->food->getPosition().y) {
         this->snake.push_back(factory.createSprite(
-            *this->mainTexture,
+            *this->bodyTexture,
             {0, 0, 1, 1},
             this->snake[this->snake.size() - 2]->getPosition()
         ));
@@ -426,7 +428,9 @@ void Game::Snake::stop()
 {
     this->saveScore();
     this->mapTexture.reset();
-    this->mainTexture.reset();
+    this->bodyTexture.reset();
+    this->headTexture.reset();
+    this->foodTexture.reset();
     this->arialFont.reset();
     this->renderClock.reset();
     this->snakeClock.reset();

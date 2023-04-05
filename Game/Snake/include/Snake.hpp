@@ -37,7 +37,9 @@ namespace Game {
             Game::State state;
             std::unique_ptr<Display::IWindow> window;
             std::unique_ptr<Display::ITexture> mapTexture;
-            std::unique_ptr<Display::ITexture> mainTexture;
+            std::unique_ptr<Display::ITexture> bodyTexture;
+            std::unique_ptr<Display::ITexture> headTexture;
+            std::unique_ptr<Display::ITexture> foodTexture;
             std::unique_ptr<Display::IFont> arialFont;
             std::unique_ptr<Display::IClock> renderClock;
             std::unique_ptr<Display::IClock> snakeClock;
