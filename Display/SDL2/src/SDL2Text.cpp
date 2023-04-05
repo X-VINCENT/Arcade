@@ -83,7 +83,7 @@ Display::SDL2Text::~SDL2Text()
     SDL_DestroyTexture(this->texture);
     SDL_FreeSurface(this->surface);
 }
-#include <iostream>
+
 void Display::SDL2Text::setText(const std::string &src)
 {
     if (!this->font) {
@@ -98,7 +98,10 @@ void Display::SDL2Text::setText(const std::string &src)
         exit(84);
     }
 
-    this->text = src;
+    if (src == "")
+        this->text = " ";
+    else
+        this->text = src;
     if (this->surface)
         SDL_FreeSurface(this->surface);
     this->surface = TTF_RenderText_Solid(this->font, this->text.c_str(), this->color);

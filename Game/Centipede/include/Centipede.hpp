@@ -46,7 +46,7 @@ namespace Game {
             std::unique_ptr<Display::ISprite> projectile;
             std::unique_ptr<Display::ITexture> projectileTexture;
             std::vector<std::unique_ptr<Display::ISprite>> centipede;
-            std::unique_ptr<Display::ITexture> centipedeHeadTexture;
+            std::vector<Direction> centipedeDirections;
             std::unique_ptr<Display::ITexture> centipedeTexture;
             std::unique_ptr<Display::ITexture> obstacleTexture;
             std::vector<std::unique_ptr<Display::ISprite>> obstacles;
@@ -57,7 +57,6 @@ namespace Game {
             std::unique_ptr<Display::IText> restartTextLose;
             std::unique_ptr<Display::IText> winText;
             std::unique_ptr<Display::IText> restartTextWin;
-            Direction centipedeDirection = Direction::RIGHT;
             bool canShoot = true;
             int score = 0;
             int centipedeNumber = 1;
