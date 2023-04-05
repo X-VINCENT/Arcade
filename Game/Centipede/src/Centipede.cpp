@@ -13,8 +13,6 @@
 #define WINDOW_WIDTH 40
 #define WINDOW_HEIGHT 20
 #define FPS 60
-#define CENTIPEDE_SIZE 10
-#define CENTIPEDE_SPEED 1
 #define PLAYER_SPEED 50
 #define SHOOT_SPEED 20
 #define OBSTACLES 25
@@ -43,15 +41,17 @@ Game::Centipede::Centipede(Display::IFactory &factory, std::string username)
         {(-10, -10)}
     );
 
+    this->centipedeSpeed = 1;
+    this->centipedeSize = rand() % 10 + 5;
     this->centipedeTexture = factory.createTexture('#', "assets/centipede/body.png");
-    for (size_t i = 0; i < CENTIPEDE_SIZE; i++) {
+    for (size_t i = 0; i < this->centipedeSize; i++) {
         this->centipede.push_back(factory.createSprite(
             *this->centipedeTexture,
             {0, 0, 1, 1},
             {(float)WINDOW_WIDTH / 2 + i - 5, -1}
         ));
     }
-    for (size_t i = 0; i < CENTIPEDE_SIZE; i++) {
+    for (size_t i = 0; i < this->centipedeSize; i++) {
         this->centipedeDirections.push_back(Game::Direction::RIGHT);
     }
 
@@ -265,7 +265,7 @@ void Game::Centipede::movePlayer(Game::Direction direction)
 
 void Game::Centipede::moveCentipede(Display::IFactory &factory)
 {
-    if (this->centipedeClock->getElapsedTime() < 100 / CENTIPEDE_SPEED)
+    if (this->centipedeClock->getElapsedTime() < 100 / this->centipedeSpeed)
         return;
 
     for (int i = 0; i < this->centipede.size(); i++) {
@@ -289,14 +289,16 @@ void Game::Centipede::moveCentipede(Display::IFactory &factory)
     if (this->centipede[0]->getPosition().y >= WINDOW_HEIGHT - 1) {
         this->centipede.clear();
         this->centipedeDirections.clear();
-        for (size_t i = 0; i < CENTIPEDE_SIZE; i++) {
+        this->centipedeSize = rand() % 10 + 5;
+        this->centipedeSpeed = rand() % 3 + 1;
+        for (size_t i = 0; i < this->centipedeSize; i++) {
             this->centipede.push_back(factory.createSprite(
                 *this->centipedeTexture,
                 {0, 0, 1, 1},
                 {(float)WINDOW_WIDTH / 2 + i - 5, -1}
             ));
         }
-        for (size_t i = 0; i < CENTIPEDE_SIZE; i++) {
+        for (size_t i = 0; i < this->centipedeSize; i++) {
             this->centipedeDirections.push_back(Game::Direction::RIGHT);
         }
 
@@ -356,14 +358,16 @@ void Game::Centipede::handleCollision(Display::IFactory &factory)
         if (this->centipede.size() == 0) {
             this->centipede.clear();
             this->centipedeDirections.clear();
-            for (size_t i = 0; i < CENTIPEDE_SIZE; i++) {
+            this->centipedeSize = rand() % 10 + 5;
+            this->centipedeSpeed = rand() % 3 + 1;
+            for (size_t i = 0; i < this->centipedeSize; i++) {
                 this->centipede.push_back(factory.createSprite(
                     *this->centipedeTexture,
                     {0, 0, 1, 1},
                     {(float)WINDOW_WIDTH / 2 + i - 5, -1}
                 ));
             }
-            for (size_t i = 0; i < CENTIPEDE_SIZE; i++) {
+            for (size_t i = 0; i < this->centipedeSize; i++) {
                 this->centipedeDirections.push_back(Game::Direction::RIGHT);
             }
             this->centipedeNumber += 1;

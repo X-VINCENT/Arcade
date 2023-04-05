@@ -62,6 +62,8 @@ namespace Game {
             int centipedeNumber = 1;
             Display::Event event = Display::Event::Unknown;
             std::string username;
+            int centipedeSpeed;
+            int centipedeSize;
             void shoot();
             void updateShoot();
             void handleEvents();
