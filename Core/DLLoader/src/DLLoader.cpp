@@ -35,7 +35,8 @@ Core::DLLoader::DLLoader(std::string const &path)
 
 Core::DLLoader::~DLLoader()
 {
-    dlclose(this->_handle);
+    if (this->_handle != nullptr)
+        dlclose(this->_handle);
 }
 
 void Core::DLLoader::changeLib(std::string const &path)

@@ -129,43 +129,33 @@ Display::Event Display::NCursesWindow::getEvent()
         case 'z':
         case 'Z':
             return Display::Event::Z;
-        case 'à':
         case '0':
         case KEY_F(10):
             return Display::Event::Num0;
-        case '&':
         case '1':
         case KEY_F(1):
             return Display::Event::Num1;
-        case 'é':
         case '2':
         case KEY_F(2):
             return Display::Event::Num2;
-        case '"':
         case '3':
         case KEY_F(3):
             return Display::Event::Num3;
-        case '\'':
         case '4':
         case KEY_F(4):
             return Display::Event::Num4;
-        case '(':
         case '5':
         case KEY_F(5):
             return Display::Event::Num5;
-        case '-':
         case '6':
         case KEY_F(6):
             return Display::Event::Num6;
-        case 'è':
         case '7':
         case KEY_F(7):
             return Display::Event::Num7;
-        case '_':
         case '8':
         case KEY_F(8):
             return Display::Event::Num8;
-        case 'ç':
         case '9':
         case KEY_F(9):
             return Display::Event::Num9;

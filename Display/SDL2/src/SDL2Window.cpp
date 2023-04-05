@@ -30,8 +30,10 @@ Display::SDL2Window::SDL2Window(
         SDL_Quit();
         exit(84);
     }
+
+    std::string fullTitle = "SDL2 - " + title;
     this->window = SDL_CreateWindow(
-        title.c_str(),
+        fullTitle.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         width * SDL2_RATIO,
@@ -43,6 +45,7 @@ Display::SDL2Window::SDL2Window(
         SDL_Quit();
         exit(84);
     }
+
     this->renderer = SDL_CreateRenderer(
         this->window,
         -1,

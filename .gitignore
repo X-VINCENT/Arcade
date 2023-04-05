@@ -13,3 +13,4 @@ sfml
 sdl
 vgcore.*
 valgrind.log
+scores.txt

@@ -6,6 +6,8 @@
 */
 
 #include "Menu.hpp"
+#include <fstream>
+#include <sstream>
 
 #define WINDOW_WIDTH 125
 #define WINDOW_HEIGHT 20
@@ -113,6 +115,63 @@ void Core::Menu::init(Display::IFactory &factory)
         Display::Color::RED,
         {0, 0}
     );
+
+    this->initScores(factory);
+}
+
+std::vector<std::string> splitLine(std::string const &str, char delim)
+{
+    std::vector<std::string> result;
+    std::stringstream ss(str);
+    std::string item;
+
+    while (std::getline(ss, item, delim))
+        result.push_back(item);
+    return result;
+}
+#include <iostream>
+void Core::Menu::initScores(Display::IFactory &factory)
+{
+    for (auto &game : this->games) {
+        std::tuple<std::string, std::string, int> bestScore = {game, "", 0};
+        this->bestScores.push_back(bestScore);
+    }
+
+    std::ifstream file("scores.txt");
+    if (!file.is_open())
+        return;
+
+    std::string line;
+    while (std::getline(file, line)) {
+        std::vector<std::string> splittedLine = splitLine(line, ':');
+        std::tuple<std::string, std::string, int> score = {splittedLine[0], splittedLine[1], std::stoi(splittedLine[2])};
+
+        for (int i = 0; i < this->bestScores.size(); i++) {
+            if (std::get<0>(this->bestScores[i]) == std::get<0>(score)) {
+                if (std::get<2>(this->bestScores[i]) < std::get<2>(score))
+                    this->bestScores[i] = score;
+                break;
+            }
+        }
+    }
+    file.close();
+
+    int i = 0;
+    for (auto &game : this->games) {
+        this->scoresNamesTexts.push_back(factory.createText(
+            game,
+            *this->arialFont,
+            Display::Color::BLUE,
+            {1, (float)3 + 3 * i}
+        ));
+        this->scoresTexts.push_back(factory.createText(
+            std::get<1>(this->bestScores[i]) == "" ? "No score set" : std::get<1>(this->bestScores[i]) + ": " + std::to_string(std::get<2>(this->bestScores[i])),
+            *this->arialFont,
+            Display::Color::WHITE,
+            {2, (float)4 + 3 * i}
+        ));
+        i++;
+    }
 }
 
 void Core::Menu::setSelectedGame(int selectedGame)
@@ -171,6 +230,10 @@ void Core::Menu::render()
     this->window->draw(*this->usernameText);
     if (this->isWarning)
         this->window->draw(*this->warningText);
+    for (auto &scoreNameText : this->scoresNamesTexts)
+        this->window->draw(*scoreNameText);
+    for (auto &scoreText : this->scoresTexts)
+        this->window->draw(*scoreText);
 
     this->window->display();
     this->renderClock->restart();
@@ -195,6 +258,12 @@ void Core::Menu::stop()
     this->usernameTitle.reset();
     this->usernameText.reset();
     this->warningText.reset();
+    for (auto &scoreNameText : this->scoresNamesTexts)
+        scoreNameText.reset();
+    scoresNamesTexts.clear();
+    for (auto &scoreText : this->scoresTexts)
+        scoreText.reset();
+    scoresTexts.clear();
     this->window->close();
     this->window.reset();
 }

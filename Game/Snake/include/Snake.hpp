@@ -25,7 +25,7 @@ namespace Game {
     };
     class Snake : public IGameModule {
         public:
-            Snake(Display::IFactory &factory);
+            Snake(Display::IFactory &factory, std::string username);
             ~Snake() override;
             void update(Display::IFactory &factory) override;
             void setState(Game::State state) override;
@@ -55,6 +55,7 @@ namespace Game {
             float snakeSpeed;
             int isBoosting;
             Display::Event event = Display::Event::Unknown;
+            std::string username;
             void handleEvents();
             void moveSnake();
             void handleEat(Display::IFactory &factory);
@@ -63,5 +64,6 @@ namespace Game {
             void updateWindow();
             void updateWindowWin();
             void updateWindowLose();
+            void saveScore();
     };
 }
