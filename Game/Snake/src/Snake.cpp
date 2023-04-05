@@ -7,9 +7,6 @@
 
 #include "Snake.hpp"
 #include <iostream>
-#include "SDL2Window.hpp"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <unistd.h>
 
 #define WINDOW_WIDTH 50
