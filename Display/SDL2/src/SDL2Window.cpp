@@ -72,6 +72,8 @@ Display::Event Display::SDL2Window::getEvent()
     SDL_Event SDL_event;
 
     SDL_PollEvent(&SDL_event);
+    if (SDL_event.type != SDL_KEYDOWN)
+        return Display::Event::Unknown;
     switch (SDL_event.key.keysym.sym) {
         case SDLK_a:
             return Display::Event::A;
