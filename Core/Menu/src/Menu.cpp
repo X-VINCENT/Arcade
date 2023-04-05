@@ -9,8 +9,8 @@
 #include <fstream>
 #include <sstream>
 
-#define WINDOW_WIDTH 125
-#define WINDOW_HEIGHT 20
+#define WINDOW_WIDTH 60
+#define WINDOW_HEIGHT 30
 #define FPS 60
 
 Core::Menu::Menu(
@@ -61,14 +61,14 @@ void Core::Menu::init(Display::IFactory &factory)
         gamesTitleStr,
         *this->arialFont,
         Display::Color::WHITE,
-        {(float)WINDOW_WIDTH / 2 - 30 - gamesTitleStr.size() / 2, 5}
+        {(float)WINDOW_WIDTH / 2 - 10 - gamesTitleStr.size() / 2, 5}
     );
 
     this->graphicsTitle = factory.createText(
         graphicsTitleStr,
         *this->arialFont,
         Display::Color::WHITE,
-        {(float)WINDOW_WIDTH / 2 + 30 + graphicsTitleStr.size() / 2, 5}
+        {(float)WINDOW_WIDTH / 2 + 10 + graphicsTitleStr.size() / 2, 5}
     );
 
     for (int i = 0; i < this->games.size(); i++) {
@@ -76,7 +76,7 @@ void Core::Menu::init(Display::IFactory &factory)
             games[i],
             *this->arialFont,
             i == 0 ? Display::Color::RED : Display::Color::WHITE,
-            {(float)WINDOW_WIDTH / 2 - 30 - 5, (float)7 + 2 * i}
+            {(float)WINDOW_WIDTH / 2 - 10 - 5, (float)7 + 2 * i}
         ));
     }
 
@@ -85,7 +85,7 @@ void Core::Menu::init(Display::IFactory &factory)
             graphics[i],
             *this->arialFont,
             i == 0 ? Display::Color::RED : Display::Color::WHITE,
-            {(float)WINDOW_WIDTH / 2 + 30 + 2, (float)7 + 2 * i}
+            {(float)WINDOW_WIDTH / 2 + 10 + 2, (float)7 + 2 * i}
         ));
     }
 
