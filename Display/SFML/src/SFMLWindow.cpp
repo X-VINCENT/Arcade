@@ -140,6 +140,8 @@ Display::Event Display::SFMLWindow::getEvent()
             return Display::Event::Space;
         case sf::Keyboard::Key::BackSpace:
             return Display::Event::Backspace;
+        case sf::Keyboard::Key::Comma:
+            return Display::Event::Comma;
         default:
             break;
     }

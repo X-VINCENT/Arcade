@@ -248,10 +248,10 @@ void Core::Handler::handleMenuEvents()
 
     switch (event) {
         case Display::Event::Left:
-            this->selectedGame += 1;
+            this->selectedGame -= 1;
             break;
         case Display::Event::Right:
-            this->selectedGame -= 1;
+            this->selectedGame += 1;
             break;
         case Display::Event::Up:
             this->selectedGraphic -= 1;
@@ -273,7 +273,7 @@ void Core::Handler::handleMenuEvents()
             this->createGame();
             this->current_state = GAME;
             return;
-        case Display::Event::Num0:
+        case Display::Event::Comma:
             if (this->username.size() <= 0)
                 return;
             this->menu->stop();
