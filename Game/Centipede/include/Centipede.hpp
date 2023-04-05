@@ -25,7 +25,7 @@ namespace Game {
     };
     class Centipede : public IGameModule {
         public:
-            Centipede(Display::IFactory &factory);
+            Centipede(Display::IFactory &factory, std::string username);
             ~Centipede() override;
             void update(Display::IFactory &factory) override;
             void setState(Game::State state) override;
@@ -61,6 +61,7 @@ namespace Game {
             int score = 0;
             int centipedeNumber = 1;
             Display::Event event = Display::Event::Unknown;
+            std::string username;
             void shoot();
             void updateShoot();
             void handleEvents();
@@ -70,5 +71,6 @@ namespace Game {
             void updateWindow();
             void updateWindowWin();
             void updateWindowLose();
+            void saveScore();
     };
 }

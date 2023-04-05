@@ -8,6 +8,7 @@
 #include "Centipede.hpp"
 #include <iostream>
 #include <unistd.h>
+#include <fstream>
 
 #define WINDOW_WIDTH 40
 #define WINDOW_HEIGHT 20
@@ -19,7 +20,7 @@
 #define OBSTACLES 25
 #define OBSTACLE_LIFE 5
 
-Game::Centipede::Centipede(Display::IFactory &factory)
+Game::Centipede::Centipede(Display::IFactory &factory, std::string username)
 {
     this->window = factory.createWindow("Centipede", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
     this->renderClock = factory.createClock();
@@ -104,6 +105,7 @@ Game::Centipede::Centipede(Display::IFactory &factory)
     );
 
     this->setState(Game::State::GAME);
+    this->username = username;
 }
 
 Game::Centipede::~Centipede()
@@ -193,6 +195,7 @@ void Game::Centipede::update(Display::IFactory &factory)
     this->handleEvents();
     switch (this->state) {
         case Game::State::MENU:
+            this->saveScore();
             this->window->close();
         case Game::State::GAME:
             this->updateShoot();
@@ -209,9 +212,11 @@ void Game::Centipede::update(Display::IFactory &factory)
             }
             break;
         case Game::State::WIN:
+            this->saveScore();
             this->updateWindowWin();
             break;
         case Game::State::LOSE:
+            this->saveScore();
             this->updateWindowLose();
             break;
         default:
@@ -395,6 +400,18 @@ Display::Event Game::Centipede::getEvent() const
     return this->event;
 }
 
+void Game::Centipede::saveScore()
+{
+    std::ofstream scoresFile("scores.txt", std::ios::app);
+
+    if (!scoresFile.is_open()) {
+        std::cerr << "Error: Cannot open scores file." << std::endl;
+        return;
+    }
+    scoresFile << "Centipede:" << this->username << ":" << this->score << std::endl;
+    scoresFile.close();
+}
+
 void Game::Centipede::setState(Game::State state)
 {
     this->state = state;
@@ -430,7 +447,7 @@ void Game::Centipede::stop()
     this->window.reset();
 }
 
-extern "C" std::unique_ptr<Game::IGameModule> createGame(Display::IFactory &factory)
+extern "C" std::unique_ptr<Game::IGameModule> createGame(Display::IFactory &factory, std::string username)
 {
-    return std::make_unique<Game::Centipede>(factory);
+    return std::make_unique<Game::Centipede>(factory, username);
 }
