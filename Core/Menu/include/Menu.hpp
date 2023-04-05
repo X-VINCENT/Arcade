@@ -30,6 +30,7 @@ namespace Core {
             void render();
             void stop();
             void updateFactory(Display::IFactory &factory);
+            void initScores(Display::IFactory &factory);
 
         private:
             void init(Display::IFactory &factory);
@@ -50,6 +51,10 @@ namespace Core {
             std::unique_ptr<Display::IText> usernameTitle;
             std::unique_ptr<Display::IText> usernameText;
             std::unique_ptr<Display::IText> warningText;
+            std::unique_ptr<Display::ISprite> scoresTitle;
+            std::vector<std::unique_ptr<Display::IText>> scoresNamesTexts;
+            std::vector<std::unique_ptr<Display::IText>> scoresTexts;
+            std::vector<std::tuple<std::string, std::string, int>> bestScores;
             bool isWarning;
     };
 }

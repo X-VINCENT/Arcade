@@ -8,6 +8,7 @@
 #include "Snake.hpp"
 #include <iostream>
 #include <unistd.h>
+#include <fstream>
 
 #define WINDOW_WIDTH 50
 #define WINDOW_HEIGHT 20
@@ -43,7 +44,7 @@
 #define UPDATE_SPEED_TIME_IN_MS 5000
 #define UPDATE_SPEED_ADD 0.1
 
-Game::Snake::Snake(Display::IFactory &factory)
+Game::Snake::Snake(Display::IFactory &factory, std::string username)
 {
     this->window = factory.createWindow("Snake", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
     this->mainTexture = factory.createTexture('#', "assets/snake/snake.png");
@@ -124,6 +125,7 @@ Game::Snake::Snake(Display::IFactory &factory)
     this->score = 0;
     this->snakeSpeed = DEFAULT_SPEED;
     this->isBoosting = false;
+    this->username = username;
 }
 
 Game::Snake::~Snake()
@@ -371,6 +373,7 @@ void Game::Snake::update(Display::IFactory &factory)
     this->handleEvents();
     switch (this->state) {
         case Game::State::MENU:
+            this->saveScore();
             this->window->close();
         case Game::State::GAME:
             this->handleEat(factory);
@@ -380,14 +383,28 @@ void Game::Snake::update(Display::IFactory &factory)
             this->updateWindow();
             break;
         case Game::State::WIN:
+            this->saveScore();
             this->updateWindowWin();
             break;
         case Game::State::LOSE:
+            this->saveScore();
             this->updateWindowLose();
             break;
         default:
             break;
     }
+}
+
+void Game::Snake::saveScore()
+{
+    std::ofstream scoresFile("scores.txt", std::ios::app);
+
+    if (!scoresFile.is_open()) {
+        std::cerr << "Error: Cannot open scores file." << std::endl;
+        return;
+    }
+    scoresFile << "Snake:" << this->username << ":" << this->score << std::endl;
+    scoresFile.close();
 }
 
 void Game::Snake::setState(Game::State state)
@@ -407,6 +424,7 @@ Display::Event Game::Snake::getEvent() const
 
 void Game::Snake::stop()
 {
+    this->saveScore();
     this->mapTexture.reset();
     this->mainTexture.reset();
     this->arialFont.reset();
@@ -426,7 +444,10 @@ void Game::Snake::stop()
     this->window.reset();
 }
 
-extern "C" std::unique_ptr<Game::IGameModule> createGame(Display::IFactory &factory)
+extern "C" std::unique_ptr<Game::IGameModule> createGame(
+    Display::IFactory &factory,
+    std::string username
+)
 {
-    return std::make_unique<Game::Snake>(factory);
+    return std::make_unique<Game::Snake>(factory, username);
 }

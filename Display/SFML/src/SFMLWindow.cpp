@@ -18,10 +18,11 @@ Display::SFMLWindow::SFMLWindow(
     int height
 )
 {
+    std::string fullTitle = "SFML - " + title;
     sf::VideoMode mode(width * SFML_RATIO, height * SFML_RATIO);
     this->window.create(
         mode,
-        title
+        fullTitle
     );
     this->window.setFramerateLimit(framerateLimit);
 }

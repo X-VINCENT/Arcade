@@ -51,14 +51,14 @@ void Core::Handler::createFactory()
 void Core::Handler::createGame()
 {
     std::string const &createGameFn = "createGame";
-    using gameFnPtr = std::unique_ptr<Game::IGameModule> (*)(Display::IFactory &);
+    using gameFnPtr = std::unique_ptr<Game::IGameModule> (*)(Display::IFactory &, std::string);
     gameFnPtr createGamePtr = nullptr;
     try {
         createGamePtr = this->gameLoader.template getInstance<gameFnPtr>(createGameFn);
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
-    this->game = createGamePtr(*this->factory);
+    this->game = createGamePtr(*this->factory, this->username);
 }
 
 void Core::Handler::loop()
