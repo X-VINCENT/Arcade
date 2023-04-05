@@ -46,7 +46,9 @@ namespace Core {
             std::unique_ptr<Display::IText> graphicsTitle;
             std::vector<std::unique_ptr<Display::IText>> gamesTexts;
             std::vector<std::unique_ptr<Display::IText>> graphicsTexts;
-            std::unique_ptr<Display::IText> keyInfos;
+            std::unique_ptr<Display::IText> keyInfos1;
+            std::unique_ptr<Display::IText> keyInfos2;
+            std::unique_ptr<Display::IText> keyInfos3;
             std::string username;
             std::unique_ptr<Display::IText> usernameTitle;
             std::unique_ptr<Display::IText> usernameText;

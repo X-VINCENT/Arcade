@@ -36,7 +36,9 @@ void Core::Menu::init(Display::IFactory &factory)
     std::string const &titleStr = "Arcade";
     std::string const &gamesTitleStr = "Games";
     std::string const &graphicsTitleStr = "Graphics";
-    std::string const &keyInfosStr = "Left/Right: Change game  |  Up/Down: Change graphic  |  Enter: Select game  |  Comma: Select graphic  |  Escape: Quit";
+    std::string const &keyInfosStr1 = "Left/Right: Change game  |  Up/Down: Change graphic";
+    std::string const &keyInfosStr2 = "Enter:      Select game  |  Comma:   Select graphic";
+    std::string const &keyInfosStr3 = "Escape:     Quit";
     std::string const &usernameTitleStr = "Username";
 
     this->window = factory.createWindow("Menu", FPS, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -60,14 +62,14 @@ void Core::Menu::init(Display::IFactory &factory)
     this->gamesTitle = factory.createText(
         gamesTitleStr,
         *this->arialFont,
-        Display::Color::WHITE,
+        Display::Color::CYAN,
         {(float)WINDOW_WIDTH / 2 - 10 - gamesTitleStr.size() / 2, 5}
     );
 
     this->graphicsTitle = factory.createText(
         graphicsTitleStr,
         *this->arialFont,
-        Display::Color::WHITE,
+        Display::Color::CYAN,
         {(float)WINDOW_WIDTH / 2 + 10 + graphicsTitleStr.size() / 2, 5}
     );
 
@@ -76,7 +78,7 @@ void Core::Menu::init(Display::IFactory &factory)
             games[i],
             *this->arialFont,
             i == 0 ? Display::Color::RED : Display::Color::WHITE,
-            {(float)WINDOW_WIDTH / 2 - 10 - 5, (float)7 + 2 * i}
+            {(float)WINDOW_WIDTH / 2 - 10, (float)6 + i}
         ));
     }
 
@@ -85,15 +87,27 @@ void Core::Menu::init(Display::IFactory &factory)
             graphics[i],
             *this->arialFont,
             i == 0 ? Display::Color::RED : Display::Color::WHITE,
-            {(float)WINDOW_WIDTH / 2 + 10 + 2, (float)7 + 2 * i}
+            {(float)WINDOW_WIDTH / 2 + 12 + graphicsTitleStr.size() / 2, (float)6 + i}
         ));
     }
 
-    this->keyInfos = factory.createText(
-        keyInfosStr,
+    this->keyInfos1 = factory.createText(
+        keyInfosStr1,
         *this->arialFont,
         Display::Color::WHITE,
-        {(float)WINDOW_WIDTH / 2 - keyInfosStr.size() / 2, WINDOW_HEIGHT - 2}
+        {0, WINDOW_HEIGHT - 4}
+    );
+    this->keyInfos2 = factory.createText(
+        keyInfosStr2,
+        *this->arialFont,
+        Display::Color::WHITE,
+        {0, WINDOW_HEIGHT - 3}
+    );
+    this->keyInfos3 = factory.createText(
+        keyInfosStr3,
+        *this->arialFont,
+        Display::Color::WHITE,
+        {0, WINDOW_HEIGHT - 2}
     );
 
     this->usernameTitle = factory.createText(
@@ -225,7 +239,9 @@ void Core::Menu::render()
         this->window->draw(*gameText);
     for (auto &graphicText : this->graphicsTexts)
         this->window->draw(*graphicText);
-    this->window->draw(*this->keyInfos);
+    this->window->draw(*this->keyInfos1);
+    this->window->draw(*this->keyInfos2);
+    this->window->draw(*this->keyInfos3);
     this->window->draw(*this->usernameTitle);
     this->window->draw(*this->usernameText);
     if (this->isWarning)
@@ -254,7 +270,9 @@ void Core::Menu::stop()
     for (auto &graphicText : this->graphicsTexts)
         graphicText.reset();
     graphicsTexts.clear();
-    this->keyInfos.reset();
+    this->keyInfos1.reset();
+    this->keyInfos2.reset();
+    this->keyInfos3.reset();
     this->usernameTitle.reset();
     this->usernameText.reset();
     this->warningText.reset();
