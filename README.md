@@ -62,11 +62,11 @@ The full and technical documentation is available [here](https://arcade-4.gitboo
 ### 🎮 Games
 
 - Snake 🐍
-<img src="https://github.com/X-VINCENT/Arcade/doc/assets/arcade_snake.gif" alt="Snake" width="100%">
+<img src="https://github.com/X-VINCENT/Arcade/blob/main/doc/assets/arcade_snake.gif" alt="Snake" width="100%">
 <br />
 
 - Centipede 🪱
-<img src="https://github.com/X-VINCENT/Arcade/doc/assets/arcade_centipede.gif" alt="Centipede" width="100%">
+<img src="https://github.com/X-VINCENT/Arcade/blob/main/doc/assets/arcade_centipede.gif" alt="Centipede" width="100%">
 
 <div align="center">
 
