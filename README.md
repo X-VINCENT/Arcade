@@ -59,6 +59,10 @@ The full and technical documentation is available [here](https://arcade-4.gitboo
 - [SDL2](https://wiki.libsdl.org/APIByCategory)
 - [SFML](https://www.sfml-dev.org/documentation/2.5.1/)
 
+- Menu / Libraries switcher 📱
+<img src="https://github.com/X-VINCENT/Arcade/blob/main/doc/assets/arcade.gif" alt="Arcade" width="100%">
+<br />
+
 ### 🎮 Games
 
 - Snake 🐍
