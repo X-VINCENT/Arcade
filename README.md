@@ -19,7 +19,7 @@ The graphical libraries are the different graphical interfaces that can be used 
 - [📦 Installation](#-installation)
 - [🚀 Usage](#-usage)
 - [📚 Documentation](#-documentation)
-- [Menu / Libraries switcher 📱](#menu--libraries-switcher-)
+- [📱 Menu / Libraries switcher](#-menu--libraries-switcher)
 - [📔 Libraries](#-libraries)
   - [🖥️ Graphic libs](#️-graphic-libs)
   - [🎮 Games](#-games)
@@ -52,7 +52,7 @@ So let's dive in and explore the exciting world of Arcade!
 
 The full and technical documentation is available [here](https://arcade-4.gitbook.io/documentation/).
 
-## Menu / Libraries switcher 📱
+## 📱 Menu / Libraries switcher
 <img src="https://github.com/X-VINCENT/Arcade/blob/main/doc/assets/arcade.gif" alt="Arcade" width="100%">
 <br />
 
